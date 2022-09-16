@@ -17,6 +17,9 @@ module.exports = {
             classImg: {
                 type: Sequelize.STRING,
             },
+            year: {
+                type: Sequelize.STRING,
+            },
             isDelete: {
                 type: Sequelize.BOOLEAN,
             },
