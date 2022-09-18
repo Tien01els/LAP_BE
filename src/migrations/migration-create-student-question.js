@@ -1,40 +1,19 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('student_assignment', {
+        await queryInterface.createTable('skill_question', {
             studentId: {
                 allowNull: false,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            assignmentId: {
+            questionId: {
                 allowNull: false,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            score: {
-                type: Sequelize.REAL,
-            },
-            status: {
-                type: Sequelize.INTEGER,
-            },
-            dateDue: {
-                type: Sequelize.DATE,
-            },
-            dateStart: {
-                type: Sequelize.DATE,
-            },
-            dateFinish: {
-                type: Sequelize.DATE,
-            },
-            redo: {
-                type: Sequelize.INTEGER,
-            },
-            isRedo: {
+            isCorrect: {
                 type: Sequelize.BOOLEAN,
-            },
-            dateRequest: {
-                type: Sequelize.DATE,
             },
             isDelete: {
                 type: Sequelize.BOOLEAN,
@@ -50,6 +29,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('student_assignment');
+        await queryInterface.dropTable('skill_question');
     },
 };
