@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             classId: DataTypes.INTEGER,
             topicId: DataTypes.INTEGER,
-            averageScore: DataTypes.INTEGER,
+            averageScore: DataTypes.REAL,
             isDelete: DataTypes.BOOLEAN,
         },
         {

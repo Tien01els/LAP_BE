@@ -13,7 +13,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             score: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.REAL,
             },
             isQuestion: {
                 type: Sequelize.BOOLEAN,

@@ -12,15 +12,21 @@ module.exports = (sequelize, DataTypes) => {
             Assignment.hasMany(models.Student_Assignment, {
                 foreignKey: 'assigmentId',
             });
-            Assignment.hasMany(models.Assignment_Question, {
+            Assignment.hasMany(models.Question, {
                 foreignKey: 'assigmentId',
+            });
+
+            Assignment.belongsTo(models.Teacher, {
+                foreignKey: 'teacherId',
             });
         }
     }
     Assignment.init(
         {
+            totalScore: DataTypes.REAL,
             time: DataTypes.INTEGER,
             isDelete: DataTypes.BOOLEAN,
+            teacherId: DataTypes.INTEGER,
         },
         {
             sequelize,

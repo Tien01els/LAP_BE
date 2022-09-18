@@ -9,15 +9,18 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Question.hasMany(models.Assignment_Question, {
+            Question.hasMany(models.Skill_Question, {
                 foreignKey: 'questionId',
             });
 
+            Question.belongsTo(models.Assignment, {
+                foreignKey: 'assignmentId',
+            });
             Question.belongsTo(models.Questiontype, {
                 foreignKey: 'questionTypeId',
             });
-            Question.belongsTo(models.Skill, {
-                foreignKey: 'skillId',
+            Question.belongsTo(models.Teacher, {
+                foreignKey: 'teacherId',
             });
         }
     }
@@ -27,9 +30,11 @@ module.exports = (sequelize, DataTypes) => {
             image: DataTypes.STRING,
             answer: DataTypes.STRING,
             hint: DataTypes.STRING,
+            score: DataTypes.REAL,
             isDelete: DataTypes.BOOLEAN,
             questionTypeId: DataTypes.INTEGER,
-            skillId: DataTypes.INTEGER,
+            assignmentId: DataTypes.INTEGER,
+            teacherId: DataTypes.INTEGER,
         },
         {
             sequelize,

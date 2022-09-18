@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
             Topic.hasMany(models.Class_Topic, { foreignKey: 'topicId' });
             Topic.hasMany(models.Unlockrequest, { foreignKey: 'topicId' });
             Topic.hasMany(models.Skill, { foreignKey: 'topicId' });
+
+            Topic.belongsTo(models.Teacher, { foreignKey: 'teacherId' });
         }
     }
     Topic.init(

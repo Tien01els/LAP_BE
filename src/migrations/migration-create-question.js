@@ -20,14 +20,20 @@ module.exports = {
             hint: {
                 type: Sequelize.STRING,
             },
+            score: {
+                type: Sequelize.REAL,
+            },
             isDelete: {
                 type: Sequelize.BOOLEAN,
             },
             questionTypeId: {
-                type: Sequelize.BOOLEAN,
+                type: Sequelize.INTEGER,
             },
-            skillId: {
-                type: Sequelize.BOOLEAN,
+            assignmentId: {
+                type: Sequelize.INTEGER,
+            },
+            teacherId: {
+                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,

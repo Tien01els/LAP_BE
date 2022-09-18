@@ -8,11 +8,17 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
+            totalScore: {
+                type: Sequelize.REAL,
+            },
             time: {
                 type: Sequelize.INTEGER,
             },
             isDelete: {
                 type: Sequelize.BOOLEAN,
+            },
+            teacherId: {
+                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,

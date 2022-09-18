@@ -13,7 +13,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             averageScore: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.REAL,
             },
             isDelete: {
                 type: Sequelize.BOOLEAN,
