@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('unlockrequests', {
+        await queryInterface.createTable('student_topic', {
             studentId: {
                 allowNull: false,
                 primaryKey: true,
@@ -32,6 +32,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('unlockrequests');
+        await queryInterface.dropTable('student_topic');
     },
 };

@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
             status: DataTypes.INTEGER,
             dateDue: DataTypes.DATE,
             dateStart: DataTypes.DATE,
-            dateFinish: DataTypes.DATE,
+            dateComplete: DataTypes.DATE,
             redo: DataTypes.INTEGER,
             isRedo: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,

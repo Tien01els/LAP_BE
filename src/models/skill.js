@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     Skill.init(
         {
             skillName: DataTypes.STRING,
+            description: DataTypes.TEXT,
             isDelete: DataTypes.BOOLEAN,
             topicId: DataTypes.INTEGER,
             standardId: DataTypes.INTEGER,

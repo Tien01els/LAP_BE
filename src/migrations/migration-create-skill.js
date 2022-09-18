@@ -11,6 +11,9 @@ module.exports = {
             skillName: {
                 type: Sequelize.STRING,
             },
+            description: {
+                type: Sequelize.TEXT,
+            },
             isDelete: {
                 type: Sequelize.BOOLEAN,
             },

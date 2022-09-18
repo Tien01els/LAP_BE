@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Topic.hasMany(models.Class_Topic, { foreignKey: 'topicId' });
-            Topic.hasMany(models.Unlockrequest, { foreignKey: 'topicId' });
+            Topic.hasMany(models.Student_Topic, { foreignKey: 'topicId' });
             Topic.hasMany(models.Skill, { foreignKey: 'topicId' });
 
             Topic.belongsTo(models.Teacher, { foreignKey: 'teacherId' });
@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     Topic.init(
         {
             topicName: DataTypes.STRING,
+            description: DataTypes.TEXT,
             isDelete: DataTypes.BOOLEAN,
             teacherId: DataTypes.INTEGER,
         },

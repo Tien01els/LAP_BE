@@ -24,7 +24,7 @@ module.exports = {
             dateStart: {
                 type: Sequelize.DATE,
             },
-            dateFinish: {
+            dateComplete: {
                 type: Sequelize.DATE,
             },
             redo: {
