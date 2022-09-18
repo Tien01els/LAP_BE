@@ -19,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     }
     Student_Question.init(
         {
-            studentId: DataTypes.INTEGER,
-            questionId: DataTypes.INTEGER,
             answer: DataTypes.STRING,
             isCorrect: DataTypes.BOOLEAN,
             isDelete: DataTypes.BOOLEAN,
+            studentId: DataTypes.INTEGER,
+            questionId: DataTypes.INTEGER,
         },
         {
             sequelize,

@@ -10,10 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Skill_Assignment.hasMany(models.Student_Skill_Assignment, {
-                foreignKey: 'skillId',
-            });
-            Skill_Assignment.hasMany(models.Student_Skill_Assignment, {
-                foreignKey: 'assignmentId',
+                foreignKey: 'skillAssignmentId',
             });
 
             Skill_Assignment.belongsTo(models.Skill, {
@@ -26,9 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     }
     Skill_Assignment.init(
         {
+            isDelete: DataTypes.BOOLEAN,
             skillId: DataTypes.INTEGER,
             assignmentId: DataTypes.INTEGER,
-            isDelete: DataTypes.BOOLEAN,
         },
         {
             sequelize,

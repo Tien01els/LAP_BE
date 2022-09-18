@@ -19,9 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     }
     Skill_Question.init(
         {
+            isDelete: DataTypes.BOOLEAN,
             skillId: DataTypes.INTEGER,
             questionId: DataTypes.INTEGER,
-            isDelete: DataTypes.BOOLEAN,
         },
         {
             sequelize,

@@ -13,18 +13,12 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'studentId',
             });
             Student_Skill_Assignment.belongsTo(models.Skill_Assignment, {
-                foreignKey: 'skillId',
-            });
-            Student_Skill_Assignment.belongsTo(models.Skill_Assignment, {
-                foreignKey: 'assignmentId',
+                foreignKey: 'skillAssignmentId',
             });
         }
     }
     Student_Skill_Assignment.init(
         {
-            studentId: DataTypes.INTEGER,
-            skillId: DataTypes.INTEGER,
-            assignmentId: DataTypes.INTEGER,
             score: DataTypes.REAL,
             isQuestion: DataTypes.BOOLEAN,
             status: DataTypes.INTEGER,
@@ -35,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
             isRedo: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,
             isDelete: DataTypes.BOOLEAN,
+            studentId: DataTypes.INTEGER,
+            skillAssignmentId: DataTypes.INTEGER,
         },
         {
             sequelize,

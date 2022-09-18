@@ -17,12 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     }
     Student_Topic.init(
         {
-            studentId: DataTypes.INTEGER,
-            topicId: DataTypes.INTEGER,
             status: DataTypes.INTEGER,
             isUnlock: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,
             isDelete: DataTypes.BOOLEAN,
+            studentId: DataTypes.INTEGER,
+            topicId: DataTypes.INTEGER,
         },
         {
             sequelize,

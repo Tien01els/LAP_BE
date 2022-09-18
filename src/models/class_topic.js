@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     }
     Class_Topic.init(
         {
-            classId: DataTypes.INTEGER,
-            topicId: DataTypes.INTEGER,
             averageScore: DataTypes.REAL,
             isDelete: DataTypes.BOOLEAN,
+            classId: DataTypes.INTEGER,
+            topicId: DataTypes.INTEGER,
         },
         {
             sequelize,

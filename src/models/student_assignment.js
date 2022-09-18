@@ -19,8 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     }
     Student_Assignment.init(
         {
-            studentId: DataTypes.INTEGER,
-            assignmentId: DataTypes.INTEGER,
             score: DataTypes.REAL,
             isQuestion: DataTypes.BOOLEAN,
             status: DataTypes.INTEGER,
@@ -31,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
             isRedo: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,
             isDelete: DataTypes.BOOLEAN,
+            studentId: DataTypes.INTEGER,
+            assignmentId: DataTypes.INTEGER,
         },
         {
             sequelize,

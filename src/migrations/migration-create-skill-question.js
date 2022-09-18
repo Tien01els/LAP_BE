@@ -2,18 +2,20 @@
 module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.createTable('skill_question', {
-            skillid: {
+            id: {
                 allowNull: false,
-                primaryKey: true,
-                type: Sequelize.INTEGER,
-            },
-            questionId: {
-                allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
             isDelete: {
                 type: Sequelize.BOOLEAN,
+            },
+            skillid: {
+                type: Sequelize.INTEGER,
+            },
+            questionId: {
+                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,
