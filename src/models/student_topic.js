@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             studentId: DataTypes.INTEGER,
             topicId: DataTypes.INTEGER,
+            status: DataTypes.INTEGER,
             isUnlock: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,
             isDelete: DataTypes.BOOLEAN,
