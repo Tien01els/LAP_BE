@@ -29,9 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     }
     Question.init(
         {
-            title: DataTypes.STRING,
+            content: DataTypes.STRING,
             image: DataTypes.STRING,
-            answer: DataTypes.STRING,
+            option: DataTypes.STRING,
+            result: DataTypes.STRING,
             hint: DataTypes.STRING,
             score: DataTypes.REAL,
             isDelete: DataTypes.BOOLEAN,

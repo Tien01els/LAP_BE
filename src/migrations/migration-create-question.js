@@ -8,13 +8,16 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            title: {
+            content: {
                 type: Sequelize.STRING,
             },
             image: {
                 type: Sequelize.STRING,
             },
-            answer: {
+            option: {
+                type: Sequelize.STRING,
+            },
+            result: {
                 type: Sequelize.STRING,
             },
             hint: {

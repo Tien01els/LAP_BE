@@ -12,6 +12,9 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
+            answer: {
+                type: Sequelize.STRING,
+            },
             isCorrect: {
                 type: Sequelize.BOOLEAN,
             },
