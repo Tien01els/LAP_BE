@@ -1,5 +1,5 @@
-const rolesController = require('./roles');
+const roleController = require('./roles');
 
 module.exports = {
-    rolesController,
+    roleController,
 };

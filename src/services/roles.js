@@ -1,7 +1,7 @@
 const db = require('../models/index');
 
 module.exports = {
-    getAllRoles: async (req, res) => {
+    findAllRoles: async (req, res) => {
         try {
             let roles = await db.Role.findAll({
                 raw: true,

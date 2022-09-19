@@ -1,7 +1,7 @@
-const rolesRouter = require('./roles');
+const roleRouter = require('./role');
 
 const route = (app) => {
-    app.use('/roles', rolesRouter);
+    app.use('/role', roleRouter);
 };
 
 module.exports = route;
