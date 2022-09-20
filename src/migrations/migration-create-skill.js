@@ -26,6 +26,9 @@ module.exports = {
             teacherId: {
                 type: Sequelize.INTEGER,
             },
+            prerequisiteTopicId: {
+                type: Sequelize.INTEGER,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
