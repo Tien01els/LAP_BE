@@ -12,8 +12,15 @@ module.exports = (sequelize, DataTypes) => {
             Topic.hasMany(models.Class_Topic, { foreignKey: 'topicId' });
             Topic.hasMany(models.Student_Topic, { foreignKey: 'topicId' });
             Topic.hasMany(models.Skill, { foreignKey: 'topicId' });
+            Topic.hasOne(models.Topic, {
+                foreignKey: 'prerequisiteTopicId',
+            });
 
             Topic.belongsTo(models.Teacher, { foreignKey: 'teacherId' });
+            Topic.belongsTo(models.Grade, { foreignKey: 'gradeId' });
+            Topic.belongsTo(models.Topic, {
+                foreignKey: 'prerequisiteTopicId',
+            });
         }
     }
     Topic.init(
@@ -22,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
             description: DataTypes.TEXT,
             isDelete: DataTypes.BOOLEAN,
             teacherId: DataTypes.INTEGER,
+            gradeId: DataTypes.INTEGER,
+            prerequisiteTopicId: DataTypes.INTEGER,
         },
         {
             sequelize,
