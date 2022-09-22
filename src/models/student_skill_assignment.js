@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     Student_Skill_Assignment.init(
         {
             score: DataTypes.REAL,
-            isQuestion: DataTypes.BOOLEAN,
             status: DataTypes.INTEGER,
             dateDue: DataTypes.DATE,
             dateStart: DataTypes.DATE,
