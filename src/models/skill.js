@@ -15,9 +15,6 @@ module.exports = (sequelize, DataTypes) => {
             Skill.hasMany(models.Skill_Assignment, {
                 foreignKey: 'skillId',
             });
-            Skill.hasOne(models.Skill, {
-                foreignKey: 'prerequisiteTopicId',
-            });
 
             Skill.belongsTo(models.Topic, {
                 foreignKey: 'topicId',
@@ -27,9 +24,6 @@ module.exports = (sequelize, DataTypes) => {
             });
             Skill.belongsTo(models.Teacher, {
                 foreignKey: 'teacherId',
-            });
-            Skill.belongsTo(models.Skill, {
-                foreignKey: 'prerequisiteTopicId',
             });
         }
     }
@@ -41,7 +35,6 @@ module.exports = (sequelize, DataTypes) => {
             topicId: DataTypes.INTEGER,
             standardId: DataTypes.INTEGER,
             teacherId: DataTypes.INTEGER,
-            prerequisiteTopicId: DataTypes.INTEGER,
         },
         {
             sequelize,

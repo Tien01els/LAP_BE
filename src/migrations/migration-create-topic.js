@@ -23,6 +23,9 @@ module.exports = {
             gradeId: {
                 type: Sequelize.INTEGER,
             },
+            prerequisiteTopicId: {
+                type: Sequelize.INTEGER,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
