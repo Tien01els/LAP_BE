@@ -20,6 +20,9 @@ module.exports = {
             isActive: {
                 type: Sequelize.BOOLEAN,
             },
+            isDeleted: {
+                type: Sequelize.BOOLEAN,
+            },
             roleId: {
                 type: Sequelize.INTEGER,
             },

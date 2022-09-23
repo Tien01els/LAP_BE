@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             status: DataTypes.INTEGER,
             isUnlock: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             studentId: DataTypes.INTEGER,
             topicId: DataTypes.INTEGER,
         },

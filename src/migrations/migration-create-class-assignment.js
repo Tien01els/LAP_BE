@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('class_assignment', {
+        await queryInterface.createTable('class_assignments', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -17,7 +17,7 @@ module.exports = {
             redo: {
                 type: Sequelize.INTEGER,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             classId: {
@@ -37,6 +37,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('student_assignment');
+        await queryInterface.dropTable('class_assignments');
     },
 };

@@ -14,7 +14,7 @@ module.exports = {
             description: {
                 type: Sequelize.TEXT,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             teacherId: {

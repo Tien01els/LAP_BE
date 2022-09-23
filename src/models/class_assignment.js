@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             dateDue: DataTypes.DATE,
             redo: DataTypes.INTEGER,
             isRedo: DataTypes.BOOLEAN,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             classId: DataTypes.INTEGER,
             assignmentId: DataTypes.INTEGER,
         },

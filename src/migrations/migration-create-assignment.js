@@ -14,7 +14,7 @@ module.exports = {
             time: {
                 type: Sequelize.INTEGER,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             teacherId: {

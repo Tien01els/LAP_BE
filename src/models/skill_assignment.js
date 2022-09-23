@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Skill_Assignment.init(
         {
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             skillId: DataTypes.INTEGER,
             assignmentId: DataTypes.INTEGER,
         },

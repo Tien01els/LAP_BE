@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
             result: DataTypes.STRING,
             hint: DataTypes.STRING,
             score: DataTypes.REAL,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             questionTypeId: DataTypes.INTEGER,
             assignmentId: DataTypes.INTEGER,
             teacherId: DataTypes.INTEGER,

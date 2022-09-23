@@ -11,7 +11,7 @@ module.exports = {
             role: {
                 type: Sequelize.STRING,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             createdAt: {

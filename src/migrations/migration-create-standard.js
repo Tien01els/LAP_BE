@@ -14,7 +14,7 @@ module.exports = {
             standardCode: {
                 type: Sequelize.STRING,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             createdAt: {
