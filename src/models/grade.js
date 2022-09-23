@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     Grade.init(
         {
             gradeName: DataTypes.STRING,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
         },
         {
             sequelize,

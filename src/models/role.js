@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     Role.init(
         {
             role: DataTypes.STRING,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
         },
         {
             sequelize,

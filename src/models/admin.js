@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     Admin.init(
         {
             fullName: DataTypes.STRING,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             accountId: DataTypes.INTEGER,
         },
         {

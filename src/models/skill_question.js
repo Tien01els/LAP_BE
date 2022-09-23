@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Skill_Question.init(
         {
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             skillId: DataTypes.INTEGER,
             questionId: DataTypes.INTEGER,
         },

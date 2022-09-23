@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     Student_Skill_Assignment.init(
         {
             score: DataTypes.REAL,
-            isQuestion: DataTypes.BOOLEAN,
             status: DataTypes.INTEGER,
             dateDue: DataTypes.DATE,
             dateStart: DataTypes.DATE,
@@ -28,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
             redo: DataTypes.INTEGER,
             isRedo: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             studentId: DataTypes.INTEGER,
             skillAssignmentId: DataTypes.INTEGER,
         },

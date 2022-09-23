@@ -20,7 +20,7 @@ module.exports = {
             year: {
                 type: Sequelize.STRING,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             gradeId: {

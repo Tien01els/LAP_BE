@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Class.hasMany(models.Student, { foreignKey: 'classId' });
             Class.hasMany(models.Class_Topic, { foreignKey: 'classId' });
+            Class.hasMany(models.Class_Assignment, { foreignKey: 'classId' });
 
             Class.belongsTo(models.Teacher, { foreignKey: 'teacherId' });
             Class.belongsTo(models.Grade, { foreignKey: 'gradeId' });
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             classCode: DataTypes.STRING,
             classImg: DataTypes.STRING,
             year: DataTypes.STRING,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             gradeId: DataTypes.INTEGER,
             teacherId: DataTypes.INTEGER,
         },

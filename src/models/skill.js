@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             skillName: DataTypes.STRING,
             description: DataTypes.TEXT,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             topicId: DataTypes.INTEGER,
             standardId: DataTypes.INTEGER,
             teacherId: DataTypes.INTEGER,

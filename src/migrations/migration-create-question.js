@@ -26,7 +26,7 @@ module.exports = {
             score: {
                 type: Sequelize.REAL,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             questionTypeId: {

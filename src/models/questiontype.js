@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     Questiontype.init(
         {
             typeName: DataTypes.STRING,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
         },
         {
             sequelize,

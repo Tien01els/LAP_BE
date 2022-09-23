@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('class_topic', {
+        await queryInterface.createTable('class_topics', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -11,7 +11,7 @@ module.exports = {
             averageScore: {
                 type: Sequelize.REAL,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             classId: {
@@ -31,6 +31,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('class_topic');
+        await queryInterface.dropTable('class_topics');
     },
 };

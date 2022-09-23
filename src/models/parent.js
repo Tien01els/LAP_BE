@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     Parent.init(
         {
             fullName: DataTypes.STRING,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
             accountId: DataTypes.INTEGER,
         },
         {

@@ -20,7 +20,7 @@ module.exports = {
             avatarImg: {
                 type: Sequelize.STRING,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             accountId: {

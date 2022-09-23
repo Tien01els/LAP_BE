@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             standardName: DataTypes.STRING,
             standardCode: DataTypes.STRING,
-            isDelete: DataTypes.BOOLEAN,
+            isDeleted: DataTypes.BOOLEAN,
         },
         {
             sequelize,

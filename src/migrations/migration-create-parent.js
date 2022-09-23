@@ -11,7 +11,7 @@ module.exports = {
             fullName: {
                 type: Sequelize.STRING,
             },
-            isDelete: {
+            isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
             accountId: {
