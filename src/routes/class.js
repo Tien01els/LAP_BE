@@ -1,12 +1,8 @@
 const express = require('express')
+const classController = require('../controllers/class')
 
 const classRouter = express.Router()
 
-classRouter.get('/:teacherId', (req, res) => {
-  let teacherId = req && req.params && req.params.teacherId
-  console.log(teacherId)
-
-  return res.send('Hello')
-})
+classRouter.get('/:teacherId', classController.getClasses)
 
 module.exports = classRouter
