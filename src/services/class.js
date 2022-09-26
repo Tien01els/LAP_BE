@@ -6,6 +6,7 @@ module.exports = {
     try {
       let classes = await db.Class.findAll({
         where: { teacherId: teacherId },
+        raw: true,
       })
       return classes
     } catch (e) {
