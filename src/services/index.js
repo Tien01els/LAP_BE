@@ -1,9 +1,11 @@
 const roleService = require('./role');
 const topicService = require('./topic');
-const classTopicService = require('./class_topic');
+const gradeService = require('./grade');
+const classTopicService = require('./classTopic');
 
 module.exports = {
     roleService,
     topicService,
+    gradeService,
     classTopicService,
 };

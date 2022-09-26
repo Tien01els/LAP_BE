@@ -1,26 +1,32 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('assignments', {
+        await queryInterface.createTable('schedules', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            dateDue: {
-                type: Sequelize.DATE,
-            },
-            time: {
+            status: {
                 type: Sequelize.INTEGER,
             },
-            totalScore: {
-                type: Sequelize.REAL,
+            dateStart: {
+                type: Sequelize.DATE,
+            },
+            dateOver: {
+                type: Sequelize.DATE,
+            },
+            timeStart: {
+                type: Sequelize.TIME,
+            },
+            timeOver: {
+                type: Sequelize.TIME,
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
-            teacherId: {
+            classId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {
@@ -34,6 +40,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('assignments');
+        await queryInterface.dropTable('schedules');
     },
 };
