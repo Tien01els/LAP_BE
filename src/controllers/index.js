@@ -1,9 +1,11 @@
 const roleController = require('./role');
 const topicController = require('./topic');
-const classTopicController = require('./class_topic');
+const gradeController = require('./grade');
+const classTopicController = require('./classTopic');
 
 module.exports = {
     roleController,
     topicController,
+    gradeController,
     classTopicController,
 };
