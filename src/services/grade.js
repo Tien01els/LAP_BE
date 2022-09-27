@@ -1,13 +1,13 @@
 const db = require('../models/index');
 
 module.exports = {
-    findAllRoles: async () => {
+    findAllGrades: async () => {
         try {
-            let roles = await db.Role.findAll({
+            let grades = await db.Grade.findAll({
                 where: { isDeleted: 0 },
                 raw: true,
             });
-            return roles;
+            return grades;
         } catch (e) {
             console.log(e);
         }
