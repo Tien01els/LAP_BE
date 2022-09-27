@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 const sequelize = require('sequelize');
 const db = require('../models/index');
 
@@ -23,10 +21,10 @@ module.exports = {
                 },
                 { timestamps: false }
             );
+            console.log(result);
             return result;
         } catch (e) {
             console.log(e);
         }
     },
 };
->>>>>>> Stashed changes

@@ -1,20 +1,17 @@
 const roleController = require('./role');
 const topicController = require('./topic');
-<<<<<<< Updated upstream
+const gradeController = require('./grade');
+const classTopicController = require('./classTopic');
 const classTopicController = require('./class_topic');
-=======
 const gradeController = require('./grade');
 const classController = require('./class');
 const classTopicController = require('./classTopic');
->>>>>>> Stashed changes
 
 module.exports = {
     roleController,
     topicController,
-<<<<<<< Updated upstream
-=======
+    gradeController,
     gradeController,
     classController,
->>>>>>> Stashed changes
     classTopicController,
 };

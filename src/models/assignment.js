@@ -29,8 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     }
     Assignment.init(
         {
-            totalScore: DataTypes.REAL,
+            dateDue: DataTypes.DATE,
             time: DataTypes.INTEGER,
+            totalScore: DataTypes.REAL,
             isDeleted: DataTypes.BOOLEAN,
             teacherId: DataTypes.INTEGER,
         },

@@ -14,9 +14,6 @@ module.exports = {
             status: {
                 type: Sequelize.INTEGER,
             },
-            dateDue: {
-                type: Sequelize.DATE,
-            },
             dateStart: {
                 type: Sequelize.DATE,
             },

@@ -1,8 +1,5 @@
 const { topicService } = require('../services/index');
 
-<<<<<<< Updated upstream
-module.exports = {};
-=======
 module.exports = {
     postTopic: async (req, res) => {
         const checkBody = req && req.body;
@@ -27,4 +24,3 @@ module.exports = {
         return res.send(result);
     },
 };
->>>>>>> Stashed changes
