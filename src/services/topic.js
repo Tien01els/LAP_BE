@@ -1,4 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
 =======
 <<<<<<< Updated upstream
 =======
@@ -20,7 +25,11 @@ module.exports = {
             let result = await db.Topic.findAll(
                 {
 <<<<<<< HEAD
+<<<<<<< HEAD
                     where: { teacherId, gradeId },
+=======
+                    where: { teacherId, gradeId, isDeleted: 0 },
+>>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
 =======
                     where: { teacherId, gradeId, isDeleted: 0 },
 >>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
@@ -31,7 +40,10 @@ module.exports = {
                 { timestamps: false }
             );
 <<<<<<< HEAD
+<<<<<<< HEAD
             console.log(result);
+=======
+>>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
 =======
 >>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
             return result;
@@ -41,6 +53,10 @@ module.exports = {
     },
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
 =======
 >>>>>>> Stashed changes
 >>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d

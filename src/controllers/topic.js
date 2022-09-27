@@ -1,6 +1,7 @@
 const { topicService } = require('../services/index');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 module.exports = {
     postTopic: async (req, res) => {
         const topic = {
@@ -11,6 +12,8 @@ module.exports = {
             gradeId: req.body.gradeId,
             prerequisiteTopicId: req.body.prerequisiteTopicId,
 =======
+=======
+>>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
 <<<<<<< Updated upstream
 module.exports = {};
 =======
@@ -24,6 +27,9 @@ module.exports = {
             teacherId: checkBody && req.body.teacherId,
             gradeId: checkBody && req.body.gradeId,
             prerequisiteTopicId: checkBody && req.body.prerequisiteTopicId,
+<<<<<<< HEAD
+>>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
+=======
 >>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
         };
         let result = await topicService.createTopic(topic);
@@ -31,8 +37,13 @@ module.exports = {
     },
     getTopicByTeacherIdAndGradeId: async (req, res) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
         const teacherId = req.params.teacherId;
         const gradeId = req.params.gradeId;
+=======
+        const teacherId = req && req.params && req.params.teacherId;
+        const gradeId = req && req.params && req.params.gradeId;
+>>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
 =======
         const teacherId = req && req.params && req.params.teacherId;
         const gradeId = req && req.params && req.params.gradeId;
@@ -45,6 +56,10 @@ module.exports = {
     },
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
 =======
 >>>>>>> Stashed changes
 >>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d

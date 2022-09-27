@@ -5,6 +5,10 @@ module.exports = {
         try {
             let grades = await db.Grade.findAll({
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                where: { isDeleted: 0 },
+>>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
 =======
                 where: { isDeleted: 0 },
 >>>>>>> 770d873c030ecb35de5ae6180c926406eb82ba1d
