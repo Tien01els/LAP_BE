@@ -8,4 +8,9 @@ classTopicRouter.get(
     classTopicController.getTopicsByClassId
 );
 
+classTopicRouter.post(
+    '/',
+    classTopicController.postClassTopics
+);
+
 module.exports = classTopicRouter;
