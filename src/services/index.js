@@ -1,11 +1,12 @@
-const roleService = require('./role')
-const topicService = require('./topic')
-const gradeService = require('./grade')
-const classTopicService = require('./classTopic')
-
+const roleService = require('./role');
+const topicService = require('./topic');
+const gradeService = require('./grade');
+const classService = require('./class');
+const classTopicService = require('./classTopic');
 module.exports = {
-  roleService,
-  topicService,
-  gradeService,
-  classTopicService,
-}
+    roleService,
+    topicService,
+    gradeService,
+    classService,
+    classTopicService,
+};
