@@ -14,14 +14,12 @@ module.exports = {
     },
     postClassTopics: async (req, res) => {
         const checkBody = req && req.body;
-
         let teacherId = checkBody && req.body.teacherId;
         let classId = checkBody && req.body.classId;
         let topics = await classTopicService.findTopicsByClassId(
             teacherId,
             classId
         );
-        console.log(topics);
         return res.send(topics);
     },
 };
