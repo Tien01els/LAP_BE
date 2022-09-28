@@ -18,8 +18,8 @@
         "sequelize": "^6.21.6"
     },
     "devDependencies": {
-        "@babel/core": "^7.19.0",
-        "@babel/node": "^7.18.10",
+        "@babel/core": "^7.19.1",
+        "@babel/node": "^7.19.1",
         "@babel/preset-env": "^7.19.0",
         "nodemon": "^2.0.19",
         "sequelize-cli": "^6.4.1"
