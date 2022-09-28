@@ -1,13 +1,12 @@
 const { classService } = require('../services/index');
 
 module.exports = {
-
-  getClasses: async (req, res) => {
-    let teacherId = req && req.params && req.params.teacherId
-    let classes = await classService.findClassesByTeacherId(teacherId)
-    console.log(classes)
-    return res.send(classes)
-  },
+    getClasses: async (req, res) => {
+        let teacherId = req && req.params && req.params.teacherId;
+        let classes = await classService.findClassesByTeacherId(teacherId);
+        console.log(classes);
+        return res.send(classes);
+    },
     getClassesByTeacherIdAndGradeId: async (req, res) => {
         const checkParams = req && req.params;
         const teacherId = checkParams && req.params.teacherId;
@@ -19,8 +18,4 @@ module.exports = {
         console.log(classes);
         return res.send(classes);
     },
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> 2360ecfde56ae4dc156bb33ed0f421635d59f945
