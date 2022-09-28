@@ -13,5 +13,4 @@ const route = (app) => {
   app.use('/assignment', assignmentRouter)
   app.use('/class', classRouter)
 }
-
 module.exports = route
