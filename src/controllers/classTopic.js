@@ -14,14 +14,6 @@ module.exports = {
         );
         return res.send(topics);
     },
-<<<<<<< HEAD
-    postClassTopics: async (req, res) => {
-        let teacherId = req.body.teacherId;
-        let classId = req.body.classId;
-        let topics = await classTopicService.findTopicsByClassId(
-            teacherId,
-            classId
-=======
 
     postClassTopic: async (req, res) => {
         let classId = req.body.classId;
@@ -33,11 +25,10 @@ module.exports = {
             classId,
             topicId,
         };
-
         let classTopicNew = await classTopicService.createClassTopic(
             classTopic
->>>>>>> 4117cbb7126cf24e6e0358461b84d3e724c8b5b1
         );
+
         let students = await studentService.findStudentsbyClassId(classId);
         let studentTopics = new Array();
         for (let i = 0; i < students.length; i++) {

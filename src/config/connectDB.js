@@ -1,17 +1,10 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('lap_db', 'root', 'root', {
-<<<<<<< HEAD
-  host: 'localhost',
-  dialect: 'mysql',
-  logging: false,
-})
-=======
     host: 'localhost',
     dialect: 'mysql',
     logging: false,
 });
->>>>>>> 4117cbb7126cf24e6e0358461b84d3e724c8b5b1
 
 const connectDB = async () => {
     try {
