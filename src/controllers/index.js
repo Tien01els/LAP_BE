@@ -1,19 +1,25 @@
+const assignmentController = require('./assignment');
+const classController = require('./class');
+const classAssignmentController = require('./classAssignment');
+const classTopicController = require('./classTopic');
+const gradeController = require('./grade');
+const questionController = require('./question');
 const roleController = require('./role');
-const topicController = require('./topic');
+const skillAssignmentController = require('./skillAssignment');
 const studentController = require('./student');
 const studentTopicController = require('./studentTopic');
-const assignmentController = require('./assignment');
-const gradeController = require('./grade');
-const classController = require('./class');
-const classTopicController = require('./classTopic');
+const topicController = require('./topic');
 
 module.exports = {
+    assignmentController,
+    classController,
+    classAssignmentController,
+    classTopicController,
+    gradeController,
+    questionController,
     roleController,
-    topicController,
+    skillAssignmentController,
     studentController,
     studentTopicController,
-    assignmentController,
-    gradeController,
-    classController,
-    classTopicController,
+    topicController,
 };

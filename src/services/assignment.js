@@ -11,4 +11,12 @@ module.exports = {
             console.log(e);
         }
     },
+    createAssignment: async (assignment) => {
+        try {
+            let assignmentNew = await db.Assignment.create(assignment);
+            return assignmentNew;
+        } catch (e) {
+            console.log(e);
+        }
+    },
 };

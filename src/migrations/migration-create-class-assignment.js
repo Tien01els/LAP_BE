@@ -8,14 +8,8 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            status: {
-                type: Sequelize.INTEGER,
-            },
-            dateDue: {
+            dateOpen: {
                 type: Sequelize.DATE,
-            },
-            redo: {
-                type: Sequelize.INTEGER,
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,

@@ -7,9 +7,6 @@ assignmentRouter.get(
     '/:teacherId',
     assignmentController.getAssignmentsOfTeacher
 );
-assignmentRouter.post(
-    '/:teacherId',
-    assignmentController.postAssignmentOfTeacher
-);
+assignmentRouter.post('/', assignmentController.postAssignment);
 
 module.exports = assignmentRouter;

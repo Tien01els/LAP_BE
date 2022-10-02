@@ -19,10 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Class_Assignment.init(
         {
-            status: DataTypes.INTEGER,
-            dateDue: DataTypes.DATE,
-            redo: DataTypes.INTEGER,
-            isRedo: DataTypes.BOOLEAN,
+            dateOpen: DataTypes.DATE,
             isDeleted: DataTypes.BOOLEAN,
             classId: DataTypes.INTEGER,
             assignmentId: DataTypes.INTEGER,

@@ -9,11 +9,19 @@ module.exports = {
         );
         return res.send(assignments);
     },
-    postAssignmentOfTeacher: async (req, res) => {
-        let teacherId = req.params.teacherId;
-        let assignments = await assignmentService.createAssignmentByTeacherId(
-            teacherId
+    postAssignment: async (req, res) => {
+        let assignment = {
+            assignmentName: req.body.assignmentName,
+            dateDue: req.body.dateDue || new Date(),
+            time: req.body.dateDue || 0,
+            totalScore: req.body.totalScore || 0,
+            redo: req.body.redo || 0,
+            teacherId: req.body.teacherId,
+            isDeleted: 0,
+        };
+        let assignmentNew = await assignmentService.createAssignment(
+            assignment
         );
-        return res.send(assignments);
+        return res.send(assignmentNew);
     },
 };
