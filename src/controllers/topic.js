@@ -2,21 +2,23 @@ const { topicService } = require('../services/index');
 
 module.exports = {
     postTopic: async (req, res) => {
-        const checkBody = req && req.body;
         const topic = {
-            topicName: checkBody && req.body.topicName,
-            description: checkBody && req.body.description,
+            topicName: req.body.topicName,
+            description: req.body.description,
             isDeleted: false,
-            teacherId: checkBody && req.body.teacherId,
-            gradeId: checkBody && req.body.gradeId,
-            prerequisiteTopicId: checkBody && req.body.prerequisiteTopicId,
+            teacherId: req.body.teacherId,
+            gradeId: req.body.gradeId == '-1' ? null : req.body.gradeId,
+            prerequisiteTopicId:
+                req.body.prerequisiteTopicId == '-1'
+                    ? null
+                    : req.body.prerequisiteTopicId,
         };
         let result = await topicService.createTopic(topic);
         return res.send(result);
     },
     getTopicByTeacherIdAndGradeId: async (req, res) => {
-        const teacherId = req && req.params && req.params.teacherId;
-        const gradeId = req && req.params && req.params.gradeId;
+        const teacherId = req.params.teacherId;
+        const gradeId = req.params.gradeId;
         let result = await topicService.getTopicByTeacherIdAndGradeId(
             teacherId,
             gradeId

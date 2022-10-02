@@ -2,10 +2,8 @@ const { classTopicService } = require('../services/index');
 
 module.exports = {
     getTopicsByClassId: async (req, res) => {
-        const checkParams = req && req.params;
-
-        let teacherId = checkParams && req.params.teacherId;
-        let classId = checkParams && req.params.classId;
+        let teacherId = req.params.teacherId;
+        let classId = req.params.classId;
         let topics = await classTopicService.findTopicsByClassId(
             teacherId,
             classId
@@ -13,10 +11,8 @@ module.exports = {
         return res.send(topics);
     },
     postClassTopics: async (req, res) => {
-        const checkBody = req && req.body;
-
-        let teacherId = checkBody && req.body.teacherId;
-        let classId = checkBody && req.body.classId;
+        let teacherId = req.body.teacherId;
+        let classId = req.body.classId;
         let topics = await classTopicService.findTopicsByClassId(
             teacherId,
             classId
