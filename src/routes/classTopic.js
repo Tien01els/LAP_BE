@@ -8,9 +8,7 @@ classTopicRouter.get(
     classTopicController.getTopicsByClassId
 );
 
-classTopicRouter.post(
-    '/',
-    classTopicController.postClassTopics
-);
+classTopicRouter.post('/', classTopicController.postClassTopic);
+classTopicRouter.delete('/:id', classTopicController.deleteClassTopic);
 
 module.exports = classTopicRouter;
