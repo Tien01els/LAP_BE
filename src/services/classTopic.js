@@ -6,13 +6,14 @@ module.exports = {
         try {
             let topics = await db.sequelize.query(
                 `
-                SELECT c.topicId, t.topicName, pt.topicName AS prerequisiteTopicName, COUNT(s.id) AS numberSkills
+                SELECT c.id, t.topicName, pt.topicName AS prerequisiteTopicName, COUNT(s.id) AS numberSkills
                 FROM class_topics AS c JOIN topics AS t
                 ON c.classId = :classId AND t.id = c.topicId AND t.teacherId = :teacherId
                 AND c.isDeleted = 0 AND t.isDeleted = 0
                 LEFT JOIN topics as pt ON pt.id = t.prerequisiteTopicId AND pt.isDeleted = 0 
-                LEFT JOIN skills AS s ON s.topicId = t.id AND s.isDeleted = 0  
+                LEFT JOIN skills AS s ON s.topicId = t.id AND s.isDeleted = 0 
                 GROUP BY c.topicId
+                ORDER BY pt.id
                 `,
                 {
                     replacements: { teacherId: teacherId, classId: classId },
@@ -77,8 +78,30 @@ module.exports = {
             //     },
             //     { timestamps: false }
             // );
-            console.log(topics);
             return topics;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    createClassTopic: async (classTopic) => {
+        try {
+            let classTopicNew = await db.Class_Topic.create(classTopic);
+            return classTopicNew;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    deleteClassTopic: async (id) => {
+        try {
+            let classTopic = await db.Class_Topic.findByPk(id);
+            if (classTopic) {
+                if (classTopic.isDeleted) {
+                    return 'This topic in class has been deleted';
+                }
+                classTopic.isDeleted = true;
+                return await classTopic.save();
+            }
+            return 'This topic of class does not exist';
         } catch (e) {
             console.log(e);
         }

@@ -23,6 +23,9 @@ module.exports = {
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
+            parentId: {
+                type: Sequelize.INTEGER,
+            },
             accountId: {
                 type: Sequelize.INTEGER,
             },
