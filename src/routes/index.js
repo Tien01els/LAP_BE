@@ -13,7 +13,7 @@ const topicRouter = require('./topic');
 const route = (app) => {
     app.use('/assignment', assignmentRouter);
     app.use('/class', classRouter);
-    app.use('/classAssignment', classAssignmentRouter);
+    app.use('/class-assignment', classAssignmentRouter);
     app.use('/class-topic', classTopicRouter);
     app.use('/grade', gradeRouter);
     app.use('/question', questionRouter);

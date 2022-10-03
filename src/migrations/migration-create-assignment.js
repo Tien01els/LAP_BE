@@ -20,6 +20,9 @@ module.exports = {
             totalScore: {
                 type: Sequelize.REAL,
             },
+            redo: {
+                type: Sequelize.INTEGER,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },

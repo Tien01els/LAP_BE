@@ -13,6 +13,7 @@ module.exports = {
         try {
             let questions = await db.Question.findAll({
                 where: { assignmentId, isDeleted: 0 },
+                raw: true,
             });
             return questions;
         } catch (e) {

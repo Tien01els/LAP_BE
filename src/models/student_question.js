@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             answer: DataTypes.STRING,
             isCorrect: DataTypes.BOOLEAN,
             isDeleted: DataTypes.BOOLEAN,
+            redoTime: DataTypes.INTEGER,
             studentId: DataTypes.INTEGER,
             questionId: DataTypes.INTEGER,
         },
