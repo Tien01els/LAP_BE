@@ -5,7 +5,7 @@ module.exports = {
         const question = {
             content: req.body.content,
             image: req.body.image,
-            option: req.body.option,
+            option: req.body.option && req.body.option.toString(),
             result: req.body.result,
             hint: req.body.hint,
             score: req.body.score,
@@ -16,6 +16,7 @@ module.exports = {
         let questionNew = await questionService.createQuestion(question);
 
         const skillIds = req.body.skillIds;
+
         const listSkillQuestion = new Array();
         for (let i = 0; i < skillIds.length; ++i) {
             listSkillQuestion.push({
@@ -28,8 +29,7 @@ module.exports = {
             listSkillQuestion
         );
 
-        console.log(skillQuestion);
-
+        questionNew.option = questionNew.option.split(',');
         return res.send(questionNew);
     },
     getQuestionOfAssignment: async (req, res) => {
@@ -37,6 +37,16 @@ module.exports = {
         let questions = await questionService.findQuestionByAssignmentId(
             assignmentId
         );
+
+        for (let i = 0; i < questions.length; i++) {
+            questions[i].option =
+                questions[i].option && questions[i].option.split(',');
+        }
         return res.send(questions);
+    },
+    deleteQuestion: async (req, res) => {
+        let id = req.params.id;
+        let questionDeleted = await questionService.deleteQuestion(id);
+        return res.send(questionDeleted);
     },
 };

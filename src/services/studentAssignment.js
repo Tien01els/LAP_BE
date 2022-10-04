@@ -11,4 +11,14 @@ module.exports = {
             console.log(e);
         }
     },
+    createStudentAssignment: async (studentAssignment) => {
+        try {
+            let studentAssignmentNew = await db.Student_Assignment.create(
+                studentAssignment
+            );
+            return studentAssignmentNew;
+        } catch (e) {
+            console.log(e);
+        }
+    },
 };

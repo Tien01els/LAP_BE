@@ -5,5 +5,6 @@ const questionRouter = express.Router();
 
 questionRouter.post('/', questionController.postQuestion);
 questionRouter.get('/:assignmentId', questionController.getQuestionOfAssignment);
+questionRouter.get('/:id', questionController.deleteQuestion);
 
 module.exports = questionRouter;

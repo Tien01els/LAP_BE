@@ -13,8 +13,8 @@ module.exports = {
         let assignment = {
             assignmentName: req.body.assignmentName,
             dateDue: req.body.dateDue || new Date(),
-            time: req.body.dateDue || 0,
-            totalScore: req.body.totalScore || 0,
+            time: req.body.time || 0,
+            totalScore: req.body.totalScore || 100,
             redo: req.body.redo || 0,
             teacherId: req.body.teacherId,
             isDeleted: 0,

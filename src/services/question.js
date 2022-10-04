@@ -20,4 +20,19 @@ module.exports = {
             console.log(e);
         }
     },
+    deleteQuestion: async (id) => {
+        try {
+            const question = await db.Class_Topic.findByPk(id);
+            if (question) {
+                if (question.isDeleted) {
+                    return 'This question has been deleted';
+                }
+                question.isDeleted = true;
+                return await question.save();
+            }
+            return 'This question does not exist';
+        } catch (e) {
+            console.log(e);
+        }
+    },
 };
