@@ -9,11 +9,12 @@ module.exports = {
             console.log(e);
         }
     },
-    getTopicByTeacherIdAndGradeId: async (teacherId, gradeId) => {
+    findTopicByTeacherIdAndGradeId: async (teacherId, gradeId) => {
         try {
             let result = await db.Topic.findAll(
                 {
                     where: { teacherId, gradeId, isDeleted: 0 },
+                    attributes: { exclude: ['createdAt', 'updatedAt'] },
                     raw: true,
                     nest: true,
                     duplicate: false,

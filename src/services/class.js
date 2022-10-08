@@ -5,6 +5,7 @@ module.exports = {
         try {
             let classes = await db.Class.findAll({
                 where: { teacherId: teacherId, isDeleted: 0 },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
                 raw: true,
             });
             return classes;
@@ -16,6 +17,7 @@ module.exports = {
         try {
             let classes = await db.Class.findAll({
                 where: { teacherId, gradeId, isDeleted: 0 },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
                 raw: true,
             });
             return classes;

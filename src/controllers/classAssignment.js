@@ -55,4 +55,9 @@ module.exports = {
         }
         return res.send('This class assignment already exists');
     },
+    deleteClassAssignment: async (req, res) => {
+        let id = req.params.id;
+        let classAssignmentDeleted = await classAssignmentService.deleteClassAssignment(id);
+        return res.send(classAssignmentDeleted);
+    }
 };

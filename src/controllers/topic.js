@@ -19,7 +19,7 @@ module.exports = {
     getTopicByTeacherIdAndGradeId: async (req, res) => {
         const teacherId = req.params.teacherId;
         const gradeId = req.params.gradeId;
-        let result = await topicService.getTopicByTeacherIdAndGradeId(
+        let result = await topicService.findTopicByTeacherIdAndGradeId(
             teacherId,
             gradeId
         );
