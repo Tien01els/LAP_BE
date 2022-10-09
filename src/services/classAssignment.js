@@ -15,9 +15,25 @@ module.exports = {
         try {
             let classAssignment = await db.Class_Assignment.findOne({
                 where: { classId, assignmentId, isDeleted: 0 },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
                 raw: true,
             });
             return classAssignment;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    deleteQuestion: async (id) => {
+        try {
+            const question = await db.Question.findByPk(id);
+            if (question) {
+                if (question.isDeleted) {
+                    return 'This question has been deleted';
+                }
+                question.isDeleted = true;
+                return await question.save();
+            }
+            return 'This question does not exist';
         } catch (e) {
             console.log(e);
         }

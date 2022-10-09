@@ -5,6 +5,7 @@ module.exports = {
         try {
             let grades = await db.Grade.findAll({
                 where: { isDeleted: 0 },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
                 raw: true,
             });
             return grades;

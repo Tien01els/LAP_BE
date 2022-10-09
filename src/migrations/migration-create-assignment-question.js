@@ -1,38 +1,20 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('questions', {
+        await queryInterface.createTable('assignment_questions', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            content: {
-                type: Sequelize.STRING,
-            },
-            image: {
-                type: Sequelize.STRING,
-            },
-            option: {
-                type: Sequelize.STRING,
-            },
-            level: {
-                type: Sequelize.STRING,
-            },
-            hint: {
-                type: Sequelize.STRING,
-            },
-            score: {
-                type: Sequelize.REAL,
-            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
-            questionTypeId: {
+            assignmentId: {
                 type: Sequelize.INTEGER,
             },
-            assignmentId: {
+            questionId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {
@@ -46,6 +28,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('questions');
+        await queryInterface.dropTable('assignment_questions');
     },
 };

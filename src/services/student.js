@@ -5,6 +5,7 @@ module.exports = {
         try {
             let student = await db.Student.findByPk(id, {
                 where: { isDeleted: 0 },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
                 raw: true,
             });
             return student;
@@ -16,6 +17,7 @@ module.exports = {
         try {
             let students = await db.Student.findAll({
                 where: { classId, isDeleted: 0 },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
                 raw: true,
             });
             return students;
