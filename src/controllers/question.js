@@ -16,10 +16,10 @@ module.exports = {
     postQuestion: async (req, res) => {
         const question = {
             content: req.body.content,
-            image: req.body.image,
-            option: req.body.option && req.body.option.toString(),
-            result: req.body.result,
-            hint: req.body.hint,
+            image: req.body.image || '',
+            option: req.body.option && JSON.stringify(req.body.option),
+            result: req.body.result || '',
+            hint: req.body.hint || '',
             score: req.body.score,
             questionTypeId: req.body.questionTypeId,
             assignmentId: req.body.assignmentId,
@@ -27,7 +27,7 @@ module.exports = {
         };
         let questionNew = await questionService.createQuestion(question);
 
-        const skillIds = req.body.skillIds;
+        const skillIds = req.body.skillIds || new Array();
 
         const listSkillQuestion = new Array();
         for (let i = 0; i < skillIds.length; ++i) {
@@ -38,17 +38,18 @@ module.exports = {
             });
         }
         await skillQuestionService.createSkillQuestion(listSkillQuestion);
-        questionNew.option = questionNew.option.split(',');
-        return res.send(questionNew);
+        questionNew.option = JSON.parse(questionNew.option);
+        return res.json(questionNew);
     },
     putQuestion: async (req, res) => {
         const id = req.params.id;
+        console.log(req.body.option);
         const question = {
             content: req.body.content,
-            image: req.body.image,
-            option: req.body.option && req.body.option.toString(),
-            result: req.body.result,
-            hint: req.body.hint,
+            image: req.body.image || '',
+            option: req.body.option && JSON.stringify(req.body.option),
+            result: req.body.result || '',
+            hint: req.body.hint || '',
             score: req.body.score,
             questionTypeId: req.body.questionTypeId,
             assignmentId: req.body.assignmentId,
@@ -58,7 +59,7 @@ module.exports = {
             question
         );
 
-        const skillIds = req.body.skillIds;
+        const skillIds = req.body.skillIds || new Array();
         const listSkillQuestion = new Array();
         for (let i = 0; i < skillIds.length; ++i) {
             listSkillQuestion.push({
@@ -68,12 +69,13 @@ module.exports = {
             });
         }
         await skillQuestionService.createSkillQuestion(listSkillQuestion);
-        questionUpdated.option = questionUpdated.option.split(',');
-        return res.send(questionUpdated);
+        if (questionUpdated.option)
+            questionUpdated.option = JSON.parse(questionUpdated.option);
+        return res.json(questionUpdated);
     },
     deleteQuestion: async (req, res) => {
         let id = req.params.id;
         let questionDeleted = await questionService.deleteQuestion(id);
-        return res.send(questionDeleted);
+        return res.json(questionDeleted);
     },
 };

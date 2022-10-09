@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
             Question.hasMany(models.Student_Question, {
                 foreignKey: 'questionId',
             });
-
-            Question.belongsTo(models.Assignment, {
-                foreignKey: 'assignmentId',
+            Question.hasMany(models.Assignment_Question, {
+                foreignKey: 'questionId',
             });
+
             Question.belongsTo(models.Questiontype, {
                 foreignKey: 'questionTypeId',
             });
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
             content: DataTypes.STRING,
             image: DataTypes.STRING,
             option: DataTypes.STRING,
-            result: DataTypes.STRING,
+            level: DataTypes.STRING,
             hint: DataTypes.STRING,
             score: DataTypes.REAL,
             isDeleted: DataTypes.BOOLEAN,

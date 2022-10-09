@@ -31,6 +31,8 @@ module.exports = {
         const assignmentNew = await assignmentService.createAssignment(
             assignment
         );
+        if (!assignmentNew)
+            return res.json({ error: 'Could not create assignment' });
         return res.send(assignmentNew);
     },
     putAssignment: async (req, res) => {

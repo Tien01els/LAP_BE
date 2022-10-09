@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             Assignment.hasMany(models.Student_Assignment, {
                 foreignKey: 'assignmentId',
             });
-            Assignment.hasMany(models.Question, {
+            Assignment.hasMany(models.Assignment_Question, {
                 foreignKey: 'assignmentId',
             });
             Assignment.hasMany(models.Skill_Assignment, {
