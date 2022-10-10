@@ -25,10 +25,10 @@ module.exports = {
             classId,
             topicId,
         };
-
         let classTopicNew = await classTopicService.createClassTopic(
             classTopic
         );
+
         let students = await studentService.findStudentsbyClassId(classId);
         let studentTopics = new Array();
         for (let i = 0; i < students.length; i++) {

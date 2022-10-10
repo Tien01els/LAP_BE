@@ -15,7 +15,7 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             refreshToken: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
             },
             isActive: {
                 type: Sequelize.BOOLEAN,

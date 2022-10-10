@@ -2,10 +2,8 @@ const { studentTopicService } = require('../services/index');
 
 module.exports = {
     postStudentTopic: async (req, res) => {
-        const checkBody = req && req.body;
-
-        let studentId = checkBody && req.body.studentId;
-        let topicId = checkBody && req.body.topicId;
+        let studentId = req.body.studentId;
+        let topicId = req.body.topicId;
 
         let studentTopic = {
             status: 0,

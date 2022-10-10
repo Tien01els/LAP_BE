@@ -1,14 +1,14 @@
 const db = require('../models/index');
 
 module.exports = {
-    findAllRoles: async () => {
+    findSkill: async (id) => {
         try {
-            let roles = await db.Role.findAll({
+            let skillAssignmentNew = await db.Skill_Assignment.findByPk(id, {
                 where: { isDeleted: 0 },
                 attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
                 raw: true,
             });
-            return roles;
+            return skillAssignmentNew;
         } catch (e) {
             console.log(e);
         }

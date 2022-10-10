@@ -1,0 +1,95 @@
+const sequelize = require('sequelize');
+const db = require('../models/index');
+
+module.exports = {
+    findQuestion: async (id) => {
+        try {
+            let question = await db.Question.findByPk(id, {
+                where: { isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                raw: true,
+            });
+            return question;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    findQuestionByGradeId: async (gradeId) => {
+        try {
+            let question = await db.sequelize.query(
+                `
+                SELECT q.id, q.content, q.image, q.option, q.level, q.hint, q.score, q.questionTypeId, sq.skillId, s.topicId
+                FROM grades AS g JOIN topics AS t
+                ON g.id = :gradeId
+                AND g.isDeleted = 0 AND t.isDeleted = 0
+                JOIN skills AS s ON t.id = s.topicId AND s.isDeleted = 0 
+                JOIN skill_questions AS sq ON sq.skillId = s.id AND sq.isDeleted = 0 
+                JOIN questions AS q ON q.id = sq.questionId AND q.isDeleted = 0 
+                `,
+                {
+                    replacements: { gradeId },
+                    type: sequelize.QueryTypes.SELECT,
+                }
+            );
+            return question;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    createQuestion: async (question) => {
+        try {
+            let questionNew = await db.Question.create(question);
+            return questionNew;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    findQuestionByAssignmentId: async (assignmentId) => {
+        try {
+            let questions = await db.Question.findAll({
+                where: { assignmentId, isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                raw: true,
+            });
+            return questions;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    updateQuestion: async (id, questionUpdate) => {
+        try {
+            const question = await db.Question.findByPk(id, {
+                where: { isDeleted: 0 },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt'],
+                },
+            });
+
+            if (question) {
+                return await question.update({ ...questionUpdate });
+            }
+            return question;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    deleteQuestion: async (id) => {
+        try {
+            const question = await db.Question.findByPk(id);
+            if (question) {
+                if (question.isDeleted) {
+                    return 'This question has been deleted';
+                }
+                question.isDeleted = true;
+                return await question.save();
+            }
+            return 'This question does not exist';
+        } catch (e) {
+            console.log(e);
+        }
+    },
+};

@@ -1,19 +1,39 @@
-const roleService = require('./role');
-const topicService = require('./topic');
+const accountService = require('./account');
+const adminService = require('./admin');
 const assignmentService = require('./assignment');
-const gradeService = require('./grade');
-const studentService = require('./student');
-const studentTopicService = require('./studentTopic');
 const classService = require('./class');
+const classAssignmentService = require('./classAssignment');
 const classTopicService = require('./classTopic');
+const gradeService = require('./grade');
+const parentService = require('./parent');
+const questionService = require('./question');
+const roleService = require('./role');
+const skillService = require('./skill');
+const skillAssignmentService = require('./skillAssignment');
+const skillQuestionService = require('./skillQuestion');
+const studentService = require('./student');
+const studentAssignmentService = require('./studentAssignment');
+const studentTopicService = require('./studentTopic');
+const teacherService = require('./teacher');
+const topicService = require('./topic');
 
 module.exports = {
-    roleService,
-    topicService,
+    accountService,
+    adminService,
     assignmentService,
-    gradeService,
-    studentService,
-    studentTopicService,
     classService,
+    classAssignmentService,
     classTopicService,
+    gradeService,
+    parentService,
+    questionService,
+    roleService,
+    skillService,
+    skillAssignmentService,
+    skillQuestionService,
+    studentService,
+    studentAssignmentService,
+    studentTopicService,
+    teacherService,
+    topicService,
 };

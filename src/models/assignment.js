@@ -10,16 +10,19 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Assignment.hasMany(models.Student_Assignment, {
-                foreignKey: 'assigmentId',
+                foreignKey: 'assignmentId',
             });
-            Assignment.hasMany(models.Question, {
-                foreignKey: 'assigmentId',
+            Assignment.hasMany(models.Assignment_Question, {
+                foreignKey: 'assignmentId',
             });
             Assignment.hasMany(models.Skill_Assignment, {
-                foreignKey: 'assigmentId',
+                foreignKey: 'assignmentId',
             });
             Assignment.hasMany(models.Class_Assignment, {
-                foreignKey: 'assigmentId',
+                foreignKey: 'assignmentId',
+            });
+            Assignment.hasMany(models.Topic_Assignment, {
+                foreignKey: 'assignmentId',
             });
 
             Assignment.belongsTo(models.Teacher, {
@@ -29,9 +32,11 @@ module.exports = (sequelize, DataTypes) => {
     }
     Assignment.init(
         {
+            assignmentName: DataTypes.STRING,
             dateDue: DataTypes.DATE,
             time: DataTypes.INTEGER,
             totalScore: DataTypes.REAL,
+            redo: DataTypes.INTEGER,
             isDeleted: DataTypes.BOOLEAN,
             teacherId: DataTypes.INTEGER,
         },

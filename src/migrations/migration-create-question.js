@@ -17,7 +17,7 @@ module.exports = {
             option: {
                 type: Sequelize.STRING,
             },
-            result: {
+            level: {
                 type: Sequelize.STRING,
             },
             hint: {
@@ -30,12 +30,6 @@ module.exports = {
                 type: Sequelize.BOOLEAN,
             },
             questionTypeId: {
-                type: Sequelize.INTEGER,
-            },
-            assignmentId: {
-                type: Sequelize.INTEGER,
-            },
-            teacherId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {

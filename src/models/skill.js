@@ -22,9 +22,6 @@ module.exports = (sequelize, DataTypes) => {
             Skill.belongsTo(models.Standard, {
                 foreignKey: 'standardId',
             });
-            Skill.belongsTo(models.Teacher, {
-                foreignKey: 'teacherId',
-            });
         }
     }
     Skill.init(
@@ -34,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
             isDeleted: DataTypes.BOOLEAN,
             topicId: DataTypes.INTEGER,
             standardId: DataTypes.INTEGER,
-            teacherId: DataTypes.INTEGER,
         },
         {
             sequelize,

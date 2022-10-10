@@ -14,6 +14,9 @@ module.exports = {
             isCorrect: {
                 type: Sequelize.BOOLEAN,
             },
+            redoTime: {
+                type: Sequelize.INTEGER,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },

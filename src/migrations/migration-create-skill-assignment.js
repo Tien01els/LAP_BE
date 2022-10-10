@@ -11,7 +11,10 @@ module.exports = {
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
-            skillAssignmentId: {
+            skillId: {
+                type: Sequelize.INTEGER,
+            },
+            assignmentId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {
