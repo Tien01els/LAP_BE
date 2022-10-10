@@ -32,9 +32,6 @@ module.exports = {
             questionTypeId: {
                 type: Sequelize.INTEGER,
             },
-            assignmentId: {
-                type: Sequelize.INTEGER,
-            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

@@ -1,3 +1,4 @@
+const sequelize = require('sequelize');
 const db = require('../models/index');
 
 module.exports = {
@@ -5,9 +6,33 @@ module.exports = {
         try {
             let question = await db.Question.findByPk(id, {
                 where: { isDeleted: 0 },
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
                 raw: true,
             });
+            return question;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    findQuestionByGradeId: async (gradeId) => {
+        try {
+            let question = await db.sequelize.query(
+                `
+                SELECT q.id, q.content, q.image, q.option, q.level, q.hint, q.score, q.questionTypeId, sq.skillId, s.topicId
+                FROM grades AS g JOIN topics AS t
+                ON g.id = :gradeId
+                AND g.isDeleted = 0 AND t.isDeleted = 0
+                JOIN skills AS s ON t.id = s.topicId AND s.isDeleted = 0 
+                JOIN skill_questions AS sq ON sq.skillId = s.id AND sq.isDeleted = 0 
+                JOIN questions AS q ON q.id = sq.questionId AND q.isDeleted = 0 
+                `,
+                {
+                    replacements: { gradeId },
+                    type: sequelize.QueryTypes.SELECT,
+                }
+            );
             return question;
         } catch (e) {
             console.log(e);
@@ -25,7 +50,9 @@ module.exports = {
         try {
             let questions = await db.Question.findAll({
                 where: { assignmentId, isDeleted: 0 },
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
                 raw: true,
             });
             return questions;
@@ -37,12 +64,15 @@ module.exports = {
         try {
             const question = await db.Question.findByPk(id, {
                 where: { isDeleted: 0 },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt'],
+                },
             });
 
             if (question) {
                 return await question.update({ ...questionUpdate });
             }
-            return 'This question does not exist or has been deleted';
+            return question;
         } catch (e) {
             console.log(e);
         }

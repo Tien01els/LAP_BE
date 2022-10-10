@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
             Assignment.hasMany(models.Class_Assignment, {
                 foreignKey: 'assignmentId',
             });
+            Assignment.hasMany(models.Topic_Assignment, {
+                foreignKey: 'assignmentId',
+            });
 
             Assignment.belongsTo(models.Teacher, {
                 foreignKey: 'teacherId',

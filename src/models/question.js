@@ -34,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
             score: DataTypes.REAL,
             isDeleted: DataTypes.BOOLEAN,
             questionTypeId: DataTypes.INTEGER,
-            assignmentId: DataTypes.INTEGER,
         },
         {
             sequelize,
