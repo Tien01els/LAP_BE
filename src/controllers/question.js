@@ -66,7 +66,9 @@ module.exports = {
       })
     }
     await skillQuestionService.createSkillQuestion(listSkillQuestion)
-    if (questionUpdated.option)
+    console.log(questionUpdated)
+
+    if (questionUpdated && questionUpdated.option)
       questionUpdated.option = JSON.parse(questionUpdated.option)
     return res.json(questionUpdated)
   },
