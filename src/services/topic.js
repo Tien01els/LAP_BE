@@ -14,14 +14,15 @@ module.exports = {
             let result = await db.Topic.findAll(
                 {
                     where: { teacherId, gradeId, isDeleted: 0 },
-                    attributes: { exclude: ['createdAt', 'updatedAt'] },
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
                     raw: true,
                     nest: true,
                     duplicate: false,
                 },
                 { timestamps: false }
             );
-            console.log(result);
             return result;
         } catch (e) {
             console.log(e);

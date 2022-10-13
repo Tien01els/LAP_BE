@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       option: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
       },
       level: {
         type: Sequelize.STRING,
@@ -30,9 +30,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       questionTypeId: {
-        type: Sequelize.INTEGER,
-      },
-      assignmentId: {
         type: Sequelize.INTEGER,
       },
       createdAt: {

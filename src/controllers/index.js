@@ -1,3 +1,4 @@
+const accountController = require('./account');
 const assignmentController = require('./assignment');
 const classController = require('./class');
 const classAssignmentController = require('./classAssignment');
@@ -12,6 +13,7 @@ const studentTopicController = require('./studentTopic');
 const topicController = require('./topic');
 
 module.exports = {
+    accountController,
     assignmentController,
     classController,
     classAssignmentController,

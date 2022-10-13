@@ -5,7 +5,7 @@ module.exports = {
         try {
             let roles = await db.Role.findAll({
                 where: { isDeleted: 0 },
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
                 raw: true,
             });
             return roles;

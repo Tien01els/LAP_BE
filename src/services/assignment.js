@@ -5,24 +5,30 @@ module.exports = {
         try {
             let assignments = await db.Assignment.findAll({
                 where: { teacherId: teacherId, isDeleted: 0 },
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
                 raw: true,
             });
             return assignments;
         } catch (e) {
             console.log(e);
+            return e;
         }
     },
     findAssignment: async (id) => {
         try {
             let assignment = await db.Assignment.findByPk(id, {
                 where: { isDeleted: 0 },
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
                 raw: true,
             });
             return assignment;
         } catch (e) {
             console.log(e);
+            return e;
         }
     },
     createAssignment: async (assignment) => {
@@ -31,18 +37,22 @@ module.exports = {
             return assignmentNew;
         } catch (e) {
             console.log(e);
+            return e;
         }
     },
     findAssignment: async (id) => {
         try {
             let assignments = await db.Assignment.findByPk(id, {
                 where: { isDeleted: 0 },
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
                 raw: true,
             });
             return assignments;
         } catch (e) {
             console.log(e);
+            return e;
         }
     },
     updateAssignment: async (id, assignmentUpdate) => {
@@ -57,6 +67,7 @@ module.exports = {
             return 'This question does not exist or has been deleted';
         } catch (e) {
             console.log(e);
+            return e;
         }
     },
     deleteAssignment: async (id) => {
@@ -72,6 +83,7 @@ module.exports = {
             return 'This assignment does not exist';
         } catch (e) {
             console.log(e);
+            return e;
         }
     },
 };

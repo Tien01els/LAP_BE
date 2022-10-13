@@ -1,29 +1,20 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('accounts', {
+        await queryInterface.createTable('topic_assignments', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            email: {
-                type: Sequelize.STRING,
-            },
-            password: {
-                type: Sequelize.STRING,
-            },
-            refreshToken: {
-                type: Sequelize.TEXT,
-            },
-            isActive: {
-                type: Sequelize.BOOLEAN,
-            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
-            roleId: {
+            topicId: {
+                type: Sequelize.INTEGER,
+            },
+            assignmentId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {
@@ -37,6 +28,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('accounts');
+        await queryInterface.dropTable('topic_assignments');
     },
 };

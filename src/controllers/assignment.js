@@ -1,7 +1,6 @@
 const { assignmentService, questionService } = require('../services/index')
 
 module.exports = {
-  //load assignments
   getAssignmentsOfTeacher: async (req, res) => {
     const teacherId = req.params.teacherId
     const assignments = await assignmentService.findAssignmentsByTeacherId(
@@ -29,7 +28,7 @@ module.exports = {
     const assignmentNew = await assignmentService.createAssignment(assignment)
     if (!assignmentNew)
       return res.json({ error: 'Could not create assignment' })
-    return res.send(assignmentNew)
+    return res.json(assignmentNew)
   },
   putAssignment: async (req, res) => {
     const id = req.params.id

@@ -28,13 +28,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       content: DataTypes.STRING,
       image: DataTypes.STRING,
-      option: DataTypes.TEXT,
+      option: DataTypes.STRING,
       level: DataTypes.STRING,
       hint: DataTypes.STRING,
       score: DataTypes.REAL,
       isDeleted: DataTypes.BOOLEAN,
       questionTypeId: DataTypes.INTEGER,
-      assignmentId: DataTypes.INTEGER,
     },
     {
       sequelize,

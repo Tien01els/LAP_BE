@@ -15,7 +15,7 @@ module.exports = {
         try {
             let classAssignment = await db.Class_Assignment.findOne({
                 where: { classId, assignmentId, isDeleted: 0 },
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
                 raw: true,
             });
             return classAssignment;

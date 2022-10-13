@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             Topic.hasMany(models.Class_Topic, { foreignKey: 'topicId' });
             Topic.hasMany(models.Student_Topic, { foreignKey: 'topicId' });
             Topic.hasMany(models.Skill, { foreignKey: 'topicId' });
+            Topic.hasMany(models.Topic_Assignment, { foreignKey: 'topicId' });
             Topic.hasOne(models.Topic, {
                 foreignKey: 'prerequisiteTopicId',
             });
