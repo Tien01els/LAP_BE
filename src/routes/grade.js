@@ -7,5 +7,8 @@ gradeRouter.get(
     '/',
     gradeController.getAllGrades
 );
-
+gradeRouter.get(
+    '/teacher/:teacherId',
+    gradeController.getGradeOfTeacher
+);
 module.exports = gradeRouter;

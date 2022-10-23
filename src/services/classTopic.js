@@ -6,7 +6,7 @@ module.exports = {
         try {
             let topics = await db.sequelize.query(
                 `
-                SELECT c.id, t.topicName, pt.topicName AS prerequisiteTopicName, COUNT(s.id) AS numberSkills
+                SELECT c.id, t.topicName, pt.topicName AS prerequisiteTopicName, COUNT(s.id) AS numberSkills, t.description, t.id AS topicId 
                 FROM class_topics AS c JOIN topics AS t
                 ON c.classId = :classId AND t.id = c.topicId AND t.teacherId = :teacherId
                 AND c.isDeleted = 0 AND t.isDeleted = 0
@@ -16,7 +16,7 @@ module.exports = {
                 ORDER BY pt.id
                 `,
                 {
-                    replacements: { teacherId: teacherId, classId: classId },
+                    replacements: { teacherId, classId },
                     type: sequelize.QueryTypes.SELECT,
                 }
             );

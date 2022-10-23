@@ -32,6 +32,9 @@ module.exports = {
             questionTypeId: {
                 type: Sequelize.INTEGER,
             },
+            teacherId: {
+                type: Sequelize.INTEGER,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

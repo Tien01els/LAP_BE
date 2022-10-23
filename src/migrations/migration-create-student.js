@@ -20,6 +20,9 @@ module.exports = {
             avatarImg: {
                 type: Sequelize.STRING,
             },
+            averageScore: {
+                type: Sequelize.REAL,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },

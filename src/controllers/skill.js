@@ -1,22 +1,24 @@
-const { gradeService } = require('../services/index');
+const { skillService } = require('../services/index');
 
 module.exports = {
-    getAllGrades: async (req, res) => {
+    getSkillOfTopic: async (req, res) => {
         try {
-            let result = await gradeService.findAllGrades();
+            let result = await skillService.findSkillByTopic(
+                req.params.topicId
+            );
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
             return res.status(errorStatus).send(error.data);
         }
     },
-    getGradeOfTeacher: async (req, res) => {
+    getAllSkills: async (req, res) => {
         try {
-            let result = await gradeService.findGradeByTeacher(req.params.teacherId);
+            let result = await skillService.findAllSkills();
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
             return res.status(errorStatus).send(error.data);
         }
-    }
+    },
 };
