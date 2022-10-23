@@ -4,10 +4,13 @@ const { assignmentController } = require('../controllers/index');
 const assignmentRouter = express.Router();
 
 assignmentRouter.get(
-    '/:teacherId',
+    '/teacher/:teacherId',
     assignmentController.getAssignmentsOfTeacher
 );
-assignmentRouter.get('/questions/:id', assignmentController.getAssignmentWithQuestion);
+assignmentRouter.get(
+    '/questions/:id',
+    assignmentController.getAssignmentWithQuestion
+);
 assignmentRouter.post('/', assignmentController.postAssignment);
 assignmentRouter.put('/:id', assignmentController.putAssignment);
 assignmentRouter.delete('/:id', assignmentController.deleteAssignment);

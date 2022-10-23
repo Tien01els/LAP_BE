@@ -7,13 +7,14 @@ const {
 } = require('../services/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
 
-const generateToken = (paloay) => {
-    const accessToken = jwt.sign(paloay, process.env.ACCESS_TOKEN_SECRET, {
+const generateToken = (payload) => {
+    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: '1d',
     });
-    const refreshToken = jwt.sign(paloay, process.env.REFRESH_TOKEN_SECRET, {
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
         expiresIn: '7d',
     });
     return { accessToken, refreshToken };
@@ -130,34 +131,43 @@ module.exports = {
             req.body.password,
             account.password
         );
-        if (validPassword) {
-            let user = await getUserByAccount(account);
-            if (!user)
-                return res
-                    .status(500)
-                    .json({ success: false, message: 'Role not found' });
+        if (!validPassword)
+            return res
+                .status(500)
+                .json({ success: false, message: 'Wrong password' });
+        let user = await getUserByAccount(account);
+        if (!user)
+            return res
+                .status(500)
+                .json({ success: false, message: 'User not found' });
 
-            const valueToken = {
-                userId: user.id,
-                roleId: account.roleId,
-            };
+        const payload = {
+            userId: user.id,
+            roleId: account.roleId,
+        };
 
-            const tokens = generateToken(valueToken);
+        const tokens = generateToken(payload);
 
-            await accountService.updateRefreshToken(
-                account.id,
-                tokens.refreshToken
-            );
-            return res.status(200).json({
+        await accountService.updateRefreshToken(
+            account.id,
+            tokens.refreshToken
+        );
+        return res
+            .status(200)
+            .cookie('accessToken', tokens.accessToken, {
+                expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                httpOnly: true,
+            })
+            .cookie('refreshToken', tokens.refreshToken, {
+                expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                httpOnly: true,
+            })
+            .json({
                 success: true,
                 message: 'Login success',
                 data: tokens,
                 // { ...user, roleId: account.roleId },
             });
-        }
-        return res
-            .status(500)
-            .json({ success: false, message: 'Wrong password' });
     },
     logout: async (req, res) => {
         const user = await getUserById(req.userId, req.roleId);
@@ -167,6 +177,8 @@ module.exports = {
                 .json({ success: false, message: 'User not found' });
         const account = await accountService.findAccount(user.accountId);
         await accountService.updateRefreshToken(account.id, null);
+        res.clearCookie('accessToken');
+        res.clearCookie('refreshToken');
         return res
             .status(204)
             .json({ success: true, message: 'Log out success' });
@@ -199,11 +211,11 @@ module.exports = {
                 refreshToken,
                 process.env.REFRESH_TOKEN_SECRET
             );
-            const valueToken = {
+            const payload = {
                 userId: decoded.userId,
                 roleId: decoded.roleId,
             };
-            const tokens = generateToken(valueToken);
+            const tokens = generateToken(payload);
             await accountService.updateRefreshToken(
                 account.id,
                 tokens.refreshToken

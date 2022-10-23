@@ -1,6 +1,24 @@
 const { topicService } = require('../services/index');
 
 module.exports = {
+    getTopic: async (req, res) => {
+        try {
+            let result = await topicService.findTopic(req.params.id);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
+    getAllTopics: async (req, res) => {
+        try {
+            let result = await topicService.findAllTopics();
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
     postTopic: async (req, res) => {
         const topic = {
             topicName: req.body.topicName,
@@ -23,6 +41,6 @@ module.exports = {
             teacherId,
             gradeId
         );
-        return res.send(result);
+        return res.json(result);
     },
 };
