@@ -27,9 +27,8 @@ module.exports = {
                     classAssignment
                 );
 
-            let assignment = await assignmentService.findAssignment(
-                assignmentId
-            );
+            let result = await assignmentService.findAssignment(assignmentId);
+            let assignment = result.data;
             if (assignment) {
                 let students = await studentService.findStudentsbyClassId(
                     classId
@@ -57,7 +56,8 @@ module.exports = {
     },
     deleteClassAssignment: async (req, res) => {
         let id = req.params.id;
-        let classAssignmentDeleted = await classAssignmentService.deleteClassAssignment(id);
+        let classAssignmentDeleted =
+            await classAssignmentService.deleteClassAssignment(id);
         return res.send(classAssignmentDeleted);
-    }
+    },
 };

@@ -3,10 +3,6 @@ const { questionController } = require('../controllers/index');
 
 const questionRouter = express.Router();
 
-questionRouter.get(
-    '/assignment/:assignmentId',
-    questionController.getQuestionOfAssignment
-);
 questionRouter.get('/question-bank', questionController.getQuestionBank);
 questionRouter.get('/:id', questionController.getQuestion);
 questionRouter.post('/', questionController.postQuestion);

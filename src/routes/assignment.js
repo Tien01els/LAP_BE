@@ -7,10 +7,7 @@ assignmentRouter.get(
     '/teacher/:teacherId',
     assignmentController.getAssignmentsOfTeacher
 );
-assignmentRouter.get(
-    '/questions/:id',
-    assignmentController.getAssignmentWithQuestion
-);
+assignmentRouter.get('/:id', assignmentController.getAssignment);
 assignmentRouter.post('/', assignmentController.postAssignment);
 assignmentRouter.put('/:id', assignmentController.putAssignment);
 assignmentRouter.delete('/:id', assignmentController.deleteAssignment);

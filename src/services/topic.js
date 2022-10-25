@@ -42,7 +42,6 @@ module.exports = {
     createTopic: async (topic) => {
         try {
             let result = await db.Topic.create(topic);
-            console.log('result');
             return result;
         } catch (error) {
             console.log(error);
@@ -66,6 +65,21 @@ module.exports = {
             return result;
         } catch (e) {
             console.log(e);
+        }
+    },
+    findTopicByTeacherId: async (teacherId) => {
+        try {
+            let topics = await db.Topic.findAll({
+                where: { teacherId, isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                raw: true,
+            });
+            return respMapper(200, topics);
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
 };
