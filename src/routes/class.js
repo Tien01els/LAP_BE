@@ -3,10 +3,11 @@ const { classController } = require('../controllers/index')
 
 const classRouter = express.Router()
 
-classRouter.get('/:teacherId', classController.getClasses)
 classRouter.get(
-  '/:teacherId/:gradeId',
-  classController.getClassesByTeacherIdAndGradeId,
-)
+    '/teacher/:teacherId/grade/:gradeId',
+    classController.getClassesByTeacherIdAndGradeId
+);
+classRouter.get('/teacher/:teacherId', classController.getClasses);
+classRouter.get('/:id', classController.getClassInfo);
 
-module.exports = classRouter
+module.exports = classRouter;

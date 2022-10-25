@@ -2,7 +2,21 @@ const { gradeService } = require('../services/index');
 
 module.exports = {
     getAllGrades: async (req, res) => {
-        let grades = await gradeService.findAllGrades();
-        return res.send(grades);
+        try {
+            let result = await gradeService.findAllGrades();
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
     },
+    getGradeOfTeacher: async (req, res) => {
+        try {
+            let result = await gradeService.findGradeByTeacher(req.params.teacherId);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    }
 };

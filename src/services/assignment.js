@@ -1,6 +1,34 @@
 const db = require('../models/index');
+const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
+    findAssignment: async (id) => {
+        try {
+            const assignment = await db.Assignment.findByPk(id, {
+                where: { isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                raw: true,
+            });
+            if (assignment) {
+                assignment.questions = await db.Assignment_Question.findAll({
+                    where: { assignmentId: assignment.id, isDeleted: 0 },
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                    raw: true,
+                });
+                return respMapper(200, assignment);
+            }
+            throw {
+                message: 'This assignment does not exist or has been deleted',
+            };
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
     findAssignmentsByTeacherId: async (teacherId) => {
         try {
             let assignments = await db.Assignment.findAll({
@@ -16,40 +44,10 @@ module.exports = {
             return e;
         }
     },
-    findAssignment: async (id) => {
-        try {
-            let assignment = await db.Assignment.findByPk(id, {
-                where: { isDeleted: 0 },
-                attributes: {
-                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                },
-                raw: true,
-            });
-            return assignment;
-        } catch (e) {
-            console.log(e);
-            return e;
-        }
-    },
     createAssignment: async (assignment) => {
         try {
             let assignmentNew = await db.Assignment.create(assignment);
             return assignmentNew;
-        } catch (e) {
-            console.log(e);
-            return e;
-        }
-    },
-    findAssignment: async (id) => {
-        try {
-            let assignments = await db.Assignment.findByPk(id, {
-                where: { isDeleted: 0 },
-                attributes: {
-                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                },
-                raw: true,
-            });
-            return assignments;
         } catch (e) {
             console.log(e);
             return e;

@@ -4,7 +4,7 @@ const { classTopicController } = require('../controllers/index');
 const classTopicRouter = express.Router();
 
 classTopicRouter.get(
-    '/:teacherId/:classId',
+    '/teacher/:teacherId/class/:classId',
     classTopicController.getTopicsByClassId
 );
 

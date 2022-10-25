@@ -9,8 +9,8 @@ module.exports = {
         const studentId = req.body.studentId;
         const assignmentId = req.body.assignmentId;
         const student = await studentService.findStudent(studentId);
-        const assignment = await assignmentService.findAssignment(assignmentId);
-
+        const result = await assignmentService.findAssignment(assignmentId);
+        const assignment = result;
         if (student && assignment) {
             let studentAssignment = {
                 status: 0,
