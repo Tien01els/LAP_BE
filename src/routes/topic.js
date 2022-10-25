@@ -8,6 +8,10 @@ topicRouter.get(
     '/teacher/:teacherId/grade/:gradeId',
     topicController.getTopicByTeacherIdAndGradeId
 );
+topicRouter.get(
+    '/teacher/:teacherId',
+    topicController.getTopicByTeacherId
+);
 topicRouter.get('/:id', topicController.getTopic);
 topicRouter.get('/', topicController.getAllTopics);
 

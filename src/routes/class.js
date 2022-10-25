@@ -4,7 +4,7 @@ const { classController } = require('../controllers/index');
 const classRouter = express.Router();
 
 classRouter.get(
-    'teacher/:teacherId/grade/:gradeId',
+    '/teacher/:teacherId/grade/:gradeId',
     classController.getClassesByTeacherIdAndGradeId
 );
 classRouter.get('/teacher/:teacherId', classController.getClasses);

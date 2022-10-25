@@ -1,18 +1,6 @@
 const { questionService, skillQuestionService } = require('../services/index');
 
 module.exports = {
-    getQuestionOfAssignment: async (req, res) => {
-        const assignmentId = req.params.assignmentId;
-        const questions = await questionService.findQuestionByAssignmentId(
-            assignmentId
-        );
-
-        for (let i = 0; i < questions.length; i++) {
-            questions[i].option =
-                questions[i].option && JSON.parse(questions[i].option);
-        }
-        return res.send(questions);
-    },
     getQuestionBank: async (req, res) => {
         //query
         //grades -- topics -- skills

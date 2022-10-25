@@ -43,4 +43,15 @@ module.exports = {
         );
         return res.json(result);
     },
+    getTopicByTeacherId: async (req, res) => {
+        try {
+            const result = await topicService.findTopicByTeacherId(
+                req.params.teacherId
+            );
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
 };
