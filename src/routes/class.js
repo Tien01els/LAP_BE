@@ -1,7 +1,7 @@
-const express = require('express');
-const { classController } = require('../controllers/index');
+const express = require('express')
+const { classController } = require('../controllers/index')
 
-const classRouter = express.Router();
+const classRouter = express.Router()
 
 classRouter.get(
     '/teacher/:teacherId/grade/:gradeId',
