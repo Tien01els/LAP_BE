@@ -9,10 +9,6 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Skill_Assignment.hasMany(models.Student_Skill_Assignment, {
-                foreignKey: 'skillAssignmentId',
-            });
-
             Skill_Assignment.belongsTo(models.Skill, {
                 foreignKey: 'skillId',
             });

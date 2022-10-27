@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
             Student_Question.belongsTo(models.Student, {
                 foreignKey: 'studentId',
             });
-            Student_Question.belongsTo(models.Question, {
-                foreignKey: 'questionId',
+            Student_Question.belongsTo(models.Assignment_Question, {
+                foreignKey: 'assignmentQuestionId',
             });
         }
     }

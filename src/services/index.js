@@ -1,6 +1,7 @@
 const accountService = require('./account');
 const adminService = require('./admin');
 const assignmentService = require('./assignment');
+const assignmentQuestionService = require('./assignmentQuestion');
 const classService = require('./class');
 const classAssignmentService = require('./classAssignment');
 const classTopicService = require('./classTopic');
@@ -22,6 +23,7 @@ module.exports = {
     accountService,
     adminService,
     assignmentService,
+    assignmentQuestionService,
     classService,
     classAssignmentService,
     classTopicService,

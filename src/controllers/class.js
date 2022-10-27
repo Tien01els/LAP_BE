@@ -12,7 +12,6 @@ module.exports = {
         }
     },
     getClasses: async (req, res) => {
-        console.log(1);
         const teacherId = req.params.teacherId;
         const classes = await classService.findClassesByTeacherId(teacherId);
         return res.send(classes);
