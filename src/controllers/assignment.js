@@ -1,4 +1,4 @@
-const { assignmentService, questionService } = require('../services/index');
+const { assignmentService } = require('../services/index');
 
 module.exports = {
     getAssignment: async (req, res) => {
@@ -32,7 +32,6 @@ module.exports = {
         const assignmentNew = await assignmentService.createAssignment(
             assignment
         );
-        console.log(assignmentNew);
         if (!assignmentNew)
             return res.json({ error: 'Could not create assignment' });
         return res.json(assignmentNew);

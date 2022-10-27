@@ -12,9 +12,6 @@ module.exports = (sequelize, DataTypes) => {
             Question.hasMany(models.Skill_Question, {
                 foreignKey: 'questionId',
             });
-            Question.hasMany(models.Student_Question, {
-                foreignKey: 'questionId',
-            });
             Question.hasMany(models.Assignment_Question, {
                 foreignKey: 'questionId',
             });

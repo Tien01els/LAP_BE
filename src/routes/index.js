@@ -1,4 +1,5 @@
 const assignmentRouter = require('./assignment');
+const assignmentQuestionRouter = require('./assignmentQuestion');
 const accountRouter = require('./account');
 const classRouter = require('./class');
 const classAssignmentRouter = require('./classAssignment');
@@ -16,6 +17,7 @@ const topicRouter = require('./topic');
 
 const route = (app) => {
     app.use('/assignment', assignmentRouter);
+    app.use('/assignment-question', assignmentQuestionRouter);
     app.use('/account', accountRouter);
     app.use('/class', classRouter);
     app.use('/class-assignment', classAssignmentRouter);

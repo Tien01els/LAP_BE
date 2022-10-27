@@ -4,10 +4,10 @@ const student = require('../services/student')
 
 const studentRouter = express.Router()
 
-studentRouter.get('/:classId', studentController.getStudentsOfClass)
+studentRouter.get('/class/:classId', studentController.getStudentsOfClass)
 studentRouter.put('/:classId', studentController.addStudentToClass)
 studentRouter.put(
-  '/remove/:studentId',
+  '/:studentId/class',
   studentController.removeStudentFromClass,
 )
 
