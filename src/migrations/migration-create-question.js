@@ -15,7 +15,7 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             option: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
             },
             level: {
                 type: Sequelize.STRING,

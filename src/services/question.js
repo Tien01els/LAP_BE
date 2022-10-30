@@ -45,7 +45,6 @@ module.exports = {
                     type: sequelize.QueryTypes.SELECT,
                 }
             );
-            console.log(question);
 
             return question;
         } catch (e) {

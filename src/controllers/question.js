@@ -9,22 +9,14 @@ module.exports = {
         const topicId = req.query.topicId;
         const skillId = req.query.skillId;
         const level = req.query.level;
-        const questions = await questionService.findQuestionBank(
-            gradeId,
-            topicId,
-            skillId,
-            level
-        );
+        const questions = await questionService.findQuestionBank(gradeId, topicId, skillId, level);
         const bankQuestion = new Array();
 
         for (let i = 0; i < questions.length; i++) {
-            const questionInBank = bankQuestion.find(
-                (question) => question.id === questions[i].id
-            );
+            const questionInBank = bankQuestion.find((question) => question.id === questions[i].id);
 
             if (!questionInBank) {
-                questions[i].option =
-                    questions[i].option && JSON.parse(questions[i].option);
+                questions[i].option = questions[i].option && JSON.parse(questions[i].option);
                 bankQuestion.push(questions[i]);
                 continue;
             }
@@ -66,8 +58,7 @@ module.exports = {
             });
         }
         await skillQuestionService.createSkillQuestion(listSkillQuestion);
-        if (questionNew && questionNew.option)
-            questionNew.option = JSON.parse(questionNew.option);
+        if (questionNew && questionNew.option) questionNew.option = JSON.parse(questionNew.option);
         return res.json(questionNew);
     },
 
@@ -83,49 +74,35 @@ module.exports = {
             questionTypeId: req.body.questionTypeId,
             teacherId: req.body.teacherId,
         };
-        let questionUpdated = await questionService.updateQuestion(
-            id,
-            question
-        );
+        let questionUpdated = await questionService.updateQuestion(id, question);
         const skillIds = req.body.skillIds || new Array();
         const listSkillQuestion = new Array();
-        const listSkillQuestionUpdate = new Array();
         const listSkillQuestionExists = new Array();
         await skillQuestionService.findSkillByQuestion(id);
-        const listSkillQuestionCurrent =
-            await skillQuestionService.findSkillByQuestion(id);
+        const listSkillQuestionCurrent = await skillQuestionService.findSkillByQuestion(id);
 
         for (let i = 0; i < skillIds.length; i++) {
             if (
                 listSkillQuestionCurrent.find(
-                    (skillQuestionCurrent) =>
-                        skillQuestionCurrent.skillId === skillIds[i]
+                    (skillQuestionCurrent) => skillQuestionCurrent.skillId === skillIds[i]
                 )
             ) {
                 listSkillQuestionExists.push(skillIds[i]);
                 continue;
             }
-            listSkillQuestionUpdate.push(skillIds[i]);
         }
 
         for (let i = 0; i < listSkillQuestionCurrent.length; i++) {
-            if (
-                listSkillQuestionExists.includes(
-                    listSkillQuestionCurrent[i].skillId
-                )
-            )
-                continue;
-            await skillQuestionService.deleteSkillQuestion(
-                listSkillQuestionCurrent[i].id
-            );
+            if (listSkillQuestionExists.includes(listSkillQuestionCurrent[i].skillId)) continue;
+            await skillQuestionService.deleteSkillQuestion(listSkillQuestionCurrent[i].id);
         }
-        for (let i = 0; i < listSkillQuestionUpdate.length; ++i) {
+        for (let i = 0; i < skillIds.length; ++i)
             listSkillQuestion.push({
                 questionId: questionUpdated.id,
-                skillId: listSkillQuestionUpdate[i],
+                skillId: skillIds[i],
                 isDeleted: 0,
             });
-        }
+
         await skillQuestionService.createSkillQuestion(listSkillQuestion);
         if (questionUpdated && questionUpdated.option)
             questionUpdated.option = JSON.parse(questionUpdated.option);
