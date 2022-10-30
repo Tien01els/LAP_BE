@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             content: DataTypes.STRING,
             image: DataTypes.STRING,
-            option: DataTypes.STRING,
+            option: DataTypes.TEXT,
             level: DataTypes.STRING,
             hint: DataTypes.STRING,
             score: DataTypes.REAL,
