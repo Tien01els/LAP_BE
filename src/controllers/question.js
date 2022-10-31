@@ -18,10 +18,12 @@ module.exports = {
             if (!questionInBank) {
                 questions[i].option = questions[i].option && JSON.parse(questions[i].option);
                 bankQuestion.push(questions[i]);
-                continue;
             }
         }
-        return res.json(bankQuestion);
+        console.log(questions);
+        console.log(bankQuestion);
+
+        return res.json(questions);
     },
     getQuestion: async (req, res) => {
         try {
