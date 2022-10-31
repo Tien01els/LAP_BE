@@ -33,9 +33,30 @@ module.exports = {
         try {
             let skill = await db.Skill.findByPk(id, {
                 where: { isDeleted: 0 },
-                attributes: {
-                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                },
+                attributes: [
+                    'id',
+                    'skillName',
+                    'description',
+                    'standardId',
+                    'topicId',
+                    'topic.topicName',
+                    'topic.gradeId',
+                    'topic.grade.gradeName',
+                ],
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Topic,
+                        where: { isDeleted: 0 },
+                        include: [
+                            {
+                                attributes: [],
+                                model: db.Grade,
+                                where: { isDeleted: 0 },
+                            },
+                        ],
+                    },
+                ],
                 raw: true,
             });
             return respMapper(200, skill);

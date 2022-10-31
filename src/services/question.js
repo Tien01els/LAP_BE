@@ -18,16 +18,11 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    findQuestionBank: async (
-        gradeId = '',
-        topicId = '',
-        skillId = '',
-        level = ''
-    ) => {
+    findQuestionBank: async (gradeId = '', topicId = '', skillId = '', level = '') => {
         try {
             const question = await db.sequelize.query(
                 `
-                    SELECT q.id, q.content, q.image, q.option, q.level, q.hint, q.score, q.questionTypeId, sq.skillId, s.skillName, t.topicName, g.gradeName
+                    SELECT q.id, q.content, q.image, q.option, q.level, q.hint, q.score, q.questionTypeId, sq.skillId, s.skillName, s.topicId, t.topicName, t.gradeId, g.gradeName
                     FROM grades AS g 
                     JOIN topics AS t ON ${gradeId && 'g.id = :gradeId AND'} ${
                     topicId && 't.id = :topicId AND'
@@ -46,7 +41,25 @@ module.exports = {
                 }
             );
 
-            return question;
+            let resultQuestions = new Array();
+            for (let i = 0; i < question.length; i++) {
+                const indexQuestion = -1;
+                for (let j = 0; j < resultQuestions.length; j++)
+                    if (question[i].id === resultQuestions[j].id) indexQuestion = j;
+
+                if (indexQuestion === -1) {
+                    question[i].skillIds = [question[i].skillId];
+                    delete question[i].skillId;
+                    resultQuestions.push(question[i]);
+                } else {
+                    const indexSkill = resultQuestions[indexQuestion].skillIds.indexOf(
+                        question[i].skillId
+                    );
+                    if (indexSkill === -1)
+                        resultQuestions[indexQuestion].skillIds.push(question[i].skillId);
+                }
+            }
+            return resultQuestions;
         } catch (e) {
             console.log(e);
             return e;

@@ -42,6 +42,7 @@ module.exports = {
                     'hint',
                     'score',
                     'questionTypeId',
+                    'teacherId',
                     'Skill_Questions.skillId',
                     'Skill_Questions.Skill.topicId',
                     'Skill_Questions.Skill.Topic.gradeId',
@@ -145,6 +146,13 @@ module.exports = {
 
             result = resultCurrentQuestion;
 
+            const resultParse = new Array();
+            for (let i = 0; i < result.length; i++) {
+                result[i].option = result[i].option && JSON.parse(result[i].option);
+                resultParse.push(result[i]);
+            }
+            result = resultParse;
+
             const listAddedQuestion = new Array();
             const finalResult = new Array();
             for (let i = 0; i < numberQuestion; i++) {
@@ -153,17 +161,15 @@ module.exports = {
                     while (
                         listAddedQuestion.includes(indexRandomOfQuestion) ||
                         indexRandomOfQuestion === -1
-                    ) {
+                    )
                         indexRandomOfQuestion = Math.floor(Math.random() * result.length);
-                        // console.log(indexRandomOfQuestion);
-                    }
+
                     listAddedQuestion.push(indexRandomOfQuestion);
                     finalResult.push(result[indexRandomOfQuestion]);
                     continue;
                 }
                 break;
             }
-            console.log(listAddedQuestion);
 
             return respMapper(200, finalResult);
         } catch (error) {
@@ -266,25 +272,76 @@ module.exports = {
                     'question.score',
                     'question.questionTypeId',
                     'question.teacherId',
+                    'question.skill_questions.skillId',
+                    'question.skill_questions.skill.topicId',
+                    'question.skill_questions.skill.topic.gradeId',
                 ],
                 include: [
                     {
                         attributes: [],
                         model: db.Question,
                         where: { isDeleted: 0 },
+                        include: [
+                            {
+                                attributes: [],
+                                model: db.Skill_Question,
+                                where: { isDeleted: 0 },
+                                include: [
+                                    {
+                                        attributes: [],
+                                        model: db.Skill,
+                                        where: { isDeleted: 0 },
+                                        include: [
+                                            {
+                                                attributes: [],
+                                                model: db.Topic,
+                                                where: { isDeleted: 0 },
+                                                include: [
+                                                    {
+                                                        attributes: [],
+                                                        model: db.Grade,
+                                                        where: { isDeleted: 0 },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
                 raw: true,
             });
+
             const result = new Array();
             for (let i = 0; i < listAssignmentQuestion.length; i++) {
                 listAssignmentQuestion[i].option =
                     listAssignmentQuestion[i].option &&
                     JSON.parse(listAssignmentQuestion[i].option);
                 result.push(listAssignmentQuestion[i]);
-                continue;
             }
-            return respMapper(200, result);
+
+            let resultQuestions = new Array();
+            for (let i = 0; i < result.length; i++) {
+                const indexQuestion = -1;
+                for (let j = 0; j < resultQuestions.length; j++)
+                    if (result[i].id === resultQuestions[j].id) indexQuestion = j;
+
+                if (indexQuestion === -1) {
+                    result[i].skillIds = [result[i].skillId];
+                    delete result[i].skillId;
+                    resultQuestions.push(result[i]);
+                } else {
+                    const indexSkill = resultQuestions[indexQuestion].skillIds.indexOf(
+                        result[i].skillId
+                    );
+                    if (indexSkill === -1)
+                        resultQuestions[indexQuestion].skillIds.push(result[i].skillId);
+                }
+            }
+
+            return respMapper(200, resultQuestions);
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
