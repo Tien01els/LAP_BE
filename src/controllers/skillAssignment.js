@@ -8,9 +8,17 @@ module.exports = {
                 assignmentId: req.body.assignmentId,
                 isDeleted: 0,
             };
-            const result = await skillAssignmentService.createSkillAssignment(
-                skillAssignment
-            );
+            const result = await skillAssignmentService.createSkillAssignment(skillAssignment);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
+    getAssignmentOfSkill: async (req, res) => {
+        try {
+            const skillId = req.params.skillId;
+            const result = await skillAssignmentService.findAssignmentBySkillId(skillId);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;

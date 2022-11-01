@@ -11,6 +11,9 @@ module.exports = {
             fullName: {
                 type: Sequelize.STRING,
             },
+            avatarImg: {
+                type: Sequelize.TEXT,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
