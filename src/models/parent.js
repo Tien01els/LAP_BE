@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     Parent.init(
         {
             fullName: DataTypes.STRING,
+            avatarImg: DataTypes.TEXT,
             isDeleted: DataTypes.BOOLEAN,
             accountId: DataTypes.INTEGER,
         },

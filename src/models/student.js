@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
             fullName: DataTypes.STRING,
             dateOfBirth: DataTypes.DATE,
             gender: DataTypes.BOOLEAN,
-            avatarImg: DataTypes.STRING,
+            avatarImg: DataTypes.TEXT,
             averageScore: DataTypes.REAL,
             isDeleted: DataTypes.BOOLEAN,
             accountId: DataTypes.INTEGER,

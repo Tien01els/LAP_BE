@@ -18,7 +18,7 @@ module.exports = {
                 type: Sequelize.BOOLEAN,
             },
             avatarImg: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
             },
             averageScore: {
                 type: Sequelize.REAL,

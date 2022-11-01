@@ -20,9 +20,6 @@ module.exports = {
                 bankQuestion.push(questions[i]);
             }
         }
-        console.log(questions);
-        console.log(bankQuestion);
-
         return res.json(questions);
     },
     getQuestion: async (req, res) => {
