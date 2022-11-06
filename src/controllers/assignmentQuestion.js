@@ -5,15 +5,15 @@ module.exports = {
         try {
             // number question, level, hint: true/false, questionType[], skillId, topicId, gradeId
             const conditions = {
-                    assignmentId: req.body.assignmentId,
-                    numberQuestion: req.body.numberQuestion,
-                    levels: req.body.levels || [],
-                    isHint: req.body.isHint,
-                    questionTypes: req.body.questionTypes || [],
-                    skillIds: req.body.skillIds || [],
-                    topicId: req.body.topicId,
-                    gradeId: req.body.gradeId,
-                    currentQuestions: req.body.currentQuestions || [],
+                assignmentId: req.body.assignmentId,
+                numberQuestion: req.body.numberQuestion,
+                levels: req.body.levels || [],
+                isHint: req.body.isHint,
+                questionTypes: req.body.questionTypes || [],
+                skillIds: req.body.skillIds || [],
+                topicId: req.body.topicId,
+                gradeId: req.body.gradeId,
+                currentQuestions: req.body.currentQuestions || [],
             };
 
             const result = await assignmentQuestionService.generateAssignmentQuestion(conditions);

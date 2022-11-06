@@ -3,6 +3,85 @@ const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
+    findQuestionDetail: async (id) => {
+        const questionDetail = await db.Question.findAll({
+            where: { id, isDeleted: 0 },
+            attributes: [
+                'id',
+                'content',
+                'image',
+                'option',
+                'level',
+                'hint',
+                'score',
+                'questionTypeId',
+                'teacherId',
+                'skill_questions.skillId',
+                'skill_questions.skill.topicId',
+                'skill_questions.skill.topic.gradeId',
+            ],
+            include: [
+                {
+                    attributes: [],
+                    model: db.Skill_Question,
+                    where: { isDeleted: 0 },
+                    right: true,
+                    include: [
+                        {
+                            attributes: [],
+                            model: db.Skill,
+                            where: { isDeleted: 0 },
+                            right: true,
+                            include: [
+                                {
+                                    attributes: [],
+                                    model: db.Topic,
+                                    where: { isDeleted: 0 },
+                                    right: true,
+                                    include: [
+                                        {
+                                            attributes: [],
+                                            model: db.Grade,
+                                            where: { isDeleted: 0 },
+                                            right: true,
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+            raw: true,
+        });
+
+        const result = new Array();
+        for (let i = 0; i < questionDetail.length; i++) {
+            questionDetail[i].option =
+                questionDetail[i].option && JSON.parse(questionDetail[i].option);
+            result.push(questionDetail[i]);
+        }
+
+        let resultQuestions = new Array();
+        for (let i = 0; i < result.length; i++) {
+            const indexQuestion = -1;
+            for (let j = 0; j < resultQuestions.length; j++)
+                if (result[i].id === resultQuestions[j].id) indexQuestion = j;
+
+            if (indexQuestion === -1) {
+                result[i].skillIds = [result[i].skillId];
+                delete result[i].skillId;
+                resultQuestions.push(result[i]);
+            } else {
+                const indexSkill = resultQuestions[indexQuestion].skillIds.indexOf(
+                    result[i].skillId
+                );
+                if (indexSkill === -1)
+                    resultQuestions[indexQuestion].skillIds.push(result[i].skillId);
+            }
+        }
+        return resultQuestions[0];
+    },
     findQuestion: async (id) => {
         try {
             let question = await db.Question.findByPk(id, {
@@ -74,6 +153,7 @@ module.exports = {
             return e;
         }
     },
+
     findQuestionByAssignmentId: async (assignmentId) => {
         try {
             let questions = await db.Question.findAll({
