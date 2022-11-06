@@ -13,7 +13,6 @@ module.exports = {
             ) {
                 indexRandomOfQuestion = Math.floor(Math.random() * numberQuestion);
             }
-            console.log(indexRandomOfQuestion);
         }
         return [];
     },

@@ -31,21 +31,6 @@ module.exports = {
             return e;
         }
     },
-    findStudentByAccount: async (accountId) => {
-        try {
-            let student = await db.Student.findOne({
-                where: { accountId },
-                attributes: {
-                    exclude: ['accountId', 'isDeleted', 'createdAt', 'updatedAt'],
-                },
-                raw: true,
-            });
-            return student;
-        } catch (e) {
-            console.log(e);
-            return e;
-        }
-    },
 
     createStudent: async (student) => {
         try {
@@ -80,7 +65,6 @@ module.exports = {
     removeStudentFromClass: async (studentId) => {
         try {
             await db.Student.update({ classId: -1 }, { where: { id: studentId } });
-            console.log('123');
             return 204;
         } catch (e) {
             console.error('Can not remove student from class');

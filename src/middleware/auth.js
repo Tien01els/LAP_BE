@@ -4,20 +4,14 @@ const verifyToken = (req, res, next) => {
     // const auth = req.header('Authorization');
     const { accessToken } = req.cookies;
     if (!accessToken)
-        return res
-            .status(401)
-            .json({ success: false, message: 'Unauthorized' });
+        return res.status(401).json({ success: false, message: "You're not authenticated" });
     try {
-        const decoded = jwt.verify(
-            accessToken,
-            process.env.ACCESS_TOKEN_SECRET
-        );
+        const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
         req.userId = decoded.userId;
         req.roleId = decoded.roleId;
         next();
     } catch (error) {
-        console.log(error);
-        return res.status(403).json({ success: false, message: 'Forbidden' });
+        return res.status(403).json({ success: false, message: 'The session has expired' });
     }
 };
 

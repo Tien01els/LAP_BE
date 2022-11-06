@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
             isDeleted: DataTypes.BOOLEAN,
             redoTime: DataTypes.INTEGER,
             studentId: DataTypes.INTEGER,
-            questionId: DataTypes.INTEGER,
+            assignmentQuestionId: DataTypes.INTEGER,
         },
         {
             sequelize,

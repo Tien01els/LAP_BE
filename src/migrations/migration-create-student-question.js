@@ -23,7 +23,7 @@ module.exports = {
             studentId: {
                 type: Sequelize.INTEGER,
             },
-            questionId: {
+            assignmentQuestionId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {
