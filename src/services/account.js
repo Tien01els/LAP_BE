@@ -229,8 +229,6 @@ module.exports = {
             });
 
             await updateRefreshToken(account.id, null);
-            res.clearCookie('accessToken');
-            res.clearCookie('refreshToken');
             return respMapper(204, 'Log out success');
         } catch (error) {
             if (error.stack) {
@@ -250,6 +248,7 @@ module.exports = {
                 },
                 raw: true,
             });
+
             if (!account) return errorResp(403, 'The session has expired');
             if (account.isActive === 0) return errorResp(401, 'Account is not active');
             if (account.isDeleted === 1) return errorResp(401, 'Account has deleted');

@@ -79,7 +79,6 @@ module.exports = {
                     answer: studentQuestion.answer || null,
                 };
             }
-            console.log(listAssignmentQuestion[0].answerOfStudent);
             const result = new Array();
             for (let i = 0; i < listAssignmentQuestion.length; i++) {
                 const option = JSON.parse(listAssignmentQuestion[i].option);
@@ -124,4 +123,5 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    
 };
