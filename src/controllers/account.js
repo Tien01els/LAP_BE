@@ -24,28 +24,26 @@ module.exports = {
                     message: result.data,
                 });
             const tokens = result.data;
-            return res
-                .status(result.statusCode)
-                .cookie('accessToken', tokens.accessToken, {
-                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-                    httpOnly: true,
-                    secure: false,
-                    path: '/',
-                    sameSite: 'strict',
-                })
-                .cookie('refreshToken', tokens.refreshToken, {
-                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-                    httpOnly: true,
-                    secure: false,
-                    path: '/',
-                    sameSite: 'strict',
-                })
-                .json({
-                    success: true,
-                    message: 'Login success',
-                    // data: result.data,
-                    // { ...user, roleId: account.roleId },
-                });
+            return res.status(result.statusCode).json({
+                success: true,
+                message: 'Login success',
+                data: tokens,
+                // { ...user, roleId: account.roleId },
+            });
+            // .cookie('accessToken', tokens.accessToken, {
+            //     expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            //     httpOnly: true,
+            //     // secure: false,
+            //     // path: '/',
+            //     // sameSite: 'strict',
+            // })
+            // .cookie('refreshToken', tokens.refreshToken, {
+            //     expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            //     httpOnly: true,
+            //     // secure: false,
+            //     // path: '/',
+            //     // sameSite: 'strict',
+            // })
         } catch (error) {
             const errorStatus = error.statusCode || 500;
             return res.status(errorStatus).send(error.data);
@@ -54,6 +52,8 @@ module.exports = {
     logout: async (req, res) => {
         try {
             const result = await accountService.logoutAccount(req.userId, req.roleId);
+            // res.clearCookie('accessToken');
+            // res.clearCookie('refreshToken');
             return res.status(result.statusCode).json({
                 success: true,
                 message: 'Log out success',
@@ -66,32 +66,19 @@ module.exports = {
 
     requestRefreshToken: async (req, res) => {
         try {
-            const refreshToken = req.cookies.refreshToken;
-            const result = await accountService.refreshTokenForAccount(refreshToken);
+            const token = req.headers.authorization;
+            if (token) {
+                const refreshToken = token.split(' ')[1];
+                const result = await accountService.refreshTokenForAccount(refreshToken);
+                const tokens = result.data;
 
-            const tokens = result.data;
-            return res
-                .status(result.statusCode)
-                .cookie('accessToken', tokens.accessToken, {
-                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-                    httpOnly: true,
-                    secure: false,
-                    path: '/',
-                    sameSite: 'strict',
-                })
-                .cookie('refreshToken', tokens.refreshToken, {
-                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-                    httpOnly: true,
-                    secure: false,
-                    path: '/',
-                    sameSite: 'strict',
-                })
-                .json({
+                return res.status(result.statusCode).json({
                     success: true,
                     message: 'Refresh token success',
-                    // data: result.data,
-                    // { ...user, roleId: account.roleId },
+                    data: tokens,
                 });
+            }
+            return res.status(401).json({ success: false, message: "You're not authenticated" });
         } catch (error) {
             const errorStatus = error.statusCode || 500;
             return res.status(errorStatus).send(error.data);

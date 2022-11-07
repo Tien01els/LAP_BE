@@ -12,8 +12,11 @@ module.exports = (sequelize, DataTypes) => {
             Student_Question.belongsTo(models.Student, {
                 foreignKey: 'studentId',
             });
-            Student_Question.belongsTo(models.Assignment_Question, {
-                foreignKey: 'assignmentQuestionId',
+            Student_Question.belongsTo(models.Question, {
+                foreignKey: 'questionId',
+            });
+            Student_Question.belongsTo(models.Assignment, {
+                foreignKey: 'assignmentId',
             });
         }
     }
@@ -24,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
             isDeleted: DataTypes.BOOLEAN,
             redoTime: DataTypes.INTEGER,
             studentId: DataTypes.INTEGER,
-            assignmentQuestionId: DataTypes.INTEGER,
+            questionId: DataTypes.INTEGER,
+            assignmentId: DataTypes.INTEGER,
         },
         {
             sequelize,
