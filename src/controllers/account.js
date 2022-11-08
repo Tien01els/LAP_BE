@@ -56,7 +56,7 @@ module.exports = {
             // res.clearCookie('refreshToken');
             return res.status(result.statusCode).json({
                 success: true,
-                message: 'Log out success',
+                message: result.data,
             });
         } catch (error) {
             const errorStatus = error.statusCode || 500;

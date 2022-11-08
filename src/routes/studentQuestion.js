@@ -4,16 +4,12 @@ const verifyToken = require('../middleware/auth');
 
 const studentQuestionRouter = express.Router();
 
-studentQuestionRouter.post(
-    '/assignment/:assignmentId',
-    verifyToken,
-    studentQuestionController.postQuestionsOfAssignmentForStudent
-);
-
-studentQuestionRouter.put(
+studentQuestionRouter.get(
     '/assignment/:assignmentId',
     verifyToken,
     studentQuestionController.getQuestionsOfAssignmentForStudent
 );
+
+studentQuestionRouter.put('/:id', verifyToken, studentQuestionController.saveAnswerOfStudent);
 
 module.exports = studentQuestionRouter;

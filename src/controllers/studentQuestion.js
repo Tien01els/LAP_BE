@@ -1,13 +1,13 @@
 const { studentQuestionService } = require('../services/index');
 
 module.exports = {
-    postQuestionsOfAssignmentForStudent: async (req, res) => {
+    getQuestionsOfAssignmentForStudent: async (req, res) => {
         try {
             const assignmentId = req.params.assignmentId;
             const studentId = req.userId;
-            const result = await studentQuestionService.createQuestionByAssignmentIdForStudent(
-                assignmentId,
-                studentId
+            const result = await studentQuestionService.findQuestionByAssignmentIdForStudent(
+                studentId,
+                assignmentId
             );
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
@@ -15,15 +15,12 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
-
-    getQuestionsOfAssignmentForStudent: async (req, res) => {
+    saveAnswerOfStudent: async (req, res) => {
         try {
-            const assignmentId = req.params.assignmentId;
-            const studentId = req.userId;
-            const result = await studentQuestionService.findQuestionByAssignmentIdForStudent(
-                assignmentId,
-                studentId
-            );
+            const id = req.params.id;
+            const answer = req.body.answer && JSON.stringify(req.body.answer);
+            const result = await studentQuestionService.saveAnswerOfStudent(id, answer);
+            result.answer = result.answer && JSON.parse(result.answer);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
