@@ -23,7 +23,10 @@ module.exports = {
             studentId: {
                 type: Sequelize.INTEGER,
             },
-            assignmentQuestionId: {
+            questionId: {
+                type: Sequelize.INTEGER,
+            },
+            assignmentId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {

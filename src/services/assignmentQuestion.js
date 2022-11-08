@@ -246,10 +246,8 @@ module.exports = {
 
             const listAssignmentQuestionNew = await db.Assignment_Question.bulkCreate(
                 listAssignmentQuestion,
-                {
-                    raw: true,
-                }
             );
+            
             return respMapper(200, listAssignmentQuestionNew);
         } catch (error) {
             if (error.stack) console.log(error.stack);
