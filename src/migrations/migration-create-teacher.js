@@ -17,9 +17,6 @@ module.exports = {
             gender: {
                 type: Sequelize.BOOLEAN,
             },
-            avatarImg: {
-                type: Sequelize.TEXT,
-            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },

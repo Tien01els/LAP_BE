@@ -11,18 +11,16 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
-    getClasses: async (req, res) => {
-        const teacherId = req.params.teacherId;
+    getClassesOfTeacher: async (req, res) => {
+        const teacherId = req.userId;
+        console.log(req.userId);
         const classes = await classService.findClassesByTeacherId(teacherId);
         return res.send(classes);
     },
     getClassesByTeacherIdAndGradeId: async (req, res) => {
-        const teacherId = req.params.teacherId;
+        const teacherId = req.userId;
         const gradeId = req.params.gradeId;
-        const classes = await classService.findClassesByTeacherIdAndGradeId(
-            teacherId,
-            gradeId
-        );
+        const classes = await classService.findClassesByTeacherIdAndGradeId(teacherId, gradeId);
         return res.send(classes);
     },
 };

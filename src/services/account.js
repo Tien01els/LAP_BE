@@ -120,6 +120,7 @@ module.exports = {
             const accountCreate = {
                 email: account.email,
                 password,
+                avatarImg: account.avatarImg || null,
                 roleId: account.roleId,
                 isActive: true,
                 isDeleted: false,
@@ -145,7 +146,6 @@ module.exports = {
                         fullName: account.fullName || 'teacher',
                         dateOfBirth: account.dateOfBirth || new Date(),
                         gender: account.gender || 0,
-                        avatarImg: account.avatarImg || null,
                         accountId: accountNew.id,
                         isDeleted: false,
                     };
@@ -156,7 +156,6 @@ module.exports = {
                         fullName: account.fullName || 'student',
                         dateOfBirth: account.dateOfBirth || new Date(),
                         gender: account.gender || 0,
-                        avatarImg: account.avatarImg || null,
                         parentId: account.parentId || null,
                         classId: account.classId || null,
                         accountId: accountNew.id,

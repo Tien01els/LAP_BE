@@ -3,9 +3,7 @@ const { assignmentService } = require('../services/index');
 module.exports = {
     getAssignment: async (req, res) => {
         try {
-            const result = await assignmentService.findAssignment(
-                req.params.id
-            );
+            const result = await assignmentService.findAssignment(req.params.id);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
@@ -13,10 +11,8 @@ module.exports = {
         }
     },
     getAssignmentsOfTeacher: async (req, res) => {
-        const teacherId = req.params.teacherId;
-        const assignments = await assignmentService.findAssignmentsByTeacherId(
-            teacherId
-        );
+        const teacherId = req.userId;
+        const assignments = await assignmentService.findAssignmentsByTeacherId(teacherId);
         return res.send(assignments);
     },
     postAssignment: async (req, res) => {
@@ -29,11 +25,8 @@ module.exports = {
             teacherId: req.body.teacherId,
             isDeleted: 0,
         };
-        const assignmentNew = await assignmentService.createAssignment(
-            assignment
-        );
-        if (!assignmentNew)
-            return res.json({ error: 'Could not create assignment' });
+        const assignmentNew = await assignmentService.createAssignment(assignment);
+        if (!assignmentNew) return res.json({ error: 'Could not create assignment' });
         return res.json(assignmentNew);
     },
     putAssignment: async (req, res) => {
@@ -46,10 +39,7 @@ module.exports = {
             redo: req.body.redo,
             teacherId: req.body.teacherId,
         };
-        const assignmentUpdated = await assignmentService.updateAssignment(
-            id,
-            assignment
-        );
+        const assignmentUpdated = await assignmentService.updateAssignment(id, assignment);
         return res.send(assignmentUpdated);
     },
     deleteAssignment: async (req, res) => {

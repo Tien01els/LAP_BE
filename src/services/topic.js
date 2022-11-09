@@ -82,4 +82,18 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    updateTopic: async (id, teacherId, topic) => {
+        try {
+            const existingTopic = await db.Topic.findByPk(id, {
+                where: { isDeleted: 0 },
+            });
+            if (!existingTopic) return errorResp(400, 'Topic not found');
+            if (existingTopic.teacherId !== teacherId)
+                return errorResp(403, "You don't have permission to edit");
+            return respMapper(200, await existingTopic.update({ ...topic }));
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
 };

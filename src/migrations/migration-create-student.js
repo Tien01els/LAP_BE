@@ -17,19 +17,16 @@ module.exports = {
             gender: {
                 type: Sequelize.BOOLEAN,
             },
-            avatarImg: {
-                type: Sequelize.TEXT,
-            },
             averageScore: {
                 type: Sequelize.REAL,
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
             },
-            parentId: {
+            accountId: {
                 type: Sequelize.INTEGER,
             },
-            accountId: {
+            parentId: {
                 type: Sequelize.INTEGER,
             },
             classId: {

@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             email: DataTypes.STRING,
             password: DataTypes.STRING,
+            avatarImg: DataTypes.TEXT,
             refreshToken: DataTypes.TEXT,
             isActive: DataTypes.BOOLEAN,
             isDeleted: DataTypes.BOOLEAN,
