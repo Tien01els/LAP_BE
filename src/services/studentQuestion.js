@@ -183,7 +183,6 @@ module.exports = {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
             });
-            console.log(currentStudentQuestion);
             const question = await db.Question.findByPk(currentStudentQuestion.questionId, {
                 where: {
                     isDeleted: 0,
@@ -203,6 +202,7 @@ module.exports = {
                 );
                 if (resultTrue?.answer === answerOfStudent?.answer) isCorrect = true;
             }
+            console.log(isCorrect);
             if (question?.questionTypeId === 2) {
                 const resultTrue = option?.trueFalse.find(
                     (optionTrueFalse) => optionTrueFalse?.isTrue === true
