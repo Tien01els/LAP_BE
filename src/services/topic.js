@@ -95,6 +95,10 @@ module.exports = {
             const arrUrlExistTopicImg = existingTopic?.topicImg?.split('/');
             const arrUrlTopicImg = topic?.topicImg?.split('/');
             if (
+                arrUrlExistTopicImg &&
+                arrUrlExistTopicImg.length > 0 &&
+                arrUrlTopicImg &&
+                arrUrlTopicImg.length > 0 &&
                 arrUrlExistTopicImg[arrUrlExistTopicImg.length - 1] &&
                 arrUrlTopicImg[arrUrlTopicImg.length - 1] &&
                 arrUrlExistTopicImg[arrUrlExistTopicImg.length - 1] !==
