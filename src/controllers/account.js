@@ -71,12 +71,7 @@ module.exports = {
                 const refreshToken = token.split(' ')[1];
                 const result = await accountService.refreshTokenForAccount(refreshToken);
                 const tokens = result.data;
-
-                return res.status(result.statusCode).json({
-                    success: true,
-                    message: 'Refresh token success',
-                    data: tokens,
-                });
+                return res.status(result.statusCode).json(tokens);
             }
             return res.status(401).json({ success: false, message: "You're not authenticated" });
         } catch (error) {

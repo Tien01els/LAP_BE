@@ -54,6 +54,7 @@ module.exports = {
             const topic = {
                 topicName: req.body.topicName,
                 description: req.body.description,
+                topicImg: req.body.topicImg,
                 gradeId: req.body.gradeId == '-1' ? null : req.body.gradeId,
                 prerequisiteTopicId:
                     req.body.prerequisiteTopicId == '-1' ? null : req.body.prerequisiteTopicId,

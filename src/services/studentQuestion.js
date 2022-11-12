@@ -58,6 +58,7 @@ module.exports = {
                 ],
                 raw: true,
             });
+            console.log(listAssignmentQuestion);
             const listQuestion = listAssignmentQuestion.map(
                 (assignmentQuestion) => assignmentQuestion.questionId
             );
@@ -183,6 +184,7 @@ module.exports = {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
             });
+            console.log(currentStudentQuestion);
             const question = await db.Question.findByPk(currentStudentQuestion.questionId, {
                 where: {
                     isDeleted: 0,

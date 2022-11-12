@@ -1,5 +1,10 @@
 const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
+const fs = require('fs');
+const { promisify } = require('util');
+const appRoot = require('app-root-path');
+
+const unlinkAsync = promisify(fs.unlink);
 
 module.exports = {
     findTopic: async (id) => {
@@ -87,6 +92,22 @@ module.exports = {
             const existingTopic = await db.Topic.findByPk(id, {
                 where: { isDeleted: 0 },
             });
+            const arrUrlExistTopicImg = existingTopic?.topicImg?.split('/');
+            const arrUrlTopicImg = topic?.topicImg?.split('/');
+            if (
+                arrUrlExistTopicImg[arrUrlExistTopicImg.length - 1] &&
+                arrUrlTopicImg[arrUrlTopicImg.length - 1] &&
+                arrUrlExistTopicImg[arrUrlExistTopicImg.length - 1] !==
+                    arrUrlTopicImg[arrUrlTopicImg.length - 1]
+            )
+                try {
+                    await unlinkAsync(
+                        'src/public/image/' + arrUrlExistTopicImg[arrUrlExistTopicImg.length - 1]
+                    );
+                } catch (error) {
+                    console.log(error);
+                }
+
             if (!existingTopic) return errorResp(400, 'Topic not found');
             if (existingTopic.teacherId !== teacherId)
                 return errorResp(403, "You don't have permission to edit");
