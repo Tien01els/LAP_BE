@@ -202,7 +202,6 @@ module.exports = {
                 );
                 if (resultTrue?.answer === answerOfStudent?.answer) isCorrect = true;
             }
-            console.log(isCorrect);
             if (question?.questionTypeId === 2) {
                 const resultTrue = option?.trueFalse.find(
                     (optionTrueFalse) => optionTrueFalse?.isTrue === true
