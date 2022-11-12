@@ -1,16 +1,13 @@
-const express = require('express')
-const { studentController } = require('../controllers/index')
-const student = require('../services/student')
+const express = require('express');
+const { studentController } = require('../controllers/index');
+const verifyToken = require('../middleware/auth');
 
-const studentRouter = express.Router()
+const studentRouter = express.Router();
 
-studentRouter.get('/class/:classId', studentController.getStudentsOfClass)
-studentRouter.post('/class/:classId', studentController.addStudentToClass)
-studentRouter.delete(
-  '/:studentId/class',
-  studentController.removeStudentFromClass,
-)
+studentRouter.get('/class/:classId', verifyToken, studentController.getStudentsOfClass);
+studentRouter.post('/class/:classId', verifyToken, studentController.addStudentToClass);
+studentRouter.delete('/:studentId/class', verifyToken, studentController.removeStudentFromClass);
 
 // studentRouter.post('/', studentController.postClassTopic);
 
-module.exports = studentRouter
+module.exports = studentRouter;

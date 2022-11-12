@@ -7,7 +7,7 @@ const assignmentRouter = express.Router();
 assignmentRouter.get('/teacher', verifyToken, assignmentController.getAssignmentsOfTeacher);
 assignmentRouter.get('/:id', assignmentController.getAssignment);
 
-assignmentRouter.post('/', assignmentController.postAssignment);
+assignmentRouter.post('/', verifyToken, assignmentController.postAssignment);
 assignmentRouter.put('/:id', assignmentController.putAssignment);
 assignmentRouter.delete('/:id', assignmentController.deleteAssignment);
 

@@ -25,4 +25,14 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
+    deleteAssignmentOfSkill: async (req, res) => {
+        try {
+            const id = req.params.id;
+            const result = await skillAssignmentService.deleteAssignmentBySkillId(id);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
 };

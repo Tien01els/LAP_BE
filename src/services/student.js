@@ -48,7 +48,10 @@ module.exports = {
                 console.log('No mail');
                 return { text: 'No ok' };
             }
-            let account = await db.Account.findOne({ where: { email: studentEmail, roleId: 2 } });
+            let account = await db.Account.findOne({
+                where: { email: studentEmail, roleId: 3, isActive: true, isDeleted: false },
+            });
+
             if (!account) {
                 console.log('Cant find account');
                 return { text: 'No ok' };

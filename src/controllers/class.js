@@ -13,7 +13,6 @@ module.exports = {
     },
     getClassesOfTeacher: async (req, res) => {
         const teacherId = req.userId;
-        console.log(req.userId);
         const classes = await classService.findClassesByTeacherId(teacherId);
         return res.send(classes);
     },

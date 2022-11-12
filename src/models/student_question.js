@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Student_Question.init(
         {
-            answer: DataTypes.STRING,
+            answer: DataTypes.TEXT,
             isCorrect: DataTypes.BOOLEAN,
             isDeleted: DataTypes.BOOLEAN,
             redoTime: DataTypes.INTEGER,
