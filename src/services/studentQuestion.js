@@ -58,7 +58,6 @@ module.exports = {
                 ],
                 raw: true,
             });
-            console.log(listAssignmentQuestion);
             const listQuestion = listAssignmentQuestion.map(
                 (assignmentQuestion) => assignmentQuestion.questionId
             );
