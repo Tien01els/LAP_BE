@@ -129,6 +129,7 @@ module.exports = {
                 listAssignmentQuestion[i].answerOfStudent = {
                     studentQuestionId: studentQuestion.id,
                     answer: studentQuestion.answer || null,
+                    isCorrect: studentQuestion.isCorrect,
                 };
             }
 
@@ -202,6 +203,7 @@ module.exports = {
                 );
                 if (resultTrue?.answer === answerOfStudent?.answer) isCorrect = true;
             }
+
             if (question?.questionTypeId === 2) {
                 const resultTrue = option?.trueFalse.find(
                     (optionTrueFalse) => optionTrueFalse?.isTrue === true
