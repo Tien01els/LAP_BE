@@ -201,11 +201,16 @@ module.exports = {
             if (!user) return errorResp(404, 'User not found');
             let userInfo = {};
             if (account.roleId === 3) {
-                userInfo.fullName = user.fullName;
                 userInfo.classId = user.classId;
+                userInfo.averageScore = user.averageScore;
+                userInfo.parentId = user.parentId;
             }
             const payload = {
                 userId: user.id,
+                fullName: user.fullName,
+                dateOfBirth: user.dateOfBirth,
+                dateOfBirth: user.dateOfBirth,
+                gender: user.gender,
                 roleId: account.roleId,
                 ...userInfo,
             };
