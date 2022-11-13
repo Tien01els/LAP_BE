@@ -1,11 +1,22 @@
 const { classTopicService, studentService, studentTopicService } = require('../services/index');
 
 module.exports = {
-    getTopicsOfTeacherByClassId: async (req, res) => {
+    getTopicsOfTeacherByClass: async (req, res) => {
         let teacherId = req.userId;
         let classId = req.params.classId;
-        let result = await classTopicService.findTopicsOfTeacherByClassId(teacherId, classId);
+        let result = await classTopicService.findTopicsOfTeacherByClass(teacherId, classId);
         return res.status(result.statusCode).send(result.data);
+    },
+
+    getTopicsOfClassForStudent: async (req, res) => {
+        try {
+            let classId = req.params.classId;
+            let result = await classTopicService.findTopicsOfClassForStudent(classId);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
     },
 
     postClassTopic: async (req, res) => {
@@ -18,7 +29,7 @@ module.exports = {
                 classId,
                 topicId,
             };
-            let result = await classTopicService.createClassTopic(classTopic);  
+            let result = await classTopicService.createClassTopic(classTopic);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;

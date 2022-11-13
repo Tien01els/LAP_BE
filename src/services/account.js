@@ -199,10 +199,15 @@ module.exports = {
             if (!validPassword) return errorResp(400, 'Wrong password');
             let user = await getUserByAccount(account);
             if (!user) return errorResp(404, 'User not found');
-
+            let userInfo = {};
+            if (account.roleId === 3) {
+                userInfo.fullName = user.fullName;
+                userInfo.classId = user.classId;
+            }
             const payload = {
                 userId: user.id,
                 roleId: account.roleId,
+                ...userInfo,
             };
 
             const tokens = generateToken(payload);

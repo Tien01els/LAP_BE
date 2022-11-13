@@ -8,9 +8,14 @@ const classTopicRouter = express.Router();
 classTopicRouter.get(
     '/teacher/class/:classId',
     verifyToken,
-    classTopicController.getTopicsOfTeacherByClassId
+    classTopicController.getTopicsOfTeacherByClass
 );
 
+classTopicRouter.get(
+    '/student/class/:classId',
+    verifyToken,
+    classTopicController.getTopicsOfClassForStudent
+);
 classTopicRouter.post('/', classTopicController.postClassTopic);
 classTopicRouter.delete('/:id', classTopicController.deleteClassTopic);
 

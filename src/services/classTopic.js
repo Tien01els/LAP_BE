@@ -3,7 +3,7 @@ const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
-    findTopicsOfTeacherByClassId: async (teacherId, classId) => {
+    findTopicsOfTeacherByClass: async (teacherId, classId) => {
         try {
             let topics = await db.sequelize.query(
                 `
@@ -86,6 +86,31 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    findTopicsOfClassForStudent: async (classId) => {
+        try {
+            const classTopic = await db.sequelize.query(
+                `
+                    SELECT c.id, t.topicName, t.topicImg, pt.topicName AS prerequisiteTopicName, COUNT(s.id) AS numberSkills, t.description, t.id AS topicId 
+                    FROM class_topics AS c JOIN topics AS t
+                    ON c.classId = :classId AND t.id = c.topicId
+                    AND c.isDeleted = 0 AND t.isDeleted = 0
+                    LEFT JOIN topics as pt ON pt.id = t.prerequisiteTopicId AND pt.isDeleted = 0 
+                    LEFT JOIN skills AS s ON s.topicId = t.id AND s.isDeleted = 0 
+                    GROUP BY c.topicId
+                    ORDER BY pt.id
+                    `,
+                {
+                    replacements: { classId },
+                    type: sequelize.QueryTypes.SELECT,
+                }
+            );
+            return respMapper(200, classTopic);
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
+
     createClassTopic: async (classTopic) => {
         try {
             const existedClassTopic = await db.Class_Topic.findOne({
