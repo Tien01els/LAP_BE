@@ -11,6 +11,9 @@ module.exports = {
             topicName: {
                 type: Sequelize.STRING,
             },
+            topicImg: {
+                type: Sequelize.TEXT,
+            },
             description: {
                 type: Sequelize.TEXT,
             },

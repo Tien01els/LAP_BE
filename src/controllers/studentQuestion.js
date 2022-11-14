@@ -18,7 +18,7 @@ module.exports = {
     saveAnswerOfStudent: async (req, res) => {
         try {
             const id = req.params.id;
-            const answer = req.body.answer && JSON.stringify(req.body.answer);
+            const answer = req.body.answer;
             const result = await studentQuestionService.saveAnswerOfStudent(id, answer);
             result.answer = result.answer && JSON.parse(result.answer);
             return res.status(result.statusCode).send(result.data);

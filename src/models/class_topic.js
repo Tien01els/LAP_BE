@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Class_Topic.belongsTo(models.Class, { foreignKey: 'classId' });
-            Class_Topic.belongsTo(models.Topic, { foreignKey: 'topicId' });
+            Class_Topic.belongsTo(models.Class, { foreignKey: 'classId', as: 'class' });
+            Class_Topic.belongsTo(models.Topic, { foreignKey: 'topicId', as: 'topic' });
         }
     }
     Class_Topic.init(

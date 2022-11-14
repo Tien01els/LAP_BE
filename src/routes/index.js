@@ -15,6 +15,7 @@ const studentAssignmentRouter = require('./studentAssignment');
 const studentQuestionRouter = require('./studentQuestion');
 const studentTopicRouter = require('./studentTopic');
 const topicRouter = require('./topic');
+const fileRouter = require('./file');
 
 const route = (app) => {
     app.use('/assignment', assignmentRouter);
@@ -34,5 +35,6 @@ const route = (app) => {
     app.use('/student-question', studentQuestionRouter);
     app.use('/studentTopic', studentTopicRouter);
     app.use('/topic', topicRouter);
+    app.use('/file', fileRouter);
 };
 module.exports = route;

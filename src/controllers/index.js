@@ -15,6 +15,7 @@ const studentAssignmentController = require('./studentAssignment');
 const studentQuestionController = require('./studentQuestion');
 const studentTopicController = require('./studentTopic');
 const topicController = require('./topic');
+const fileController = require('./file');
 
 module.exports = {
     accountController,
@@ -34,4 +35,5 @@ module.exports = {
     studentQuestionController,
     studentTopicController,
     topicController,
+    fileController,
 };

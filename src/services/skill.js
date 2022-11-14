@@ -91,12 +91,10 @@ module.exports = {
     },
     deleteSkill: async (id) => {
         try {
-            let skill = await db.Skill.findByPk(id);
-            if (skill) {
-                skill.isDeleted = true;
-                return respMapper(200, await skill.save());
-            }
-            throw { message: 'This skill of topic does not exist' };
+            await db.Skill.update({ isDeleted: true }, { where: { id } });
+            await db.Skill_Question.update({ isDeleted: true }, { where: { skillId: id } });
+            await db.Skill_Assignment.update({ isDeleted: true }, { where: { skillId: id } });
+            return respMapper(200, 'Deleted skill successfully');
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

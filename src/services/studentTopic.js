@@ -9,16 +9,6 @@ module.exports = {
             console.log(e);
         }
     },
-    createListStudentTopic: async (studentTopics) => {
-        try {
-            let studentTopicNews = await db.Student_Topic.bulkCreate(
-                studentTopics
-            );
-            return studentTopicNews;
-        } catch (e) {
-            console.log(e);
-        }
-    },
     deleteStudentTopic: async (studentId, topicId) => {
         try {
             let studentTopic = await db.Student_Topic.findOne({

@@ -20,6 +20,9 @@ module.exports = {
             totalScore: {
                 type: Sequelize.REAL,
             },
+            scorePass: {
+                type: Sequelize.REAL,
+            },
             redo: {
                 type: Sequelize.INTEGER,
             },

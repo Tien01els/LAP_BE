@@ -14,6 +14,9 @@ module.exports = {
             password: {
                 type: Sequelize.STRING,
             },
+            avatarImg: {
+                type: Sequelize.TEXT,
+            },
             refreshToken: {
                 type: Sequelize.TEXT,
             },

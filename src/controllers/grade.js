@@ -12,7 +12,7 @@ module.exports = {
     },
     getGradeOfTeacher: async (req, res) => {
         try {
-            let result = await gradeService.findGradeByTeacher(req.params.teacherId);
+            let result = await gradeService.findGradeByTeacher(req.userId);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;

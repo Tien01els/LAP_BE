@@ -68,6 +68,7 @@ module.exports = {
                 },
                 raw: true,
             });
+
             let existStudentQuestions = new Array();
             let listExistStudentQuestion = new Array();
             let listUpdateStudentQuestion = new Array();
@@ -81,19 +82,20 @@ module.exports = {
                         {
                             where: {
                                 studentId,
-                                assignmentId,
+                                questionId: listCurrentStudentQuestion[i].questionId,
                                 isDeleted: false,
                             },
                         }
                     );
                     continue;
                 }
+
                 await db.Student_Question.update(
                     { isDeleted: true },
                     {
                         where: {
                             studentId,
-                            assignmentId,
+                            questionId: listCurrentStudentQuestion[i].questionId,
                             isDeleted: false,
                         },
                     }
@@ -127,6 +129,7 @@ module.exports = {
                 listAssignmentQuestion[i].answerOfStudent = {
                     studentQuestionId: studentQuestion.id,
                     answer: studentQuestion.answer || null,
+                    isCorrect: studentQuestion.isCorrect,
                 };
             }
 
@@ -136,12 +139,9 @@ module.exports = {
                 delete listAssignmentQuestion[i].option;
                 const contentQuestion = {
                     multiChoice: option?.multiChoice.map((option) => ({ answer: option?.answer })),
-                    multiSelect: option?.multiSelect.map((option) => ({
-                        id: option?.id,
-                        answer: option?.answer,
-                    })),
-                    input: [],
                     trueFalse: option?.trueFalse.map((option) => ({ answer: option?.answer })),
+                    input: [],
+                    multiSelect: option?.multiSelect.map((option) => ({ answer: option?.answer })),
                 };
                 listAssignmentQuestion[i].contentQuestion = contentQuestion;
                 result.push(listAssignmentQuestion[i]);
@@ -184,8 +184,58 @@ module.exports = {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
             });
+            const question = await db.Question.findByPk(currentStudentQuestion.questionId, {
+                where: {
+                    isDeleted: 0,
+                },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+            });
+            const option = question?.option && JSON.parse(question.option);
+            let isCorrect = false;
+            if (question?.questionTypeId === 1) {
+                const resultTrue = option?.multiChoice.find(
+                    (optionMultiChoice, i) => optionMultiChoice?.isTrue === true
+                );
+                const answerOfStudent = answer?.multiChoice.find(
+                    (optionMultiChoice, i) => optionMultiChoice?.isTrue === true
+                );
+                if (resultTrue?.answer === answerOfStudent?.answer) isCorrect = true;
+            }
+
+            if (question?.questionTypeId === 2) {
+                const resultTrue = option?.trueFalse.find(
+                    (optionTrueFalse) => optionTrueFalse?.isTrue === true
+                );
+                const answerOfStudent = answer?.trueFalse.find(
+                    (optionTrueFalse) => optionTrueFalse?.isTrue === true
+                );
+                if (resultTrue?.answer === answerOfStudent?.answer) isCorrect = true;
+            }
+
+            if (question?.questionTypeId === 3) {
+                if (option?.input[0]?.answer === answer?.input[0]?.answer) isCorrect = true;
+            }
+
+            if (question?.questionTypeId === 4) {
+                isCorrect = true;
+                for (let i = 0; i < option?.multiSelect.length; ++i)
+                    if (
+                        !answer?.multiSelect?.find(
+                            (multiSelect) =>
+                                multiSelect?.isTrue === option?.multiSelect[i]?.isTrue &&
+                                multiSelect?.answer === option?.multiSelect[i]?.answer
+                        )
+                    )
+                        isCorrect = false;
+            }
+
             if (!currentStudentQuestion) return errorResp(400, 'Question not found');
-            return respMapper(200, await currentStudentQuestion.update({ answer }));
+            return respMapper(
+                200,
+                await currentStudentQuestion.update({ answer: JSON.stringify(answer), isCorrect })
+            );
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
