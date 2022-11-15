@@ -138,7 +138,7 @@ module.exports = {
                     dateRequest: '1900-01-01 00:00:00',
                     isDeleted: 0,
                     studentId: students[i].id,
-                    topicId,
+                    topicId: classTopic.topicId,
                 });
             }
             await db.Student_Topic.bulkCreate(studentTopics);
