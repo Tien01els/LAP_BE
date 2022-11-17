@@ -1,36 +1,24 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('classes', {
+        await queryInterface.createTable('notification_rooms', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            className: {
-                type: Sequelize.STRING,
-            },
-            classCode: {
-                type: Sequelize.STRING,
-            },
-            classImg: {
-                type: Sequelize.STRING,
-            },
-            year: {
-                type: Sequelize.STRING,
-            },
             room: {
                 type: Sequelize.TEXT,
             },
+            senderAccountId: {
+                type: Sequelize.INTEGER,
+            },
+            receiverAccountId: {
+                type: Sequelize.INTEGER,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
-            },
-            gradeId: {
-                type: Sequelize.INTEGER,
-            },
-            teacherId: {
-                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,
@@ -43,6 +31,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('classes');
+        await queryInterface.dropTable('notification_rooms');
     },
 };

@@ -11,6 +11,9 @@ module.exports = {
             status: {
                 type: Sequelize.BOOLEAN,
             },
+            isPass: {
+                type: Sequelize.BOOLEAN,
+            },
             isUnlock: {
                 type: Sequelize.BOOLEAN,
             },

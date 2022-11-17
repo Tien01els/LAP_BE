@@ -1,12 +1,14 @@
 const db = require('../models/index');
+const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
     createStudentTopic: async (studentTopic) => {
         try {
             let studentTopicNew = await db.Student_Topic.create(studentTopic);
-            return studentTopicNew;
+            return respMapper(200, studentTopicNew);
         } catch (e) {
-            console.log(e);
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
     deleteStudentTopic: async (studentId, topicId) => {
@@ -16,14 +18,15 @@ module.exports = {
             });
             if (studentTopic) {
                 if (studentTopic.isDeleted) {
-                    return 'Topic in this student has been deleted';
+                    return errorResp(400, 'Topic in this student has been deleted');
                 }
                 studentTopic.isDeleted = true;
-                return await studentTopic.save();
+                return respMapper(200, await studentTopic.save());
             }
-            return 'This topic of student does not exist';
+            return errorResp(400, 'This topic of student does not exist');
         } catch (e) {
-            console.log(e);
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
 };

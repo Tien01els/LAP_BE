@@ -111,7 +111,7 @@ module.exports = {
         }
     },
 
-    createClassTopic: async (classTopic) => {
+    createClassTopic: async (classTopic, isUnlock) => {
         try {
             const existedClassTopic = await db.Class_Topic.findOne({
                 where: { classId: classTopic.classId, topicId: classTopic.topicId, isDeleted: 0 },
@@ -134,8 +134,7 @@ module.exports = {
             for (let i = 0; i < students.length; i++) {
                 studentTopics.push({
                     status: 0,
-                    isUnlock: 0,
-                    dateRequest: '1900-01-01 00:00:00',
+                    isUnlock: isUnlock,
                     isDeleted: 0,
                     studentId: students[i].id,
                     topicId,
@@ -158,9 +157,22 @@ module.exports = {
                 classTopic.isDeleted = true;
                 return await classTopic.save();
             }
+
+            let studentTopic = await db.Student_Topic.findOne({
+                where: { studentId, topicId },
+            });
+            if (studentTopic) {
+                if (studentTopic.isDeleted) {
+                    return 'Topic in this student has been deleted';
+                }
+                studentTopic.isDeleted = true;
+                return await studentTopic.save();
+            }
+
             return 'This topic of class does not exist';
         } catch (e) {
-            console.log(e);
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
 };

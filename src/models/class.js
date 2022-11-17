@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
             classCode: DataTypes.STRING,
             classImg: DataTypes.STRING,
             year: DataTypes.STRING,
+            room: DataTypes.TEXT,
             isDeleted: DataTypes.BOOLEAN,
             gradeId: DataTypes.INTEGER,
             teacherId: DataTypes.INTEGER,

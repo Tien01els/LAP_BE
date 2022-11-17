@@ -5,6 +5,7 @@ const classController = require('./class');
 const classAssignmentController = require('./classAssignment');
 const classTopicController = require('./classTopic');
 const gradeController = require('./grade');
+const notificationRoomController = require('./notificationRoom');
 const questionController = require('./question');
 const roleController = require('./role');
 const skillController = require('./skill');
@@ -25,6 +26,7 @@ module.exports = {
     classAssignmentController,
     classTopicController,
     gradeController,
+    notificationRoomController,
     questionController,
     roleController,
     skillController,
