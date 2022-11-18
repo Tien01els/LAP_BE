@@ -9,9 +9,15 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Notification_Content.hasMany(models.Student_Topic, {
+                foreignKey: 'notificationContentId',
+            });
+
             Notification_Content.belongsTo(models.Account, { foreignKey: 'senderAccountId' });
             Notification_Content.belongsTo(models.Account, { foreignKey: 'receiverAccountId' });
-            Notification_Content.belongsTo(models.Notification_Room, { foreignKey: 'notificationRoomId' });
+            Notification_Content.belongsTo(models.Notification_Room, {
+                foreignKey: 'notificationRoomId',
+            });
         }
     }
     Notification_Content.init(
@@ -22,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             content: DataTypes.TEXT,
             requestUrl: DataTypes.TEXT,
             typeNotification: DataTypes.STRING,
+            typeHandle: DataTypes.STRING,
             isSeen: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,
             isDeleted: DataTypes.BOOLEAN,

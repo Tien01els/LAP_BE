@@ -26,6 +26,9 @@ module.exports = {
             typeNotification: {
                 type: Sequelize.STRING,
             },
+            typeHandle: {
+                type: Sequelize.STRING,
+            },
             isSeen: {
                 type: Sequelize.BOOLEAN,
             },
@@ -34,6 +37,7 @@ module.exports = {
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             createdAt: {
                 allowNull: false,

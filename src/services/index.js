@@ -6,6 +6,7 @@ const classService = require('./class');
 const classAssignmentService = require('./classAssignment');
 const classTopicService = require('./classTopic');
 const gradeService = require('./grade');
+const notificationContentService = require('./notificationContent');
 const notificationRoomService = require('./notificationRoom');
 const parentService = require('./parent');
 const questionService = require('./question');
@@ -31,6 +32,7 @@ module.exports = {
     classAssignmentService,
     classTopicService,
     gradeService,
+    notificationContentService,
     notificationRoomService,
     parentService,
     questionService,

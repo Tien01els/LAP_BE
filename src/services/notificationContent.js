@@ -2,20 +2,17 @@ const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
-    findAllRoomOfReceiver: async (receiverId) => {
+    findAllContentOfReceiver: async (receiverId) => {
         try {
-            let res = await db.Notification_Room.findAll({
+            let res = await db.Notification_Content.findAll({
                 where: { receiverAccountId: receiverId, isDeleted: 0 },
                 attributes: {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
+                order: [['dateRequest', 'DESC']],
                 raw: true,
             });
-            const rooms = new Array();
-            for (let i = 0; i < res.length; ++i) {
-                rooms.push(res[i].room);
-            }
-            return respMapper(200, rooms);
+            return respMapper(200, res);
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

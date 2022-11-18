@@ -19,6 +19,7 @@ module.exports = {
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             studentId: {
                 type: Sequelize.INTEGER,

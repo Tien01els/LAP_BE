@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'studentId',
             });
             Student_Topic.belongsTo(models.Topic, { foreignKey: 'topicId' });
+            Student_Topic.belongsTo(models.Notification_Content, {
+                foreignKey: 'notificationContentId',
+            });
         }
     }
     Student_Topic.init(
@@ -24,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
             isDeleted: DataTypes.BOOLEAN,
             studentId: DataTypes.INTEGER,
             topicId: DataTypes.INTEGER,
+            notificationContentId: DataTypes.INTEGER,
         },
         {
             sequelize,

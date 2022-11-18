@@ -22,11 +22,15 @@ module.exports = {
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             studentId: {
                 type: Sequelize.INTEGER,
             },
             topicId: {
+                type: Sequelize.INTEGER,
+            },
+            notificationContentId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {

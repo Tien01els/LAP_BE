@@ -10,6 +10,7 @@ module.exports = {
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             topicId: {
                 type: Sequelize.INTEGER,
