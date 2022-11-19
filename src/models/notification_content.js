@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
             requestUrl: DataTypes.TEXT,
             typeNotification: DataTypes.STRING,
             typeHandle: DataTypes.STRING,
+            idHandle: DataTypes.INTEGER,
             isSeen: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,
             isDeleted: DataTypes.BOOLEAN,

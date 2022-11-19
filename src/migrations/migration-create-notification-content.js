@@ -29,6 +29,9 @@ module.exports = {
             typeHandle: {
                 type: Sequelize.STRING,
             },
+            idHandle: {
+                type: Sequelize.INTEGER,
+            },
             isSeen: {
                 type: Sequelize.BOOLEAN,
             },
