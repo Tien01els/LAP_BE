@@ -38,7 +38,6 @@ module.exports = {
                     },
                     raw: true,
                 });
-
                 const teacher = await db.Teacher.findByPk(topic.teacherId, {
                     where: { isDeleted: 0 },
                     attributes: {
@@ -68,6 +67,21 @@ module.exports = {
                     dateRequest: new Date(),
                     typeHandle: typeHandle,
                 });
+                console.log(notificationContent);
+                await db.Student_Topic.update(
+                    {
+                        notificationContentId: notificationContent.id,
+                        dateRequest: new Date(),
+                    },
+                    {
+                        where: {
+                            studentId: studentId,
+                            topicId: topicId,
+                            isDeleted: false,
+                        },
+                    }
+                );
+
                 socket
                     .to(notificationRoom.room)
                     .emit('get-request-unlock-topic', notificationContent);

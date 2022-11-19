@@ -7,7 +7,7 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 
 const connectDB = require('./config/connectDB');
-const { socketService } = require('./services/index');
+const { notificationSocketController } = require('./controllers/index');
 const route = require('./routes/index');
 
 let app = express();
@@ -29,7 +29,9 @@ const io = new Server(httpServer, {
     },
 });
 global._io = io;
-global._io.on('connection', socketService.connection);
+global._io.on('connection', (socket) => {
+    notificationSocketController.connection(socket);
+});
 
 let port = process.env.PORT || 8080;
 httpServer.listen(port, () => {

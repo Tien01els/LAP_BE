@@ -1,6 +1,5 @@
 const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
-const e = require('express');
 
 module.exports = {
     randomQuestionInArrayQuestion: (numberQuestion, listQuestion) => {
@@ -245,9 +244,9 @@ module.exports = {
                 });
 
             const listAssignmentQuestionNew = await db.Assignment_Question.bulkCreate(
-                listAssignmentQuestion,
+                listAssignmentQuestion
             );
-            
+
             return respMapper(200, listAssignmentQuestionNew);
         } catch (error) {
             if (error.stack) console.log(error.stack);

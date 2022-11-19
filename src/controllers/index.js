@@ -7,6 +7,7 @@ const classTopicController = require('./classTopic');
 const gradeController = require('./grade');
 const notificationContentController = require('./notificationContent');
 const notificationRoomController = require('./notificationRoom');
+const notificationSocketController = require('./notificationSocket');
 const questionController = require('./question');
 const roleController = require('./role');
 const skillController = require('./skill');
@@ -29,6 +30,7 @@ module.exports = {
     gradeController,
     notificationContentController,
     notificationRoomController,
+    notificationSocketController,
     questionController,
     roleController,
     skillController,
