@@ -104,7 +104,7 @@ module.exports = {
             await db.Student_Topic.bulkCreate(listStudentTopic);
             const result = await db.sequelize.query(
                 `
-                SELECT st.id, st.status, st.isUnlock, st.isPass, st.dateRequest,
+                SELECT st.id, st.status, st.isUnlock, st.isPass, st.dateRequest, st.notificationContentId,
                 t.topicName, t.topicImg, pt.topicName AS prerequisiteTopicName, COUNT(s.id) AS numberSkills, t.description, t.id AS topicId
                 FROM student_topics AS st JOIN topics AS t
                 ON t.id = st.topicId AND st.isDeleted = 0 AND t.isDeleted = 0
