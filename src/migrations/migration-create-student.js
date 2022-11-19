@@ -22,6 +22,7 @@ module.exports = {
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             accountId: {
                 type: Sequelize.INTEGER,

@@ -28,6 +28,7 @@ module.exports = {
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             questionTypeId: {
                 type: Sequelize.INTEGER,

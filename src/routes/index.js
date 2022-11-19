@@ -5,6 +5,8 @@ const classRouter = require('./class');
 const classAssignmentRouter = require('./classAssignment');
 const classTopicRouter = require('./classTopic');
 const gradeRouter = require('./grade');
+const notificationContentRouter = require('./notificationContent');
+const notificationRoomRouter = require('./notificationRoom');
 const questionRouter = require('./question');
 const roleRouter = require('./role');
 const skillRouter = require('./skill');
@@ -25,6 +27,8 @@ const route = (app) => {
     app.use('/class-assignment', classAssignmentRouter);
     app.use('/class-topic', classTopicRouter);
     app.use('/grade', gradeRouter);
+    app.use('/notification-content', notificationContentRouter);
+    app.use('/notification-room', notificationRoomRouter);
     app.use('/question', questionRouter);
     app.use('/role', roleRouter);
     app.use('/skill', skillRouter);
@@ -33,7 +37,7 @@ const route = (app) => {
     app.use('/student', studentRouter);
     app.use('/student-assignment', studentAssignmentRouter);
     app.use('/student-question', studentQuestionRouter);
-    app.use('/studentTopic', studentTopicRouter);
+    app.use('/student-topic', studentTopicRouter);
     app.use('/topic', topicRouter);
     app.use('/file', fileRouter);
 };

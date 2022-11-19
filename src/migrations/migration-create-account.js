@@ -22,9 +22,11 @@ module.exports = {
             },
             isActive: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: true,
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             roleId: {
                 type: Sequelize.INTEGER,

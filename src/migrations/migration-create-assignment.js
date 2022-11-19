@@ -20,7 +20,7 @@ module.exports = {
             totalScore: {
                 type: Sequelize.REAL,
             },
-            scorePass: {
+            passScore: {
                 type: Sequelize.REAL,
             },
             redo: {
@@ -28,6 +28,7 @@ module.exports = {
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             teacherId: {
                 type: Sequelize.INTEGER,

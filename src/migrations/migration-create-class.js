@@ -20,8 +20,12 @@ module.exports = {
             year: {
                 type: Sequelize.STRING,
             },
+            room: {
+                type: Sequelize.TEXT,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             gradeId: {
                 type: Sequelize.INTEGER,

@@ -206,6 +206,7 @@ module.exports = {
                 userInfo.parentId = user.parentId;
             }
             const payload = {
+                accountId: account.id,
                 userId: user.id,
                 fullName: user.fullName,
                 dateOfBirth: user.dateOfBirth,

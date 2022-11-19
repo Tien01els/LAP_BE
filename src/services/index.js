@@ -6,6 +6,8 @@ const classService = require('./class');
 const classAssignmentService = require('./classAssignment');
 const classTopicService = require('./classTopic');
 const gradeService = require('./grade');
+const notificationContentService = require('./notificationContent');
+const notificationRoomService = require('./notificationRoom');
 const parentService = require('./parent');
 const questionService = require('./question');
 const roleService = require('./role');
@@ -19,6 +21,7 @@ const studentQuestionService = require('./studentQuestion');
 const studentTopicService = require('./studentTopic');
 const teacherService = require('./teacher');
 const topicService = require('./topic');
+const socketService = require('./socket');
 
 module.exports = {
     accountService,
@@ -29,6 +32,8 @@ module.exports = {
     classAssignmentService,
     classTopicService,
     gradeService,
+    notificationContentService,
+    notificationRoomService,
     parentService,
     questionService,
     roleService,
@@ -42,4 +47,5 @@ module.exports = {
     studentTopicService,
     teacherService,
     topicService,
+    socketService,
 };

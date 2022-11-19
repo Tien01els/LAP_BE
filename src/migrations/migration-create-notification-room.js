@@ -1,28 +1,25 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('teachers', {
+        await queryInterface.createTable('notification_rooms', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            fullName: {
-                type: Sequelize.STRING,
+            room: {
+                type: Sequelize.TEXT,
             },
-            dateOfBirth: {
-                type: Sequelize.DATE,
+            senderAccountId: {
+                type: Sequelize.INTEGER,
             },
-            gender: {
-                type: Sequelize.BOOLEAN,
+            receiverAccountId: {
+                type: Sequelize.INTEGER,
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
                 defaultValue: false,
-            },
-            accountId: {
-                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,
@@ -35,6 +32,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('teachers');
+        await queryInterface.dropTable('notification_rooms');
     },
 };

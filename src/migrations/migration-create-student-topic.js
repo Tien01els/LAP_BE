@@ -11,6 +11,9 @@ module.exports = {
             status: {
                 type: Sequelize.BOOLEAN,
             },
+            isPass: {
+                type: Sequelize.BOOLEAN,
+            },
             isUnlock: {
                 type: Sequelize.BOOLEAN,
             },
@@ -19,11 +22,15 @@ module.exports = {
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             studentId: {
                 type: Sequelize.INTEGER,
             },
             topicId: {
+                type: Sequelize.INTEGER,
+            },
+            notificationContentId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {

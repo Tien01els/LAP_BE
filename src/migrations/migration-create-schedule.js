@@ -25,6 +25,7 @@ module.exports = {
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             classId: {
                 type: Sequelize.INTEGER,
