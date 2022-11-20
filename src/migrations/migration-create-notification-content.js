@@ -26,10 +26,10 @@ module.exports = {
             typeNotification: {
                 type: Sequelize.STRING,
             },
-            typeHandle: {
+            tableHandle: {
                 type: Sequelize.STRING,
             },
-            idHandle: {
+            idTableHandle: {
                 type: Sequelize.INTEGER,
             },
             isSeen: {
