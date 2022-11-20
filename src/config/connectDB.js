@@ -1,18 +1,18 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require('sequelize')
 
-const sequelize = new Sequelize('lap_db', 'root', 'root', {
-    host: 'localhost',
-    dialect: 'mysql',
-    logging: false,
-});
+const sequelize = new Sequelize('lap_db', 'root', 'nhat2504', {
+  host: 'localhost',
+  dialect: 'mysql',
+  logging: false,
+})
 
 const connectDB = async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-};
+  try {
+    await sequelize.authenticate()
+    console.log('Connection has been established successfully.')
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
+  }
+}
 
-module.exports = connectDB;
+module.exports = connectDB

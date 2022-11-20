@@ -1,11 +1,11 @@
-const express = require('express');
-const { studentAssignmentController } = require('../controllers/index');
+const express = require('express')
+const { studentAssignmentController } = require('../controllers/index')
 
-const studentAssignmentRouter = express.Router();
+const studentAssignmentRouter = express.Router()
 
 studentAssignmentRouter.post(
-    '/',
-    studentAssignmentController.postStudentAssignment
-);
+  '/',
+  studentAssignmentController.postStudentAssignment,
+)
 
-module.exports = studentAssignmentRouter;
+module.exports = studentAssignmentRouter
