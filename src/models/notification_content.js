@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
             tableHandle: DataTypes.STRING,
             idTableHandle: DataTypes.INTEGER,
             isSeen: DataTypes.BOOLEAN,
+            isAnswer: DataTypes.BOOLEAN,
             dateRequest: DataTypes.DATE,
             isDeleted: DataTypes.BOOLEAN,
         },

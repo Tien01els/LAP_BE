@@ -35,6 +35,9 @@ module.exports = {
             isSeen: {
                 type: Sequelize.BOOLEAN,
             },
+            isAnswer: {
+                type: Sequelize.BOOLEAN,
+            },
             dateRequest: {
                 type: Sequelize.DATE,
             },

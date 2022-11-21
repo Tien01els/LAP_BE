@@ -21,7 +21,7 @@ module.exports = {
             let students = await db.Student.findAll({
                 where: { classId, isDeleted: 0 },
                 attributes: {
-                    exclude: ['accountId', 'isDeleted', 'createdAt', 'updatedAt'],
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
                 raw: true,
             });
@@ -45,8 +45,7 @@ module.exports = {
     addStudentToClass: async (classId, studentEmail) => {
         try {
             if (!studentEmail) {
-                console.log('No mail');
-                return { text: 'No ok' };
+                return { text: 'No ok', message: 'Please enter a email' };
             }
             let account = await db.Account.findOne({
                 where: { email: studentEmail, roleId: 3, isActive: true, isDeleted: false },
@@ -54,11 +53,20 @@ module.exports = {
 
             if (!account) {
                 console.log('Cant find account');
-                return { text: 'No ok' };
+                return { text: 'No ok', message: 'Can not find account' };
             }
-            await db.Student.update({ classId: classId }, { where: { accountId: account?.id } });
 
-            return { text: 'Ok' };
+            const student = await db.Student.findOne({
+                where: { accountId: account?.id, isDeleted: 0 },
+            });
+            if (student?.classId) {
+                return { text: 'No ok', message: 'Student had class' };
+            }
+
+            return {
+                text: 'Ok',
+                message: 'Add student into class successfully',
+            };
         } catch (e) {
             console.log(e);
             return e;

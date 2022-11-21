@@ -9,6 +9,7 @@ const verifyToken = (req, res, next) => {
             const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
             req.userId = decoded.userId;
             req.roleId = decoded.roleId;
+            req.accountId = decoded.accountId;
             return next();
         } catch (error) {
             return res.status(403).json({ success: false, message: 'The session has expired' });

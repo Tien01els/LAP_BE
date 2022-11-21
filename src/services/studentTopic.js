@@ -96,11 +96,10 @@ module.exports = {
                     topicId: listUpdateTopic[i],
                     isDeleted: false,
                     status: 0,
-                    isUnlock: topic?.prerequisiteTopicId ? true : false,
+                    isUnlock: topic?.prerequisiteTopicId ? true : null,
                     isPass: false,
                 });
             }
-
             await db.Student_Topic.bulkCreate(listStudentTopic);
             const result = await db.sequelize.query(
                 `

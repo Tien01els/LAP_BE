@@ -13,6 +13,7 @@ module.exports = {
             },
             isPass: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             isUnlock: {
                 type: Sequelize.BOOLEAN,

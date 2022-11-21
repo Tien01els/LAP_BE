@@ -8,7 +8,7 @@ module.exports = {
             let isUnlock = req.body.isUnlock;
             let studentTopic = {
                 status: 0,
-                isUnlock: isUnlock || 0,
+                isUnlock: isUnlock || null,
                 isDeleted: 0,
                 studentId,
                 topicId,

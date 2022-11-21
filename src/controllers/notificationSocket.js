@@ -51,36 +51,29 @@ module.exports = {
                     senderId,
                     receiverId,
                     notificationContentId,
-                    typeHandle,
-                    idHandle,
+                    tableHandle,
+                    idTableHandle,
                     answer,
-                    userId,
-                    senderRoleId,
-                    receiverRoleId,
                 } = data;
 
-                const senderInfo = await getUserInfo(senderId, senderRoleId);
-                const receiverInfo = await getUserInfo(receiverId, receiverRoleId);
-                console.log(userInfo);
                 let notificationContent;
                 const notificationRoom = await db.Notification_Room.findOne({
-                    senderAccountId: senderId,
-                    receiverAccountId: receiverId,
+                    where: {
+                        senderAccountId: senderId,
+                        receiverAccountId: receiverId,
+                        isDeleted: false,
+                    },
                 });
-
-                if (typeHandle === 'Student_Topic') {
-                    const studentTopic = await db.Student_Topic.update(
-                        {
-                            isUnlock: answer,
+                if (tableHandle === 'Student_Topic') {
+                    const studentTopic = await db.Student_Topic.findByPk(idTableHandle, {
+                        where: { isDeleted: 0 },
+                        attributes: {
+                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                         },
-                        {
-                            where: { id: idHandle, isDeleted: 0 },
-                            attributes: {
-                                exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                            },
-                            raw: true,
-                        }
-                    );
+                    });
+                    studentTopic.isUnlock = answer;
+                    studentTopic.status = 0;
+                    await studentTopic.save();
                     const topic = await db.Topic.findByPk(studentTopic.topicId, {
                         where: { isDeleted: 0 },
                         attributes: {
@@ -88,21 +81,26 @@ module.exports = {
                         },
                         raw: true,
                     });
+                    await db.Notification_Content.update(
+                        { isAnswer: true },
+                        { where: { id: notificationContentId } }
+                    );
                     notificationContent = await db.Notification_Content.create({
                         senderAccountId: senderId,
                         receiverAccountId: receiverId,
                         notificationRoomId: notificationContentId,
                         content: `Topic ${topic.topicName} unlock request ${
                             answer ? 'accepted' : 'denied'
-                        } `,
+                        }`,
                         requestURL: `topic/${topic.id}`,
                         typeNotification: `Unlock`,
                         isSeen: false,
+                        isAnswer: false,
                         dateRequest: new Date(),
-                        typeHandle: typeHandle,
+                        tableHandle,
+                        idTableHandle,
                     });
                 }
-
                 socket
                     .to(notificationRoom.room)
                     .emit('get-handle-request-notification', notificationContent);
@@ -113,12 +111,8 @@ module.exports = {
 
         socket.on('send-request-unlock-topic', async (data) => {
             try {
-                const senderId = data.senderId;
-                const studentId = data.userId;
-                const topicId = data.topicId;
-                const typeHandle = data.typeHandle;
-
-                const student = await db.Student.findByPk(studentId, {
+                const { senderId, userId, topicId, tableHandle, idTableHandle } = data;
+                const student = await db.Student.findByPk(userId, {
                     where: { isDeleted: 0 },
                     attributes: {
                         exclude: ['isDeleted', 'createdAt', 'updatedAt'],
@@ -158,8 +152,10 @@ module.exports = {
                     requestURL: `student/${student.id}`,
                     typeNotification: `Unlock`,
                     isSeen: false,
+                    isAnswer: false,
                     dateRequest: new Date(),
-                    typeHandle: typeHandle,
+                    tableHandle: tableHandle,
+                    idTableHandle: idTableHandle,
                 });
                 await db.Student_Topic.update(
                     {
@@ -168,7 +164,7 @@ module.exports = {
                     },
                     {
                         where: {
-                            studentId: studentId,
+                            studentId: userId,
                             topicId: topicId,
                             isDeleted: false,
                         },

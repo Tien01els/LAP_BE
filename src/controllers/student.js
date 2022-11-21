@@ -17,6 +17,6 @@ module.exports = {
     removeStudentFromClass: async (req, res) => {
         let studentId = req.params.studentId;
         await studentService.removeStudentFromClass(studentId);
-        return res.send(204);
+        return res.sendStatus(204);
     },
 };
