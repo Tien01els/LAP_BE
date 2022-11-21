@@ -134,7 +134,7 @@ module.exports = {
             for (let i = 0; i < students.length; i++) {
                 studentTopics.push({
                     status: 0,
-                    isUnlock: isUnlock || null,
+                    isUnlock: isUnlock,
                     isDeleted: 0,
                     studentId: students[i].id,
                     topicId: classTopic.topicId,

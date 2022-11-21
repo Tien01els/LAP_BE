@@ -72,6 +72,9 @@ module.exports = {
                         },
                     });
                     studentTopic.isUnlock = answer;
+                    studentTopic.notificationContentId = answer
+                        ? studentTopic.notificationContentId
+                        : null;
                     studentTopic.status = 0;
                     await studentTopic.save();
                     const topic = await db.Topic.findByPk(studentTopic.topicId, {
@@ -101,9 +104,10 @@ module.exports = {
                         idTableHandle,
                     });
                 }
-                socket
-                    .to(notificationRoom.room)
-                    .emit('get-handle-request-notification', notificationContent);
+                socket.to(notificationRoom.room).emit('get-handle-request-notification', {
+                    ...notificationContent.dataValues,
+                    senderId,
+                });
             } catch (error) {
                 console.log(error.message);
             }
@@ -170,9 +174,10 @@ module.exports = {
                         },
                     }
                 );
-                socket
-                    .to(notificationRoom.room)
-                    .emit('get-request-unlock-topic', notificationContent);
+                socket.to(notificationRoom.room).emit('get-request-unlock-topic', {
+                    ...notificationContent.dataValues,
+                    senderId,
+                });
             } catch (error) {
                 console.log(error.message);
             }
