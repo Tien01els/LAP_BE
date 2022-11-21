@@ -62,7 +62,8 @@ module.exports = {
             if (student?.classId) {
                 return { text: 'No ok', message: 'Student had class' };
             }
-
+            student.classId = classId;
+            await student.save();
             return {
                 text: 'Ok',
                 message: 'Add student into class successfully',

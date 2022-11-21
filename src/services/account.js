@@ -170,7 +170,6 @@ module.exports = {
                     };
                     result = await db.Parent.create(parent);
                 }
-                console.log(result);
                 if (result) return respMapper(200, { success: true, message: 'Register success' });
             }
             return errorResp(500, 'Register failed');
