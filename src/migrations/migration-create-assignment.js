@@ -11,10 +11,10 @@ module.exports = {
             assignmentName: {
                 type: Sequelize.STRING,
             },
-            dateDue: {
-                type: Sequelize.DATE,
+            dueTime: {
+                type: Sequelize.INTEGER,
             },
-            time: {
+            doTime: {
                 type: Sequelize.INTEGER,
             },
             totalScore: {

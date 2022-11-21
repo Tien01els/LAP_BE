@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     Class_Assignment.init(
         {
             dateOpen: DataTypes.DATE,
+            dateDue: DataTypes.DATE,
             isDeleted: DataTypes.BOOLEAN,
             classId: DataTypes.INTEGER,
             assignmentId: DataTypes.INTEGER,

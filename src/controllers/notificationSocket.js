@@ -85,7 +85,7 @@ module.exports = {
                         raw: true,
                     });
                     await db.Notification_Content.update(
-                        { isAnswer: true },
+                        { isAnswered: true },
                         { where: { id: notificationContentId } }
                     );
                     notificationContent = await db.Notification_Content.create({
@@ -97,8 +97,6 @@ module.exports = {
                         }`,
                         requestURL: `topic/${topic.id}`,
                         typeNotification: `Unlock`,
-                        isSeen: false,
-                        isAnswer: false,
                         dateRequest: new Date(),
                         tableHandle,
                         idTableHandle,
@@ -155,8 +153,6 @@ module.exports = {
                     content: `${student.fullName} sent a request to unlock topic ${topic.topicName}`,
                     requestURL: `student/${student.id}`,
                     typeNotification: `Unlock`,
-                    isSeen: false,
-                    isAnswer: false,
                     dateRequest: new Date(),
                     tableHandle: tableHandle,
                     idTableHandle: idTableHandle,

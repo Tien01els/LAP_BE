@@ -34,9 +34,11 @@ module.exports = {
             },
             isSeen: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
-            isAnswer: {
+            isAnswered: {
                 type: Sequelize.BOOLEAN,
+                defaultValue: false,
             },
             dateRequest: {
                 type: Sequelize.DATE,

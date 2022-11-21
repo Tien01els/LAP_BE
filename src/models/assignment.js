@@ -36,8 +36,8 @@ module.exports = (sequelize, DataTypes) => {
     Assignment.init(
         {
             assignmentName: DataTypes.STRING,
-            dateDue: DataTypes.DATE,
-            time: DataTypes.INTEGER,
+            dueTime: DataTypes.INTEGER,
+            doTime: DataTypes.INTEGER,
             totalScore: DataTypes.REAL,
             passScore: DataTypes.REAL,
             redo: DataTypes.INTEGER,
