@@ -5,10 +5,10 @@ const verifyToken = require('../middleware/auth');
 const assignmentRouter = express.Router();
 
 assignmentRouter.get('/teacher', verifyToken, assignmentController.getAssignmentsOfTeacher);
-assignmentRouter.get('/:id', assignmentController.getAssignment);
+assignmentRouter.get('/:id', verifyToken, assignmentController.getAssignment);
 
 assignmentRouter.post('/', verifyToken, assignmentController.postAssignment);
-assignmentRouter.put('/:id', assignmentController.putAssignment);
-assignmentRouter.delete('/:id', assignmentController.deleteAssignment);
+assignmentRouter.put('/:id', verifyToken, assignmentController.putAssignment);
+assignmentRouter.delete('/:id', verifyToken, assignmentController.deleteAssignment);
 
 module.exports = assignmentRouter;

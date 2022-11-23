@@ -20,9 +20,10 @@ module.exports = {
             assignmentName: req.body.assignmentName,
             dueTime: req.body.dueTime || 0,
             doTime: req.body.doTime || 0,
+            passScore: req.body.passScore || 0,
             totalScore: req.body.totalScore || 100,
             redo: req.body.redo || 0,
-            teacherId: req.body.teacherId,
+            teacherId: req.userId,
         };
         const assignmentNew = await assignmentService.createAssignment(assignment);
         if (!assignmentNew) return res.json({ error: 'Could not create assignment' });
@@ -34,9 +35,9 @@ module.exports = {
             assignmentName: req.body.assignmentName,
             dueTime: req.body.dueTime,
             doTime: req.body.doTime,
+            passScore: req.body.passScore,
             totalScore: req.body.totalScore,
             redo: req.body.redo,
-            teacherId: req.body.teacherId,
         };
         const assignmentUpdated = await assignmentService.updateAssignment(id, assignment);
         return res.send(assignmentUpdated);
