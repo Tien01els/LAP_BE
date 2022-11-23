@@ -18,12 +18,11 @@ module.exports = {
     postAssignment: async (req, res) => {
         const assignment = {
             assignmentName: req.body.assignmentName,
-            dateDue: req.body.dateDue || new Date(),
-            time: req.body.time || 0,
+            dueTime: req.body.dueTime || 0,
+            doTime: req.body.doTime || 0,
             totalScore: req.body.totalScore || 100,
             redo: req.body.redo || 0,
             teacherId: req.body.teacherId,
-            isDeleted: 0,
         };
         const assignmentNew = await assignmentService.createAssignment(assignment);
         if (!assignmentNew) return res.json({ error: 'Could not create assignment' });
@@ -33,8 +32,8 @@ module.exports = {
         const id = req.params.id;
         const assignment = {
             assignmentName: req.body.assignmentName,
-            dateDue: req.body.dateDue,
-            time: req.body.time,
+            dueTime: req.body.dueTime,
+            doTime: req.body.doTime,
             totalScore: req.body.totalScore,
             redo: req.body.redo,
             teacherId: req.body.teacherId,

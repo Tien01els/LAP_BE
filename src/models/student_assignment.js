@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             score: DataTypes.REAL,
             status: DataTypes.INTEGER,
+            dateDue: DataTypes.DATE,
             dateStart: DataTypes.DATE,
             dateComplete: DataTypes.DATE,
             redo: DataTypes.INTEGER,
