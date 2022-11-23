@@ -11,9 +11,14 @@ module.exports = {
         }
     },
     getAssignmentsOfTeacher: async (req, res) => {
-        const teacherId = req.userId;
-        const assignments = await assignmentService.findAssignmentsByTeacherId(teacherId);
-        return res.send(assignments);
+        try {
+            const teacherId = req.userId;
+            const assignments = await assignmentService.findAssignmentsByTeacherId(teacherId);
+            return res.status(200).send(assignments);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error?.data);
+        }
     },
     postAssignment: async (req, res) => {
         const assignment = {
