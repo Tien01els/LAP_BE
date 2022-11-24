@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Account.hasMany(models.Admin, { foreignKey: 'accountId' });
-            Account.hasMany(models.Parent, { foreignKey: 'accountId' });
-            Account.hasMany(models.Student, { foreignKey: 'accountId' });
-            Account.hasMany(models.Teacher, { foreignKey: 'accountId' });
+            Account.hasMany(models.Admin, { foreignKey: 'accountId', as: 'admin' });
+            Account.hasMany(models.Parent, { foreignKey: 'accountId', as: 'parent' });
+            Account.hasMany(models.Student, { foreignKey: 'accountId', as: 'student' });
+            Account.hasMany(models.Teacher, { foreignKey: 'accountId', as: 'teacher' });
 
-            Account.belongsTo(models.Role, { foreignKey: 'roleId' });
+            Account.belongsTo(models.Role, { foreignKey: 'roleId', as: 'role' });
         }
     }
     Account.init(

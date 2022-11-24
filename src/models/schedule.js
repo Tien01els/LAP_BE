@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Schedule.belongsTo(models.Class, {
                 foreignKey: 'classId',
+                as: 'class',
             });
         }
     }

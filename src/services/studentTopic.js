@@ -7,7 +7,7 @@ module.exports = {
         try {
             let studentTopicNew = await db.Student_Topic.create(studentTopic);
             return respMapper(200, studentTopicNew);
-        } catch (e) {
+        } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
         }
@@ -25,7 +25,7 @@ module.exports = {
                 return respMapper(200, await studentTopic.save());
             }
             return errorResp(400, 'This topic of student does not exist');
-        } catch (e) {
+        } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
         }
@@ -119,6 +119,94 @@ module.exports = {
             );
             return respMapper(200, result);
         } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
+    findAllPercentSkillsOfStudent: async (studentId) => {
+        try {
+            let passSkillOfTopic = await db.Student_Topic.findAll({
+                where: { studentId, isDeleted: false },
+                attributes: [
+                    'topicId',
+                    'topic.topicName',
+                    [
+                        sequelize.fn('COUNT', sequelize.col('topic.skill.studentSkill.id')),
+                        'numberPassSkillOfTopic',
+                    ],
+                ],
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Topic,
+                        as: 'topic',
+                        where: { isDeleted: 0 },
+                        include: [
+                            {
+                                attributes: [],
+                                model: db.Skill,
+                                as: 'skill',
+                                where: { isDeleted: 0 },
+                                right: true,
+                                include: [
+                                    {
+                                        attributes: [],
+                                        model: db.Student_Skill,
+                                        as: 'studentSkill',
+                                        where: { isPass: 1, isDeleted: 0 },
+                                        required: false,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+                group: ['topicId'],
+                raw: true,
+            });
+            let totalSkillOfTopic = await db.Student_Topic.findAll({
+                where: { studentId, isDeleted: false },
+                attributes: [
+                    'topicId',
+                    'topic.topicName',
+                    [
+                        sequelize.fn('COUNT', sequelize.col('topic.skill.id')),
+                        'numberTotalSkillOfTopic',
+                    ],
+                ],
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Topic,
+                        as: 'topic',
+                        where: { isDeleted: 0 },
+                        include: [
+                            {
+                                attributes: [],
+                                model: db.Skill,
+                                as: 'skill',
+                                where: { isDeleted: 0 },
+                                required: false,
+                            },
+                        ],
+                    },
+                ],
+                group: ['topicId'],
+                raw: true,
+            });
+            let result = new Array();
+            for (let i = 0; i < totalSkillOfTopic.length; ++i) {
+                const passSkill = passSkillOfTopic.find(
+                    (passSkill) => passSkill.topicId === totalSkillOfTopic[i].topicId
+                );
+                result.push({
+                    ...totalSkillOfTopic[i],
+                    numberPassSkillOfTopic: passSkill.numberPassSkillOfTopic,
+                });
+            }
+            return respMapper(200, result);
+        } catch (error) {
+            console.log(error.message);
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
         }

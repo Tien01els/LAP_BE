@@ -41,29 +41,33 @@ module.exports = {
                     'score',
                     'questionTypeId',
                     'teacherId',
-                    'Skill_Questions.skillId',
-                    'Skill_Questions.Skill.topicId',
-                    'Skill_Questions.Skill.Topic.gradeId',
+                    'skillQuestion.skillId',
+                    'skillQuestion.skill.topicId',
+                    'skillQuestion.skill.topic.gradeId',
                 ],
                 include: [
                     {
                         attributes: [],
                         model: db.Skill_Question,
+                        as: 'skillQuestion',
                         where: { isDeleted: 0 },
                         include: [
                             {
                                 attributes: [],
                                 model: db.Skill,
+                                as: 'skill',
                                 where: { isDeleted: 0 },
                                 include: [
                                     {
                                         attributes: [],
                                         model: db.Topic,
+                                        as: 'topic',
                                         where: { isDeleted: 0 },
                                         include: [
                                             {
                                                 attributes: [],
                                                 model: db.Grade,
+                                                as: 'grade',
                                                 where: { isDeleted: 0 },
                                             },
                                         ],
@@ -268,34 +272,39 @@ module.exports = {
                     'question.score',
                     'question.questionTypeId',
                     'question.teacherId',
-                    'question.skill_questions.skillId',
-                    'question.skill_questions.skill.topicId',
-                    'question.skill_questions.skill.topic.gradeId',
+                    'question.skillQuestion.skillId',
+                    'question.skillQuestion.skill.topicId',
+                    'question.skillQuestion.skill.topic.gradeId',
                 ],
                 include: [
                     {
                         attributes: [],
                         model: db.Question,
+                        as: 'question',
                         where: { isDeleted: 0 },
                         include: [
                             {
                                 attributes: [],
                                 model: db.Skill_Question,
+                                as: 'skillQuestion',
                                 where: { isDeleted: 0 },
                                 include: [
                                     {
                                         attributes: [],
                                         model: db.Skill,
+                                        as: 'skill',
                                         where: { isDeleted: 0 },
                                         include: [
                                             {
                                                 attributes: [],
                                                 model: db.Topic,
+                                                as: 'topic',
                                                 where: { isDeleted: 0 },
                                                 include: [
                                                     {
                                                         attributes: [],
                                                         model: db.Grade,
+                                                        as: 'grade',
                                                         where: { isDeleted: 0 },
                                                     },
                                                 ],

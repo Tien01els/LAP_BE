@@ -26,6 +26,9 @@ module.exports = {
             redo: {
                 type: Sequelize.INTEGER,
             },
+            typeAssignment: {
+                type: Sequelize.STRING,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
                 defaultValue: false,

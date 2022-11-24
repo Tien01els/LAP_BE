@@ -11,12 +11,20 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Notification_Content.hasMany(models.Student_Topic, {
                 foreignKey: 'notificationContentId',
+                as: 'studentTopic',
             });
 
-            Notification_Content.belongsTo(models.Account, { foreignKey: 'senderAccountId' });
-            Notification_Content.belongsTo(models.Account, { foreignKey: 'receiverAccountId' });
+            Notification_Content.belongsTo(models.Account, {
+                foreignKey: 'senderAccountId',
+                as: 'senderAccount',
+            });
+            Notification_Content.belongsTo(models.Account, {
+                foreignKey: 'receiverAccountId',
+                as: 'receiverAccount',
+            });
             Notification_Content.belongsTo(models.Notification_Room, {
                 foreignKey: 'notificationRoomId',
+                as: 'notificationRoom',
             });
         }
     }

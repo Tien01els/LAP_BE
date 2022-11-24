@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Grade.hasMany(models.Class, { foreignKey: 'gradeId' });
-            Grade.hasMany(models.Topic, { foreignKey: 'gradeId' });
+            Grade.hasMany(models.Class, { foreignKey: 'gradeId', as: 'class' });
+            Grade.hasMany(models.Topic, { foreignKey: 'gradeId', as: 'topic' });
         }
     }
     Grade.init(

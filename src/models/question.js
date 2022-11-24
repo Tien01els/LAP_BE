@@ -11,20 +11,24 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Question.hasMany(models.Skill_Question, {
                 foreignKey: 'questionId',
+                as: 'skillQuestion',
             });
             Question.hasMany(models.Assignment_Question, {
                 foreignKey: 'questionId',
+                as: 'assignmentQuestion',
             });
             Question.hasMany(models.Student_Question, {
                 foreignKey: 'questionId',
+                as: 'studentQuestion',
             });
-            
 
             Question.belongsTo(models.Questiontype, {
                 foreignKey: 'questionTypeId',
+                as: 'questiontype',
             });
             Question.belongsTo(models.Teacher, {
                 foreignKey: 'teacherId',
+                as: 'teacher',
             });
         }
     }

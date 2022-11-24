@@ -6,9 +6,10 @@ const studentTopicRouter = express.Router();
 
 studentTopicRouter.post('/', studentTopicController.postStudentTopic);
 studentTopicRouter.put(
-    '/student/class/:classId',
+    '/class/:classId',
     verifyToken,
     studentTopicController.updateTopicsOfStudent
 );
+studentTopicRouter.get('/percent-skill', verifyToken, studentTopicController.getPercentSkillsOfStudent);
 
 module.exports = studentTopicRouter;

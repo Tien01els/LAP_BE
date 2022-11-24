@@ -11,10 +11,12 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Student_Topic.belongsTo(models.Student, {
                 foreignKey: 'studentId',
+                as: 'student',
             });
-            Student_Topic.belongsTo(models.Topic, { foreignKey: 'topicId' });
+            Student_Topic.belongsTo(models.Topic, { foreignKey: 'topicId', as: 'topic' });
             Student_Topic.belongsTo(models.Notification_Content, {
                 foreignKey: 'notificationContentId',
+                as: 'notificationContent',
             });
         }
     }

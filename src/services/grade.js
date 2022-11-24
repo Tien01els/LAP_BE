@@ -27,6 +27,7 @@ module.exports = {
                     {
                         attributes: [],
                         model: db.Grade,
+                        as: 'grade',
                         where: { isDeleted: 0 },
                         require: false,
                     },

@@ -9,18 +9,23 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Topic.hasMany(models.Class_Topic, { foreignKey: 'topicId' });
-            Topic.hasMany(models.Student_Topic, { foreignKey: 'topicId' });
-            Topic.hasMany(models.Skill, { foreignKey: 'topicId' });
-            Topic.hasMany(models.Topic_Assignment, { foreignKey: 'topicId' });
+            Topic.hasMany(models.Class_Topic, { foreignKey: 'topicId', as: 'classTopic' });
+            Topic.hasMany(models.Student_Topic, { foreignKey: 'topicId', as: 'studentTopic' });
+            Topic.hasMany(models.Skill, { foreignKey: 'topicId', as: 'skill' });
+            Topic.hasMany(models.Topic_Assignment, {
+                foreignKey: 'topicId',
+                as: 'topicAssignment',
+            });
             Topic.hasOne(models.Topic, {
                 foreignKey: 'prerequisiteTopicId',
+                as: 'topic',
             });
 
-            Topic.belongsTo(models.Teacher, { foreignKey: 'teacherId' });
-            Topic.belongsTo(models.Grade, { foreignKey: 'gradeId' });
+            Topic.belongsTo(models.Teacher, { foreignKey: 'teacherId', as: 'teacher' });
+            Topic.belongsTo(models.Grade, { foreignKey: 'gradeId', as: 'grade' });
             Topic.belongsTo(models.Topic, {
                 foreignKey: 'prerequisiteTopicId',
+                as: 'prerequisiteTopic',
             });
         }
     }

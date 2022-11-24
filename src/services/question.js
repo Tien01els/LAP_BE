@@ -16,32 +16,36 @@ module.exports = {
                 'score',
                 'questionTypeId',
                 'teacherId',
-                'skill_questions.skillId',
-                'skill_questions.skill.topicId',
-                'skill_questions.skill.topic.gradeId',
+                'skillQuestion.skillId',
+                'skillQuestion.skill.topicId',
+                'skillQuestion.skill.topic.gradeId',
             ],
             include: [
                 {
                     attributes: [],
                     model: db.Skill_Question,
+                    as: 'skillQuestion',
                     where: { isDeleted: 0 },
                     right: true,
                     include: [
                         {
                             attributes: [],
                             model: db.Skill,
+                            as: 'skill',
                             where: { isDeleted: 0 },
                             right: true,
                             include: [
                                 {
                                     attributes: [],
                                     model: db.Topic,
+                                    as: 'topic',
                                     where: { isDeleted: 0 },
                                     right: true,
                                     include: [
                                         {
                                             attributes: [],
                                             model: db.Grade,
+                                            as: 'grade',
                                             where: { isDeleted: 0 },
                                             right: true,
                                         },
@@ -119,7 +123,6 @@ module.exports = {
                     type: sequelize.QueryTypes.SELECT,
                 }
             );
-
             let resultQuestions = new Array();
             for (let i = 0; i < question.length; i++) {
                 const indexQuestion = -1;

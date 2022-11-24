@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Teacher.hasMany(models.Class, { foreignKey: 'teacherId' });
-            Teacher.hasMany(models.Topic, { foreignKey: 'teacherId' });
-            Teacher.hasMany(models.Assignment, { foreignKey: 'teacherId' });
-            Teacher.hasMany(models.Question, { foreignKey: 'teacherId' });
+            Teacher.hasMany(models.Class, { foreignKey: 'teacherId', as: 'class' });
+            Teacher.hasMany(models.Topic, { foreignKey: 'teacherId', as: 'topic' });
+            Teacher.hasMany(models.Assignment, { foreignKey: 'teacherId', as: 'assignment' });
+            Teacher.hasMany(models.Question, { foreignKey: 'teacherId', as: 'question' });
 
-            Teacher.belongsTo(models.Account, { foreignKey: 'accountId' });
+            Teacher.belongsTo(models.Account, { foreignKey: 'accountId', as: 'account' });
         }
     }
     Teacher.init(

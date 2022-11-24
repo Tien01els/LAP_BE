@@ -21,6 +21,7 @@ module.exports = {
                 include: [
                     {
                         model: db.Assignment,
+                        as: 'assignment',
                         where: { isDeleted: 0 },
                         require: false,
                     },

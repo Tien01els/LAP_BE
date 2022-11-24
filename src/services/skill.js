@@ -17,6 +17,7 @@ module.exports = {
                     {
                         attributes: [],
                         model: db.Standard,
+                        as: 'standard',
                         where: { isDeleted: 0 },
                         require: false,
                     },
@@ -47,11 +48,13 @@ module.exports = {
                     {
                         attributes: [],
                         model: db.Topic,
+                        as: 'topic',
                         where: { isDeleted: 0 },
                         include: [
                             {
                                 attributes: [],
                                 model: db.Grade,
+                                as: 'grade',
                                 where: { isDeleted: 0 },
                             },
                         ],

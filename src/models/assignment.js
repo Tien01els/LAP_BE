@@ -11,25 +11,32 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Assignment.hasMany(models.Student_Assignment, {
                 foreignKey: 'assignmentId',
+                as: 'studentAssignment',
             });
             Assignment.hasMany(models.Assignment_Question, {
                 foreignKey: 'assignmentId',
+                as: 'assignmentQuestion',
             });
             Assignment.hasMany(models.Skill_Assignment, {
                 foreignKey: 'assignmentId',
+                as: 'skillAssignment',
             });
             Assignment.hasMany(models.Class_Assignment, {
                 foreignKey: 'assignmentId',
+                as: 'classAssignment',
             });
             Assignment.hasMany(models.Topic_Assignment, {
                 foreignKey: 'assignmentId',
+                as: 'topicAssignment',
             });
             Assignment.hasMany(models.Student_Question, {
                 foreignKey: 'assignmentId',
+                as: 'studentQuestion',
             });
 
             Assignment.belongsTo(models.Teacher, {
                 foreignKey: 'teacherId',
+                as: 'teacher',
             });
         }
     }
@@ -41,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
             totalScore: DataTypes.REAL,
             passScore: DataTypes.REAL,
             redo: DataTypes.INTEGER,
+            typeAssignment: DataTypes.STRING,
             isDeleted: DataTypes.BOOLEAN,
             teacherId: DataTypes.INTEGER,
         },

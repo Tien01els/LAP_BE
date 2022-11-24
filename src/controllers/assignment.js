@@ -28,6 +28,7 @@ module.exports = {
             passScore: req.body.passScore || 0,
             totalScore: req.body.totalScore || 100,
             redo: req.body.redo || 0,
+            typeAssignment: req.body.typeAssignment,
             teacherId: req.userId,
         };
         const assignmentNew = await assignmentService.createAssignment(assignment);
