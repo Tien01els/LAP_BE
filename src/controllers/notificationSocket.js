@@ -42,7 +42,7 @@ module.exports = {
             for (let i = 0; i < data.length; i++) {
                 socket.join(data[i]);
             }
-            // _io.to('1').emit('vui ve ko quau nha 2', 'Tao muon dam no');
+            // _io.to('1').emit('send-msg', 'Chao ban');
         });
 
         socket.on('send-handle-request-notification', async (data) => {
