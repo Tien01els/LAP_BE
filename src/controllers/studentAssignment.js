@@ -6,27 +6,18 @@ const {
 
 module.exports = {
     postStudentAssignment: async (req, res) => {
-        const studentId = req.body.studentId;
-        const assignmentId = req.body.assignmentId;
-        const student = await studentService.findStudent(studentId);
-        const result = await assignmentService.findAssignment(assignmentId);
-        const assignment = result;
-        if (student && assignment) {
-            let studentAssignment = {
-                status: 0,
-                dateRequest: '1900-01-01 00:00:00',
-                redo: assignment.redo,
-                isRedo: 0,
+        try {
+            const studentId = req.body.studentId;
+            const assignmentId = req.body.assignmentId;
+            const result = await studentAssignmentService.createStudentAssignment(
                 studentId,
-                assignmentId,
-                isDeleted: 0,
-            };
-            let studentAssignmentNew =
-                await studentAssignmentService.createStudentAssignment(
-                    studentAssignment
-                );
-            return res.send(studentAssignmentNew);
+                assignmentId
+            );
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
         }
-        return 'This question or student does not exist';
     },
+    postListStudentAssignment: async (req, res) => {},
 };

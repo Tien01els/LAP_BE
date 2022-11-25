@@ -201,7 +201,7 @@ module.exports = {
                 );
                 result.push({
                     ...totalSkillOfTopic[i],
-                    numberPassSkillOfTopic: passSkill.numberPassSkillOfTopic,
+                    numberPassSkillOfTopic: passSkill ? passSkill.numberPassSkillOfTopic : 0,
                 });
             }
             return respMapper(200, result);
