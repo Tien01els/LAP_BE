@@ -1,25 +1,66 @@
 const db = require('../models/index');
+const sequelize = require('sequelize');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
     findAssignemtnOfClass: async (classId) => {
         try {
-            const assignmentOFClass = await db.Class_Assignment.findAll({
+            const assignmentOfClass = await db.Class_Assignment.findAll({
                 where: { classId, isDeleted: 0 },
+                attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
                 include: [
                     {
+                        attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
                         model: db.Assignment,
                         as: 'assignment',
-                        attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
                         where: { isDeleted: 0 },
-                        require: false,
+                        include: [
+                            {
+                                attributes: ['questionId'],
+                                model: db.Assignment_Question,
+                                as: 'assignmentQuestion',
+                                where: { isDeleted: 0 },
+                                required: false,
+                                include: [
+                                    {
+                                        attributes: {
+                                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                                        },
+                                        model: db.Question,
+                                        as: 'question',
+                                        where: { isDeleted: 0 },
+                                        required: false,
+                                    },
+                                ],
+                            },
+                            {
+                                attributes: ['studentId'],
+                                model: db.Student_Assignment,
+                                as: 'studentAssignment',
+                                where: { isDeleted: 0 },
+                                required: false,
+                                include: [
+                                    {
+                                        attributes: [],
+                                        model: db.Student,
+                                        as: 'student',
+                                        where: { isDeleted: 0 },
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
-                attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
+                order: [['dateOpen', 'DESC']],
+                // group: ['assignmentId'],
+                // raw: true,
             });
-            return respMapper(200, assignmentOFClass);
+            return respMapper(200, assignmentOfClass);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

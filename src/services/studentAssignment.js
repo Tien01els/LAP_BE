@@ -39,7 +39,7 @@ module.exports = {
         }
     },
 
-    createListStudentAssignment: async (listStudentId, assignmentId) => {
+    updateListStudentAssignment: async (assignmentId, listStudentId) => {
         try {
             const assignment = await db.Assignment.findByPk(assignmentId, {
                 where: { isDeleted: 0 },
@@ -50,18 +50,61 @@ module.exports = {
             });
             if (!assignment) return errorResp(409, 'This assignment does not exist');
 
-            let studentAssignments = new Array();
-            for (let i = 0; i < listStudentId.length; ++i)
-                studentAssignments.push({
+            let currentStudentsOfAssignment = await db.Student_Assignment.findAll({
+                where: { assignmentId, isDeleted: false },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+            });
+
+            let currentListStudentIdOfAssignment = [];
+            currentListStudentIdOfAssignment = currentStudentsOfAssignment.map(
+                (student) => student.studentId
+            );
+
+            let existListStudentId = [];
+            let updateListStudentId = [];
+            for (let i = 0; i < currentListStudentIdOfAssignment.length; i++) {
+                if (listStudentId.includes(currentListStudentIdOfAssignment[i])) {
+                    existListStudentId.push(currentListStudentIdOfAssignment[i]);
+                    await db.Student_Assignment.update(
+                        { isDeleted: false },
+                        {
+                            where: {
+                                assignmentId,
+                                studentId: currentListStudentIdOfAssignment[i],
+                                isDeleted: false,
+                            },
+                        }
+                    );
+                    continue;
+                }
+                await db.Student_Assignment.update(
+                    { isDeleted: true },
+                    {
+                        where: {
+                            assignmentId,
+                            studentId: currentListStudentIdOfAssignment[i],
+                            isDeleted: false,
+                        },
+                    }
+                );
+            }
+            for (let i = 0; i < listStudentId.length; i++)
+                if (!existListStudentId.includes(listStudentId[i]))
+                    updateListStudentId.push(listStudentId[i]);
+
+            const listStudentAssignment = new Array();
+            for (let i = 0; i < updateListStudentId.length; ++i) {
+                listStudentAssignment.push({
+                    studentId: updateListStudentId[i],
+                    assignmentId: assignmentId,
                     status: 0,
-                    dateRequest: null,
                     redo: assignment.redo,
                     isRedo: 0,
-                    studentId: students[i],
-                    assignmentId,
                 });
-
-            await db.Student_Assignment.bulkCreate(studentAssignments);
+            }
+            await db.Student_Assignment.bulkCreate(listStudentAssignment);
             return respMapper(201, 'Assign assignment to student successfully');
         } catch (error) {
             if (error.stack) {

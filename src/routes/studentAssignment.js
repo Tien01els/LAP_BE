@@ -8,9 +8,9 @@ studentAssignmentRouter.post(
   studentAssignmentController.postStudentAssignment,
 )
 
-studentAssignmentRouter.post(
-  '/assign-list-student',
-  studentAssignmentController.postListStudentAssignment,
+studentAssignmentRouter.put(
+  '/assignment/:assignmentId/assign-list-student',
+  studentAssignmentController.assignForListStudent,
 )
 
 module.exports = studentAssignmentRouter
