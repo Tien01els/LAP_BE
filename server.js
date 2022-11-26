@@ -6,14 +6,16 @@ const cookieParser = require('cookie-parser');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 
-const connectDB = require('./config/connectDB');
-const { notificationSocketController } = require('./controllers/index');
-const route = require('./routes/index');
+const connectDB = require('./src/config/connectDB');
+const { notificationSocketController } = require('./src/controllers/index');
+const route = require('./src/routes/index');
 
 let app = express();
 
 app.use(cors());
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+// app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+// app.use(cors({ credentials: true, origin: 'http://localhost:3050' }));
+app.use(express.static('build'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json());

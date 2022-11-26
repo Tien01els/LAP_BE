@@ -4,7 +4,7 @@
     "description": "Learning Assessment Platform Backend",
     "main": "server.js",
     "scripts": {
-        "start": "nodemon --exec babel-node src/server.js",
+        "start": "nodemon --exec babel-node server.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Dang Nhat Tien",

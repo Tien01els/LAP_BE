@@ -1,6 +1,6 @@
 const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
-import { v4 as uuidv4 } from 'uuid';
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
     findAllRoomOfReceiver: async (receiverId) => {
