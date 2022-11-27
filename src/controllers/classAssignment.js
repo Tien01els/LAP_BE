@@ -13,11 +13,27 @@ module.exports = {
     },
     postClassAssignment: async (req, res) => {
         try {
-            const { classId, assignmentId, dateOpen } = req.body;
+            const { classId, assignmentId, dateOpen, dateDue } = req.body;
             let result = await classAssignmentService.createClassAssignment(
                 classId,
                 assignmentId,
-                dateOpen
+                dateOpen,
+                dateDue
+            );
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
+    updateDueDateOfClassAssignment: async (req, res) => {
+        try {
+            const { classId, assignmentId } = req.params;
+            const { dueDay } = req.body;
+            let result = await classAssignmentService.updateDueDateOfClassAssignment(
+                classId,
+                assignmentId,
+                dueDay
             );
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
@@ -26,8 +42,13 @@ module.exports = {
         }
     },
     deleteClassAssignment: async (req, res) => {
-        let id = req.params.id;
-        let classAssignmentDeleted = await classAssignmentService.deleteClassAssignment(id);
-        return res.send(classAssignmentDeleted);
+        try {
+            let id = req.params.id;
+            let result = await classAssignmentService.deleteClassAssignment(id);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
     },
 };

@@ -64,7 +64,7 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    createClassAssignment: async (classId, assignmentId, dateOpen) => {
+    createClassAssignment: async (classId, assignmentId, dateOpen, dateDue) => {
         try {
             const checkClassAssignment = await db.Class_Assignment.findOne({
                 where: { classId, assignmentId, isDeleted: 0 },
@@ -83,7 +83,8 @@ module.exports = {
             if (!assignment) return errorResp(422, 'This assignment does not exist');
 
             const classAssignment = {
-                dateOpen: dateOpen || new Date(),
+                dateOpen,
+                dateDue,
                 classId,
                 assignmentId,
             };
@@ -94,19 +95,32 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    deleteQuestion: async (id) => {
+    updateDueDateOfClassAssignment: async (classId, assignmentId, dueDay) => {
         try {
-            const question = await db.Question.findByPk(id);
-            if (question) {
-                if (question.isDeleted) {
-                    return 'This question has been deleted';
-                }
-                question.isDeleted = true;
-                return await question.save();
-            }
-            return 'This question does not exist';
-        } catch (e) {
-            console.log(e);
+            const classAssignment = await db.Class_Assignment.findOne({
+                where: { classId, assignmentId, isDeleted: 0 },
+            });
+            if (!classAssignment) return errorResp(409, 'This assignment of class does not exist');
+            if (dueDay)
+                classAssignment.dateDue = new Date(
+                    new Date(classAssignment.dateOpen).getTime() +
+                        24 * 60 * 60 * parseInt(dueDay) * 1000
+                );
+            return respMapper(204, await classAssignment.save());
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
+    deleteClassAssignment: async (id) => {
+        try {
+            const classAssignment = await db.Class_Assignment.findByPk(id);
+            if (!classAssignment) return errorResp(409, 'This assignment of class does not exist');
+            classAssignment.isDeleted = true;
+            return respMapper(204, await question.save());
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
 };
