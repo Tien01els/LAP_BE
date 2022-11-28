@@ -114,7 +114,7 @@ module.exports = {
                 raw: true,
             });
 
-            if (isAccountExist) return errorResp(500, 'Account has existed');
+            if (isAccountExist) return errorResp(409, 'Account has existed');
 
             const password = await bcrypt.hash(account.password, 10);
             const accountCreate = {
@@ -184,7 +184,7 @@ module.exports = {
     loginAccount: async (email, password) => {
         try {
             const account = await db.Account.findOne({
-                where: { email },
+                where: { email, isDeleted: false },
                 attributes: {
                     exclude: ['createdAt', 'updatedAt'],
                 },
@@ -192,7 +192,6 @@ module.exports = {
             });
             if (!account) return errorResp(401, 'Account not found');
             if (account.isActive === 0) return errorResp(401, 'Account is not active');
-            if (account.isDeleted === 1) return errorResp(401, 'Account is deleted');
 
             const validPassword = await bcrypt.compare(password, account.password);
             if (!validPassword) return errorResp(400, 'Wrong password');
@@ -226,18 +225,15 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    logoutAccount: async (userId, roleId) => {
+    logoutAccount: async (accountId) => {
         try {
-            const user = await getUserById(userId, roleId);
-            if (!user) return errorResp(401, 'User not found');
-            const account = await db.Account.findByPk(user.accountId, {
+            const account = await db.Account.findByPk(accountId, {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt'],
                 },
                 raw: true,
             });
-
-            await updateRefreshToken(account.id, null);
+            account && (await updateRefreshToken(account.id, null));
             return respMapper(204, 'Log out success');
         } catch (error) {
             if (error.stack) {

@@ -11,7 +11,10 @@ classRouter.get(
     classController.getClassesByTeacherIdAndGradeId
 );
 classRouter.get('/teacher', verifyToken, classController.getClassesOfTeacher);
-classRouter.get('/:id', classController.getClassInfo);
+classRouter.get('/:id', verifyToken, classController.getClassInfo);
 
+classRouter.post('/', verifyToken, classController.postClassInfo);
+classRouter.put('/:id', verifyToken, classController.putClassInfo);
+classRouter.delete('/:id', verifyToken, classController.deleteClassInfo);
 
 module.exports = classRouter;

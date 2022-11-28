@@ -21,27 +21,30 @@ module.exports = {
                     type: sequelize.QueryTypes.SELECT,
                 }
             );
-            if (classInfo[0]) {
-                const numberStudents = await db.sequelize.query(
-                    `
+            if (!classInfo[0]) return errorResp(422, 'Class not found');
+            const numberStudents = await db.sequelize.query(
+                `
                     SELECT COUNT(s.id) AS numberStudents
                     FROM students as s
                     WHERE s.classId = :id AND s.isDeleted = 0
                     `,
-                    {
-                        replacements: { id },
-                        type: sequelize.QueryTypes.SELECT,
-                    }
-                );
+                {
+                    replacements: { id },
+                    type: sequelize.QueryTypes.SELECT,
+                }
+            );
 
-                classInfo[0] = {
-                    ...classInfo[0],
-                    ...numberStudents[0],
-                };
-            }
+            classInfo[0] = {
+                ...classInfo[0],
+                ...numberStudents[0],
+            };
+
             return respMapper(200, classInfo[0]);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -54,10 +57,13 @@ module.exports = {
                 },
                 raw: true,
             });
-            return classes;
-        } catch (e) {
-            console.log(e);
-            return e;
+            return respMapper(200, classes);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
         }
     },
     findClassesByTeacherIdAndGradeId: async (teacherId, gradeId) => {
@@ -69,10 +75,68 @@ module.exports = {
                 },
                 raw: true,
             });
-            return classes;
-        } catch (e) {
-            console.log(e);
-            return e;
+            return respMapper(200, classes);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+
+    createClassInfo: async (classInfo) => {
+        try {
+            const currentClassInfo = await db.Class.findOne({
+                where: { className: classInfo.className },
+            });
+            if (currentClassInfo) return errorResp(409, 'Class has existed');
+            await db.Class.create(classInfo);
+            return respMapper(201, 'Created class successfully');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+
+    updateClassInfo: async (id, classInfo) => {
+        try {
+            const currentClassInfo = await db.Class.findOne({
+                where: { className: classInfo.className },
+            });
+            if (currentClassInfo && currentClassInfo.id === id)
+                return errorResp(409, 'The name of the class is the same as another class');
+            await db.Class.update(classInfo, {
+                where: { id },
+            });
+            return respMapper(204, 'Updated class successfully');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+
+    deleteClassInfo: async (id) => {
+        try {
+            await db.Class.update(
+                { isDeleted: true },
+                {
+                    where: { id },
+                }
+            );
+            return respMapper(204, 'Deleted class successfully');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
         }
     },
 };

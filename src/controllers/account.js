@@ -51,7 +51,7 @@ module.exports = {
     },
     logout: async (req, res) => {
         try {
-            const result = await accountService.logoutAccount(req.userId, req.roleId);
+            const result = await accountService.logoutAccount(req.accountId);
             // res.clearCookie('accessToken');
             // res.clearCookie('refreshToken');
             return res.status(result.statusCode).json({
