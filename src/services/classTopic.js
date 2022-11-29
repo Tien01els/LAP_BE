@@ -135,7 +135,7 @@ module.exports = {
                 studentTopics.push({
                     status: 0,
                     isUnlock: isUnlock,
-                    isDeleted: 0,
+                    isDeleted: false,
                     studentId: students[i].id,
                     topicId: classTopic.topicId,
                 });

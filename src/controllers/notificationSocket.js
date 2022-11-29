@@ -95,11 +95,12 @@ module.exports = {
                         content: `Topic ${topic.topicName} unlock request ${
                             answer ? 'accepted' : 'denied'
                         }`,
-                        requestURL: `topic/${topic.id}`,
+                        requestUrl: `topic/${topic.id}`,
                         typeNotification: `Unlock`,
                         dateRequest: new Date(),
                         tableHandle,
                         idTableHandle,
+                        isDeleted: false,
                     });
                 }
                 socket.to(notificationRoom.room).emit('get-handle-request-notification', {
@@ -151,11 +152,12 @@ module.exports = {
                     receiverAccountId: teacher.accountId,
                     notificationRoomId: notificationRoom.id,
                     content: `${student.fullName} sent a request to unlock topic ${topic.topicName}`,
-                    requestURL: `student/${student.id}`,
+                    requestUrl: `student/${student.id}`,
                     typeNotification: `Unlock`,
                     dateRequest: new Date(),
                     tableHandle: tableHandle,
                     idTableHandle: idTableHandle,
+                    isDeleted: false,
                 });
                 await db.Student_Topic.update(
                     {

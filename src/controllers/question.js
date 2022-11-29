@@ -52,7 +52,7 @@ module.exports = {
                 listSkillQuestion.push({
                     questionId: questionNew.id,
                     skillId: skillIds[i],
-                    isDeleted: 0,
+                    isDeleted: false,
                 });
             }
             await skillQuestionService.createSkillQuestion(listSkillQuestion);
@@ -101,7 +101,7 @@ module.exports = {
             listSkillQuestion.push({
                 questionId: questionUpdated.id,
                 skillId: listSkillQuestionUpdate[i],
-                isDeleted: 0,
+                isDeleted: false,
             });
 
         await skillQuestionService.createSkillQuestion(listSkillQuestion);

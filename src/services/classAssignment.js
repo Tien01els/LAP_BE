@@ -117,8 +117,28 @@ module.exports = {
         try {
             const classAssignment = await db.Class_Assignment.findByPk(id);
             if (!classAssignment) return errorResp(409, 'This assignment of class does not exist');
+
+            const listStudent = await db.Student.findAll({
+                where: { classId: classAssignment?.classId, isDeleted: 0 },
+                attributes: ['id'],
+            });
+            for (let i = 0; i < listStudent?.length; ++i)
+                await db.Student_Assignment.update(
+                    {
+                        isDeleted: true,
+                    },
+                    {
+                        where: {
+                            studentId: listStudent[i].id,
+                            assignmentId: classAssignment.assignmentId,
+                            isDeleted: 0,
+                        },
+                    }
+                );
+
             classAssignment.isDeleted = true;
-            return respMapper(204, await question.save());
+            await classAssignment.save();
+            return respMapper(204, 'Successfully deleted assignment of class');
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

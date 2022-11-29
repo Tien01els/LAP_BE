@@ -31,11 +31,13 @@ module.exports = {
                     senderAccountId: senderAccountId,
                     receiverAccountId: receiverAccount.id,
                     room: roomId,
+                    isDeleted: false,
                 },
                 {
                     senderAccountId: receiverAccount.id,
                     receiverAccountId: senderAccountId,
                     room: roomId,
+                    isDeleted: false,
                 },
             ];
             let res = await db.Notification_Room.bulkCreate(newRoom);

@@ -1,7 +1,39 @@
 const db = require('../models/index');
+const { Op } = require('sequelize');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
+    findDeadlineOfStudent: async (studentId) => {
+        try {
+            let studentAssignment = await db.Student_Assignment.findAll({
+                where: {
+                    studentId,
+                    isDeleted: 0,
+                    dateDue: {
+                        [Op.gte]: new Date(),
+                    },
+                },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                include: [
+                    {
+                        attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
+                        model: db.Assignment,
+                        as: 'assignment',
+                        where: { isDeleted: 0 },
+                    },
+                ],
+            });
+            return respMapper(201, studentAssignment);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
     createStudentAssignment: async (studentId, assignmentId) => {
         try {
             const student = await db.Student.findByPk(studentId, {
@@ -29,7 +61,7 @@ module.exports = {
                 assignmentId,
                 isDeleted: false,
             };
-            let studentAssignmentNew = await await db.Student_Assignment.create(studentAssignment);
+            let studentAssignmentNew = await db.Student_Assignment.create(studentAssignment);
             return respMapper(201, studentAssignmentNew);
         } catch (error) {
             if (error.stack) {
@@ -40,7 +72,7 @@ module.exports = {
         }
     },
 
-    updateListStudentAssignment: async (assignmentId, listStudentId) => {
+    updateListStudentAssignment: async (assignmentId, listStudentId, dateDue) => {
         try {
             const assignment = await db.Assignment.findByPk(assignmentId, {
                 where: { isDeleted: 0 },
@@ -102,11 +134,47 @@ module.exports = {
                     assignmentId: assignmentId,
                     status: 0,
                     redo: assignment.redo,
+                    dateDue,
                     isRedo: 0,
+                    isDeleted: false,
                 });
             }
             await db.Student_Assignment.bulkCreate(listStudentAssignment);
-            return respMapper(201, 'Assign assignment to student successfully');
+            return respMapper(201, 'successfully assign assignment to student');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+
+    updateDateDueOfStudentAssignment: async (assignmentId, classId, dueDay) => {
+        try {
+            const listStudent = await db.Student.findAll({
+                where: { classId, isDeleted: 0 },
+                attributes: ['id'],
+            });
+            const classAssignment = await db.Class_Assignment.findOne({
+                where: { classId, assignmentId, isDeleted: 0 },
+            });
+            if (!classAssignment) return errorResp(409, 'This assignment of class does not exist');
+            if (dueDay)
+                for (let i = 0; i < listStudent.length; ++i) {
+                    await db.Student_Assignment.update(
+                        {
+                            dateDue: new Date(
+                                new Date(classAssignment.dateOpen).getTime() +
+                                    24 * 60 * 60 * parseInt(dueDay) * 1000
+                            ),
+                        },
+                        {
+                            where: { studentId: listStudent[i].id, assignmentId, isDeleted: 0 },
+                        }
+                    );
+                }
+            return respMapper(201, 'successfully updated due date assignment of student');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);

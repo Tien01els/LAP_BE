@@ -115,7 +115,7 @@ module.exports = {
                 listStudentQuestion.push({
                     isCorrect: 0,
                     redoTime: 0,
-                    isDeleted: 0,
+                    isDeleted: false,
                     studentId,
                     assignmentId,
                     questionId: listUpdateStudentQuestion[i],
