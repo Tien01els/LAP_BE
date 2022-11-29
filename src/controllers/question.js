@@ -42,7 +42,7 @@ module.exports = {
                 score: req.body.score,
                 questionTypeId: req.body.questionTypeId,
                 teacherId: req.body.teacherId,
-                isDeleted: 0,
+                isDeleted: false,
             };
             let questionNew = await questionService.createQuestion(question);
             const skillIds = req.body.skillIds || new Array();

@@ -20,17 +20,23 @@ module.exports = {
         }
     },
     postTopic: async (req, res) => {
-        const topic = {
-            topicName: req.body.topicName,
-            description: req.body.description,
-            isDeleted: false,
-            teacherId: req.body.teacherId,
-            gradeId: req.body.gradeId == '-1' ? null : req.body.gradeId,
-            prerequisiteTopicId:
-                req.body.prerequisiteTopicId == '-1' ? null : req.body.prerequisiteTopicId,
-        };
-        let result = await topicService.createTopic(topic);
-        return res.send(result);
+        try {
+            const topic = {
+                topicName: req.body.topicName,
+                description: req.body.description,
+                isDeleted: false,
+                teacherId: req.body.teacherId,
+                gradeId: req.body.gradeId == '-1' ? null : req.body.gradeId,
+                prerequisiteTopicId:
+                    req.body.prerequisiteTopicId == '-1' ? null : req.body.prerequisiteTopicId,
+                isDeleted: false,
+            };
+            const result = await topicService.createTopic(topic);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
     },
     getTopicByTeacherIdAndGradeId: async (req, res) => {
         const teacherId = req.userId;

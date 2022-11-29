@@ -30,6 +30,7 @@ module.exports = {
             redo: req.body.redo || 0,
             typeAssignment: req.body.typeAssignment,
             teacherId: req.userId,
+            isDeleted: false,
         };
         const assignmentNew = await assignmentService.createAssignment(assignment);
         if (!assignmentNew) return res.json({ error: 'Could not create assignment' });

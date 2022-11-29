@@ -1,21 +1,7 @@
 const db = require('../models/index');
+const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
-    findStudent: async (id) => {
-        try {
-            let student = await db.Student.findByPk(id, {
-                where: { isDeleted: 0 },
-                attributes: {
-                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                },
-                raw: true,
-            });
-            return student;
-        } catch (e) {
-            console.log(e);
-            return e;
-        }
-    },
     findStudentsbyClassId: async (classId) => {
         try {
             let students = await db.Student.findAll({
@@ -25,59 +11,58 @@ module.exports = {
                 },
                 raw: true,
             });
-            return students;
-        } catch (e) {
-            console.log(e);
-            return e;
+            return respMapper(200, students);
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
 
     createStudent: async (student) => {
         try {
-            let studentNew = await db.Student.create(student);
-            return studentNew;
-        } catch (e) {
-            console.log(e);
-            return e;
+            await db.Student.create(student);
+            return respMapper(201, 'Successfully created student');
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
 
     addStudentToClass: async (classId, studentEmail) => {
         try {
-            if (!studentEmail) {
-                return { text: 'No ok', message: 'Please enter a email' };
-            }
+            if (!studentEmail)
+                return respMapper(422, { text: 'No ok', message: 'Please enter a email' });
+
             let account = await db.Account.findOne({
                 where: { email: studentEmail, roleId: 3, isActive: true, isDeleted: false },
             });
 
             if (!account) {
-                console.log('Cant find account');
-                return { text: 'No ok', message: 'Can not find account' };
+                console.log('Not found account of student');
+                return respMapper(422, { text: 'No ok', message: 'Account of student not found' });
             }
 
             const student = await db.Student.findOne({
                 where: { accountId: account?.id, isDeleted: 0 },
             });
-            if (student?.classId) {
-                return { text: 'No ok', message: 'Student had class' };
-            }
+            if (student?.classId)
+                return respMapper(409, { text: 'No ok', message: 'Student had class' });
             student.classId = classId;
             await student.save();
-            return {
+            return respMapper(201, {
                 text: 'Ok',
                 message: 'Add student into class successfully',
-            };
-        } catch (e) {
-            console.log(e);
-            return e;
+            });
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
 
     removeStudentFromClass: async (studentId) => {
         try {
             await db.Student.update({ classId: -1 }, { where: { id: studentId } });
-            return 204;
+            return respMapper(204, 'Successfully deleted student');
         } catch (e) {
             console.error('Can not remove student from class');
             console.error(e.stack);

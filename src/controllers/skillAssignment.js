@@ -6,7 +6,7 @@ module.exports = {
             const skillAssignment = {
                 skillId: req.body.skillId,
                 assignmentId: req.body.assignmentId,
-                isDeleted: 0,
+                isDeleted: false,
             };
             const result = await skillAssignmentService.createSkillAssignment(skillAssignment);
             return res.status(result.statusCode).send(result.data);

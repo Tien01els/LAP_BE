@@ -120,7 +120,7 @@ module.exports = {
                 },
                 raw: true,
             });
-            if (existedClassTopic) return errorResp(400, 'Topic in class is exist');
+            if (existedClassTopic) return errorResp(409, 'Topic of class has existed');
 
             let classTopicNew = await db.Class_Topic.create(classTopic);
             let students = await db.Student.findAll({
@@ -150,27 +150,27 @@ module.exports = {
     deleteClassTopic: async (id) => {
         try {
             let classTopic = await db.Class_Topic.findByPk(id);
-            if (classTopic) {
-                if (classTopic.isDeleted) {
-                    return 'This topic in class has been deleted';
-                }
-                classTopic.isDeleted = true;
-                return await classTopic.save();
+            if (!classTopic) return errorResp(422, 'Not found topic of class');
+            classTopic.isDeleted = true;
+            const classTopicDeleted = await classTopic.save();
+            if (
+                (typeof classTopicDeleted === 'object' ||
+                    typeof classTopicDeleted === 'function') &&
+                classTopicDeleted !== null
+            ) {
+                let students = await db.Student.findAll({
+                    where: { classId: classTopicDeleted.classId, isDeleted: 0 },
+                });
+                for (let i = 0; i < students.length; ++i)
+                    await db.Student_Topic.update(
+                        { isDeleted: true },
+                        {
+                            where: { studentId: students[i].id, topicId, isDeleted: false },
+                        }
+                    );
             }
-
-            let studentTopic = await db.Student_Topic.findOne({
-                where: { studentId, topicId },
-            });
-            if (studentTopic) {
-                if (studentTopic.isDeleted) {
-                    return 'Topic in this student has been deleted';
-                }
-                studentTopic.isDeleted = true;
-                return await studentTopic.save();
-            }
-
-            return 'This topic of class does not exist';
-        } catch (e) {
+            return respMapper(204, 'Successfully deleted topic of class');
+        } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
         }

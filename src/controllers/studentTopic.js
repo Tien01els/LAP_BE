@@ -9,7 +9,7 @@ module.exports = {
             let studentTopic = {
                 status: 0,
                 isUnlock: isUnlock,
-                isDeleted: 0,
+                isDeleted: false,
                 studentId,
                 topicId,
             };

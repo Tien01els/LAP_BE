@@ -87,6 +87,7 @@ module.exports = {
                 dateDue,
                 classId,
                 assignmentId,
+                isDeleted: false,
             };
             let classAssignmentNew = await db.Class_Assignment.create(classAssignment);
             return respMapper(201, classAssignmentNew);

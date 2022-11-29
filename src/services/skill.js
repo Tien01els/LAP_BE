@@ -85,8 +85,8 @@ module.exports = {
     },
     createSkill: async (skill) => {
         try {
-            let skillNew = await db.Skill.create(skill);
-            return respMapper(200, skillNew);
+            await db.Skill.create(skill);
+            return respMapper(201, 'Successfully created skill ');
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

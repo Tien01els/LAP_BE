@@ -27,6 +27,7 @@ module.exports = {
                 isRedo: 0,
                 studentId,
                 assignmentId,
+                isDeleted: false,
             };
             let studentAssignmentNew = await await db.Student_Assignment.create(studentAssignment);
             return respMapper(201, studentAssignmentNew);

@@ -7,13 +7,8 @@ module.exports = {
         try {
             const classInfo = await db.sequelize.query(
                 `
-                SELECT c.id, c.className, c.classCode, c.classImg, c.year, c.createdAt, ct.numberTopics, ct.averageScore
-                FROM classes AS c
-                JOIN ( 
-                    SELECT classId, COUNT(topicId) AS numberTopics, AVG(averageScore) AS averageScore
-                    FROM class_topics
-                    WHERE classId = :id AND isDeleted = 0) AS ct
-                ON ct.classId = c.id                  
+                SELECT c.id, c.className, c.classCode, c.classImg, c.year, c.createdAt
+                FROM classes AS c            
                 WHERE c.id = :id AND c.isDeleted = 0
                 `,
                 {
@@ -39,6 +34,40 @@ module.exports = {
                 ...numberStudents[0],
             };
 
+            const numberTopics = await db.sequelize.query(
+                `
+                    SELECT COUNT(topicId) AS numberTopics
+                    FROM class_topics
+                    WHERE classId = :id AND isDeleted = 0
+                `,
+                {
+                    replacements: { id },
+                    type: sequelize.QueryTypes.SELECT,
+                }
+            );
+
+            classInfo[0] = {
+                ...classInfo[0],
+                ...numberTopics[0],
+            };
+
+            const numberAssignments = await db.sequelize.query(
+                `
+                    SELECT COUNT(ca.assignmentId) AS numberAssignments
+                    FROM class_assignments as ca
+                    WHERE ca.classId = :id AND ca.isDeleted = 0
+                    `,
+                {
+                    replacements: { id },
+                    type: sequelize.QueryTypes.SELECT,
+                }
+            );
+
+            classInfo[0] = {
+                ...classInfo[0],
+                ...numberAssignments[0],
+            };
+
             return respMapper(200, classInfo[0]);
         } catch (error) {
             if (error.stack) {
@@ -55,7 +84,15 @@ module.exports = {
                 attributes: {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
-                raw: true,
+                include: [
+                    {
+                        attributes: ['gradeName'],
+                        model: db.Grade,
+                        as: 'grade',
+                        where: { isDeleted: 0 },
+                        required: false,
+                    },
+                ],
             });
             return respMapper(200, classes);
         } catch (error) {

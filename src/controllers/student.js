@@ -2,21 +2,36 @@ const { studentService } = require('../services/index');
 
 module.exports = {
     getStudentsOfClass: async (req, res) => {
-        let classId = req.params.classId;
-        let students = await studentService.findStudentsbyClassId(classId);
-        return res.send(students);
+        try {
+            let classId = req.params.classId;
+            let result = await studentService.findStudentsbyClassId(classId);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
     },
 
     addStudentToClass: async (req, res) => {
-        let classId = req.params.classId;
-        let studentEmail = req.body.studentEmail;
-        let resp = await studentService.addStudentToClass(classId, studentEmail);
-        return res.send(resp);
+        try {
+            let classId = req.params.classId;
+            let studentEmail = req.body.studentEmail;
+            let result = await studentService.addStudentToClass(classId, studentEmail);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
     },
 
     removeStudentFromClass: async (req, res) => {
-        let studentId = req.params.studentId;
-        await studentService.removeStudentFromClass(studentId);
-        return res.sendStatus(204);
+        try {
+            let studentId = req.params.studentId;
+            let result = await studentService.removeStudentFromClass(studentId);
+            return res.send(204).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
     },
 };

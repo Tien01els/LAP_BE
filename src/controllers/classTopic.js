@@ -2,10 +2,15 @@ const { classTopicService, studentService, studentTopicService } = require('../s
 
 module.exports = {
     getTopicsOfTeacherByClass: async (req, res) => {
-        let teacherId = req.userId;
-        let classId = req.params.classId;
-        let result = await classTopicService.findTopicsOfTeacherByClass(teacherId, classId);
-        return res.status(result.statusCode).send(result.data);
+        try {
+            let teacherId = req.userId;
+            let classId = req.params.classId;
+            let result = await classTopicService.findTopicsOfTeacherByClass(teacherId, classId);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
     },
 
     getTopicsOfClassForStudent: async (req, res) => {
@@ -42,25 +47,7 @@ module.exports = {
         try {
             let id = req.params.id;
             let result = await classTopicService.deleteClassTopic(id);
-            let classTopicDeleted = result.data;
-            let listStudentTopicDeleted = new Array();
-            if (
-                (typeof classTopicDeleted === 'object' ||
-                    typeof classTopicDeleted === 'function') &&
-                classTopicDeleted !== null
-            ) {
-                let students = await studentService.findStudentsbyClassId(
-                    classTopicDeleted.classId
-                );
-                for (let i = 0; i < students.length; ++i) {
-                    const resultDeleted = await studentTopicService.deleteStudentTopic(
-                        students[i].id,
-                        classTopicDeleted.topicId
-                    );
-                    listStudentTopicDeleted.push(resultDeleted.data);
-                }
-            }
-            return res.status(204).send(listStudentTopicDeleted);
+            return res.status(204).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
             return res.status(errorStatus).send(error.data);

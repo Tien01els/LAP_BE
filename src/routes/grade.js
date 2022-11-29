@@ -7,7 +7,7 @@ const gradeRouter = express.Router();
 //verify Token
 gradeRouter.get('/teacher', verifyToken, gradeController.getGradeOfTeacher);
 
-gradeRouter.get('/', gradeController.getAllGrades);
+gradeRouter.get('/', verifyToken, gradeController.getAllGrades);
 
 
 module.exports = gradeRouter;

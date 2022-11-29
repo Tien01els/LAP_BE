@@ -40,6 +40,8 @@ module.exports = {
                 classCode: req.body.classCode,
                 classImg: req.body.classImg,
                 year: req.body.year,
+                gradeId: req.body.gradeId,
+                teacherId: req.userId,
                 isDeleted: 0,
             };
             let result = await classService.createClassInfo(classInfo);
