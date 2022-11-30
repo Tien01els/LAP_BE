@@ -67,7 +67,7 @@ module.exports = {
             console.error('Can not remove student from class');
             console.error(e.message);
             console.error(e.stack);
-            return 400;
+            throw errorResp(400, error.message);
         }
     },
 };
