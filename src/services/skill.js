@@ -85,8 +85,24 @@ module.exports = {
     },
     createSkill: async (skill) => {
         try {
-            await db.Skill.create(skill);
-            return respMapper(201, 'Successfully created skill ');
+            const newSkill = await db.Skill.create(skill);
+            const listStudentTopic = await db.Student_Topic.findAll({
+                where: { topicId: newSkill.topicId, isDeleted: 0 },
+            });
+
+            const listSkillOfStudent = new Array();
+            for (let i = 0; i < listStudentTopic.length; ++i) {
+                if (listStudentTopic[i].isUnlock)
+                    listSkillOfStudent.push({
+                        status: 0,
+                        isPass: false,
+                        isDeleted: false,
+                        studentId: listStudentTopic[i].studentId,
+                        skillId: newSkill.id,
+                    });
+            }
+            await db.Student_Skill.bulkCreate(listSkillOfStudent);
+            return respMapper(201, 'Successfully created skill');
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
