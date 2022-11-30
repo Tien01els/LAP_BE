@@ -4,8 +4,10 @@ const { respMapper, errorResp } = require('../helper/helper');
 module.exports = {
     createSkillAssignment: async (skillAssignment) => {
         try {
-            await db.Skill_Assignment.create(skillAssignment);
-            return respMapper(200, 'Assignment for skill created successfully');
+            return respMapper(201, {
+                message: 'Assignment for skill created successfully',
+                result: await db.Skill_Assignment.create(skillAssignment),
+            });
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

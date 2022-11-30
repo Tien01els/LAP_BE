@@ -90,7 +90,10 @@ module.exports = {
                 isDeleted: false,
             };
             let classAssignmentNew = await db.Class_Assignment.create(classAssignment);
-            return respMapper(201, classAssignmentNew);
+            return respMapper(201, {
+                message: 'Assignment for class created successfully',
+                result: classAssignmentNew,
+            });
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

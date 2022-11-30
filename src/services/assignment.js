@@ -11,19 +11,18 @@ module.exports = {
                 },
                 raw: true,
             });
-            if (assignment) {
-                assignment.questions = await db.Assignment_Question.findAll({
-                    where: { assignmentId: assignment.id, isDeleted: 0 },
-                    attributes: {
-                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                    },
-                    raw: true,
-                });
-                return respMapper(200, assignment);
-            }
-            throw {
-                message: 'This assignment does not exist or has been deleted',
-            };
+            if (!assignment)
+                throw {
+                    message: 'This assignment does not exist or has been deleted',
+                };
+            assignment.questions = await db.Assignment_Question.findAll({
+                where: { assignmentId: assignment.id, isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                raw: true,
+            });
+            return respMapper(200, assignment);
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
