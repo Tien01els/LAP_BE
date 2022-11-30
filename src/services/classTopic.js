@@ -165,9 +165,51 @@ module.exports = {
                     await db.Student_Topic.update(
                         { isDeleted: true },
                         {
-                            where: { studentId: students[i].id, topicId, isDeleted: false },
+                            where: {
+                                studentId: students[i].id,
+                                topicId: classTopic.topicId,
+                                isDeleted: false,
+                            },
                         }
                     );
+
+                const skillOfTopic = await db.Skill.findAll({
+                    where: { topicId: classTopic.topicId, isDeleted: false },
+                });
+
+                for (let i = 0; i < students.length; ++i)
+                    for (let j = 0; j < skillOfTopic.length; ++j)
+                        await db.Student_Skill.update(
+                            { isDeleted: true },
+                            {
+                                where: {
+                                    studentId: students[i].id,
+                                    skillId: skillOfTopic[i].id,
+                                    isDeleted: false,
+                                },
+                            }
+                        );
+
+                let listAssignmentOfSkill = new Array();
+                for (let i = 0; i < skillOfTopic.length; ++i) {
+                    const assignmentOfSkill = await db.Skill_Assignment.findAll({
+                        where: { skillId: skillOfTopic[i].id, isDeleted: 0 },
+                    });
+                    listAssignmentOfSkill = [...listAssignmentOfSkill, ...assignmentOfSkill];
+                }
+                for (let i = 0; i < students.length; ++i)
+                    for (let j = 0; j < listAssignmentOfSkill.length; ++j) {
+                        await db.Student_Assignment.update(
+                            { isDeleted: true },
+                            {
+                                where: {
+                                    studentId: students[i].id,
+                                    assignmentId: listAssignmentOfSkill[j].assignmentId,
+                                    isDeleted: false,
+                                },
+                            }
+                        );
+                    }
             }
             return respMapper(204, 'Successfully deleted topic of class');
         } catch (error) {

@@ -76,6 +76,59 @@ module.exports = {
                         ? studentTopic.notificationContentId
                         : null;
                     studentTopic.status = 0;
+
+                    const listSkillOfTopic = await db.Skill.findAll({
+                        where: { topicId: studentTopic.topicId, isDeleted: 0 },
+                    });
+
+                    const skillOfStudent = new Array();
+                    for (let i = 0; i < listSkillOfTopic.length; ++i) {
+                        skillOfStudent.push({
+                            studentId: studentTopic.studentId,
+                            skillId: listSkillOfTopic[i].id,
+                            status: 0,
+                            isPass: false,
+                            isDeleted: false,
+                        });
+                    }
+                    await db.Student_Skill.bulkCreate(skillOfStudent);
+
+                    let listAssignmentOfSkill = new Array();
+                    for (let i = 0; i < listSkillOfTopic.length; ++i) {
+                        const assignmentOfSkill = await db.Skill_Assignment.findAll({
+                            where: { skillId: listSkillOfTopic[i].id, isDeleted: 0 },
+                            include: [
+                                {
+                                    model: db.Assignment,
+                                    as: 'assignment',
+                                    where: { isDeleted: 0 },
+                                },
+                            ],
+                        });
+                        listAssignmentOfSkill = [...listAssignmentOfSkill, ...assignmentOfSkill];
+                    }
+
+                    const assignmentOfStudent = new Array();
+                    for (let i = 0; i < listAssignmentOfSkill.length; ++i) {
+                        assignmentOfStudent.push({
+                            studentId: studentTopic.studentId,
+                            assignmentId: listAssignmentOfSkill[i].assignmentId,
+                            status: 0,
+                            dateDue: new Date(
+                                new Date().getTime() +
+                                    24 *
+                                        60 *
+                                        60 *
+                                        parseInt(listAssignmentOfSkill[i].assignment.dueTime) *
+                                        1000
+                            ),
+                            redo: listAssignmentOfSkill[i].assignment.redo,
+                            isRedo: false,
+                            isDeleted: false,
+                        });
+                    }
+                    await db.Student_Assignment.bulkCreate(assignmentOfStudent);
+
                     await studentTopic.save();
                     const topic = await db.Topic.findByPk(studentTopic.topicId, {
                         where: { isDeleted: 0 },
@@ -91,7 +144,7 @@ module.exports = {
                     notificationContent = await db.Notification_Content.create({
                         senderAccountId: senderId,
                         receiverAccountId: receiverId,
-                        notificationRoomId: notificationContentId,
+                        notificationRoomId: notificationRoom.id,
                         content: `Topic ${topic.topicName} unlock request ${
                             answer ? 'accepted' : 'denied'
                         }`,

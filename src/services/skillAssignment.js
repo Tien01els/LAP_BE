@@ -38,9 +38,9 @@ module.exports = {
     deleteAssignmentBySkillId: async (id) => {
         try {
             let skillAssignment = await db.Skill_Assignment.findByPk(id);
-            if (!skillAssignment) return errorResp(400, 'Can not find assignment of skill');
+            if (!skillAssignment) return errorResp(409, 'Can not find assignment of skill');
             const assignment = await db.Assignment.findByPk(skillAssignment.assignmentId);
-            if (!assignment) return errorResp(400, 'Can not find assignment');
+            if (!assignment) return errorResp(409, 'Can not find assignment');
 
             await db.Student_Assignment.update(
                 {

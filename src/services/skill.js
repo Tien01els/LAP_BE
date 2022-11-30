@@ -94,9 +94,43 @@ module.exports = {
     },
     deleteSkill: async (id) => {
         try {
-            await db.Skill.update({ isDeleted: true }, { where: { id } });
-            await db.Skill_Question.update({ isDeleted: true }, { where: { skillId: id } });
-            await db.Skill_Assignment.update({ isDeleted: true }, { where: { skillId: id } });
+            const assignmentOfSkill = await db.Skill_Assignment.findAll({
+                where: { skillId: id, isDeleted: false },
+            });
+
+            await db.Skill.update({ isDeleted: true }, { where: { id, isDeleted: false } });
+            await db.Skill_Question.update(
+                { isDeleted: true },
+                { where: { skillId: id, isDeleted: false } }
+            );
+            await db.Skill_Assignment.update(
+                { isDeleted: true },
+                { where: { skillId: id, isDeleted: false } }
+            );
+            await db.Student_Skill.update(
+                { isDeleted: true },
+                { where: { skillId: id, isDeleted: false } }
+            );
+            for (let i = 0; i < assignmentOfSkill.length; ++i)
+                await db.Student_Assignment.update(
+                    { isDeleted: true },
+                    {
+                        where: {
+                            assignmentId: assignmentOfSkill[i].assignmentId,
+                            isDeleted: false,
+                        },
+                    }
+                );
+            for (let i = 0; i < assignmentOfSkill.length; ++i)
+                await db.Assignment.update(
+                    { isDeleted: true },
+                    {
+                        where: {
+                            id: assignmentOfSkill[i].assignmentId,
+                            isDeleted: false,
+                        },
+                    }
+                );
             return respMapper(200, 'Deleted skill successfully');
         } catch (error) {
             if (error.stack) console.log(error.stack);

@@ -30,7 +30,7 @@ module.exports = {
             let topicId = req.body.topicId;
             let classTopic = {
                 averageScore: 0,
-                isDeleted: 0,
+                isDeleted: false,
                 classId,
                 topicId,
             };
