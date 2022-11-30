@@ -3,7 +3,7 @@ const sequelize = require('sequelize');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
-    findAssignemtnOfClass: async (classId) => {
+    findAssignmentOfClass: async (classId) => {
         try {
             const assignmentOfClass = await db.Class_Assignment.findAll({
                 where: { classId, isDeleted: 0 },
@@ -118,27 +118,24 @@ module.exports = {
             const classAssignment = await db.Class_Assignment.findByPk(id);
             if (!classAssignment) return errorResp(409, 'This assignment of class does not exist');
 
-            const listStudent = await db.Student.findAll({
-                where: { classId: classAssignment?.classId, isDeleted: 0 },
-                attributes: ['id'],
-            });
-            for (let i = 0; i < listStudent?.length; ++i)
-                await db.Student_Assignment.update(
-                    {
-                        isDeleted: true,
-                    },
-                    {
-                        where: {
-                            studentId: listStudent[i].id,
-                            assignmentId: classAssignment.assignmentId,
-                            isDeleted: 0,
-                        },
-                    }
-                );
+            const assignment = await db.Assignment.findByPk(classAssignment.assignmentId);
+            if (assignment) return errorResp(409, 'This assignment does not exist');
 
-            classAssignment.isDeleted = true;
-            await classAssignment.save();
-            return respMapper(204, 'Successfully deleted assignment of class');
+            await db.Student_Assignment.update(
+                {
+                    isDeleted: true,
+                },
+                {
+                    where: {
+                        assignmentId: classAssignment.assignmentId,
+                        isDeleted: false,
+                    },
+                }
+            );
+
+            await assignment.update({ isDeleted: true });
+            await classAssignment.update({ isDeleted: true });
+            return respMapper(204, 'Assignment of class deleted successfully');
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

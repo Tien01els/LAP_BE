@@ -40,17 +40,17 @@ module.exports = {
             });
             return assignments;
         } catch (e) {
-            console.log(e);
-            return e;
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
     createAssignment: async (assignment) => {
         try {
-            let assignmentNew = await db.Assignment.create(assignment);
-            return assignmentNew;
+            await db.Assignment.create(assignment);
+            return respMapper(200, 'Assignment created successfully');
         } catch (e) {
-            console.log(e);
-            return e;
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
     updateAssignment: async (id, assignmentUpdate) => {
@@ -64,8 +64,8 @@ module.exports = {
             }
             return 'This question does not exist or has been deleted';
         } catch (e) {
-            console.log(e);
-            return e;
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
     deleteAssignment: async (id) => {
@@ -80,8 +80,8 @@ module.exports = {
             }
             return 'This assignment does not exist';
         } catch (e) {
-            console.log(e);
-            return e;
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
 };

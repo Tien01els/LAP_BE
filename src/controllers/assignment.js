@@ -21,20 +21,24 @@ module.exports = {
         }
     },
     postAssignment: async (req, res) => {
-        const assignment = {
-            assignmentName: req.body.assignmentName,
-            dueTime: req.body.dueTime || 0,
-            doTime: req.body.doTime || 0,
-            passScore: req.body.passScore || 0,
-            totalScore: req.body.totalScore || 100,
-            redo: req.body.redo || 0,
-            typeAssignment: req.body.typeAssignment,
-            teacherId: req.userId,
-            isDeleted: false,
-        };
-        const assignmentNew = await assignmentService.createAssignment(assignment);
-        if (!assignmentNew) return res.json({ error: 'Could not create assignment' });
-        return res.json(assignmentNew);
+        try {
+            const assignment = {
+                assignmentName: req.body.assignmentName,
+                dueTime: req.body.dueTime || 0,
+                doTime: req.body.doTime || 0,
+                passScore: req.body.passScore || 0,
+                totalScore: req.body.totalScore || 100,
+                redo: req.body.redo || 0,
+                typeAssignment: req.body.typeAssignment,
+                teacherId: req.userId,
+                isDeleted: false,
+            };
+            const result = await assignmentService.createAssignment(assignment);
+            return res.status(201).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error?.data);
+        }
     },
     putAssignment: async (req, res) => {
         const id = req.params.id;

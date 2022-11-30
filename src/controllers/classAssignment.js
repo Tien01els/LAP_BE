@@ -4,7 +4,7 @@ module.exports = {
     getAssignmentOfClass: async (req, res) => {
         try {
             const { classId } = req.params;
-            let result = await classAssignmentService.findAssignemtnOfClass(classId);
+            let result = await classAssignmentService.findAssignmentOfClass(classId);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;

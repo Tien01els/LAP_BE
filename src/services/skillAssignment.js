@@ -4,8 +4,8 @@ const { respMapper, errorResp } = require('../helper/helper');
 module.exports = {
     createSkillAssignment: async (skillAssignment) => {
         try {
-            let skillAssignmentNew = await db.Skill_Assignment.create(skillAssignment);
-            return respMapper(200, skillAssignmentNew);
+            await db.Skill_Assignment.create(skillAssignment);
+            return respMapper(200, 'Assignment for skill created successfully');
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
@@ -38,11 +38,23 @@ module.exports = {
             let skillAssignment = await db.Skill_Assignment.findByPk(id);
             if (!skillAssignment) return errorResp(400, 'Can not find assignment of skill');
             const assignment = await db.Assignment.findByPk(skillAssignment.assignmentId);
-            if (assignment) {
-                assignment.isDeleted = true;
-                await assignment.save();
-            }
-            return respMapper(204, await skillAssignment.update({ isDeleted: true }));
+            if (!assignment) return errorResp(400, 'Can not find assignment');
+
+            await db.Student_Assignment.update(
+                {
+                    isDeleted: true,
+                },
+                {
+                    where: {
+                        assignmentId: skillAssignment.assignmentId,
+                        isDeleted: false,
+                    },
+                }
+            );
+
+            await assignment.update({ isDeleted: true });
+            await skillAssignment.update({ isDeleted: true });
+            return respMapper(204, 'Assignment of skill deleted successfully');
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
