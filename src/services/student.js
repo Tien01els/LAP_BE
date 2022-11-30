@@ -61,10 +61,11 @@ module.exports = {
 
     removeStudentFromClass: async (studentId) => {
         try {
-            await db.Student.update({ classId: -1 }, { where: { id: studentId } });
+            await db.Student.update({ classId: null }, { where: { id: studentId } });
             return respMapper(204, 'Successfully deleted student');
         } catch (e) {
             console.error('Can not remove student from class');
+            console.error(e.message);
             console.error(e.stack);
             return 400;
         }
