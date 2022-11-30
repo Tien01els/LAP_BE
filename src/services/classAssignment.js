@@ -117,9 +117,8 @@ module.exports = {
         try {
             const classAssignment = await db.Class_Assignment.findByPk(id);
             if (!classAssignment) return errorResp(409, 'This assignment of class does not exist');
-
             const assignment = await db.Assignment.findByPk(classAssignment.assignmentId);
-            if (assignment) return errorResp(409, 'This assignment does not exist');
+            if (!assignment) return errorResp(409, 'This assignment does not exist');
 
             await db.Student_Assignment.update(
                 {

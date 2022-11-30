@@ -46,8 +46,10 @@ module.exports = {
     },
     createAssignment: async (assignment) => {
         try {
-            await db.Assignment.create(assignment);
-            return respMapper(200, 'Assignment created successfully');
+            return respMapper(200, {
+                message: 'Assignment created successfully',
+                result: await db.Assignment.create(assignment),
+            });
         } catch (e) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);
