@@ -139,7 +139,8 @@ module.exports = {
                     isDeleted: false,
                 });
             }
-            await db.Student_Assignment.bulkCreate(listStudentAssignment);
+            listStudentAssignment.length &&
+                (await db.Student_Assignment.bulkCreate(listStudentAssignment));
             return respMapper(201, 'successfully assign assignment to student');
         } catch (error) {
             if (error.stack) {
@@ -152,14 +153,14 @@ module.exports = {
 
     updateDateDueOfStudentAssignment: async (assignmentId, classId, dueDay) => {
         try {
-            const listStudent = await db.Student.findAll({
-                where: { classId, isDeleted: 0 },
-                attributes: ['id'],
-            });
             const classAssignment = await db.Class_Assignment.findOne({
                 where: { classId, assignmentId, isDeleted: 0 },
             });
             if (!classAssignment) return errorResp(409, 'This assignment of class does not exist');
+            const listStudent = await db.Student.findAll({
+                where: { classId, isDeleted: 0 },
+                attributes: ['id'],
+            });
             if (dueDay)
                 for (let i = 0; i < listStudent.length; ++i) {
                     await db.Student_Assignment.update(

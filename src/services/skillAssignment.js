@@ -4,9 +4,35 @@ const { respMapper, errorResp } = require('../helper/helper');
 module.exports = {
     createSkillAssignment: async (skillAssignment) => {
         try {
+            const skill = await db.Skill.findByPk(newSkillAssignment.skillId, {
+                where: { isDeleted: 0 },
+            });
+            if (!skill) return errorResp(409, 'Skill not found');
+            const newSkillAssignment = await db.Skill_Assignment.create(skillAssignment);
+            const topicOfSkill = await db.Topic.findByPk(skill.topicId);
+            if (!topicOfSkill) return errorResp(409, 'Topic of skill not found');
+
+            const listStudentTopic = await db.Student_Topic.findAll({
+                where: { topicId: topicOfSkill.id, isDeleted: 0 },
+            });
+
+            const listStudentAssignment = new Array();
+            for (let i = 0; i < listStudentTopic.length; ++i)
+                if (listStudentTopic[i].isUnlock)
+                    listStudentAssignment.push({
+                        status: 0,
+                        isPass: false,
+                        isDeleted: false,
+                        studentId: listStudentTopic[i].studentId,
+                        skillId: newSkill.id,
+                    });
+
+            listStudentAssignment.length &&
+                (await db.Student_Assignment.bulkCreate(listStudentAssignment));
+
             return respMapper(201, {
                 message: 'Assignment for skill created successfully',
-                result: await db.Skill_Assignment.create(skillAssignment),
+                result: newSkillAssignment,
             });
         } catch (error) {
             if (error.stack) console.log(error.stack);

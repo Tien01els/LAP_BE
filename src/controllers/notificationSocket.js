@@ -127,7 +127,8 @@ module.exports = {
                             isDeleted: false,
                         });
                     }
-                    await db.Student_Assignment.bulkCreate(assignmentOfStudent);
+                    assignmentOfStudent.length &&
+                        (await db.Student_Assignment.bulkCreate(assignmentOfStudent));
 
                     await studentTopic.save();
                     const topic = await db.Topic.findByPk(studentTopic.topicId, {
@@ -153,6 +154,7 @@ module.exports = {
                         dateRequest: new Date(),
                         tableHandle,
                         idTableHandle,
+                        isSeen: false,
                         isDeleted: false,
                     });
                 }
@@ -210,6 +212,7 @@ module.exports = {
                     dateRequest: new Date(),
                     tableHandle: tableHandle,
                     idTableHandle: idTableHandle,
+                    isSeen: false,
                     isDeleted: false,
                 });
                 await db.Student_Topic.update(
