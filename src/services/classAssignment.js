@@ -134,6 +134,12 @@ module.exports = {
                     },
                 }
             );
+            await db.Assignment_Question.update(
+                { isDeleted: true },
+                {
+                    where: { assignmentId: id, isDeleted: false },
+                }
+            );
 
             await assignment.update({ isDeleted: true });
             await classAssignment.update({ isDeleted: true });

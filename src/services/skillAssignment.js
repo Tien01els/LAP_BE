@@ -4,10 +4,14 @@ const { respMapper, errorResp } = require('../helper/helper');
 module.exports = {
     createSkillAssignment: async (skillAssignment) => {
         try {
-            const skill = await db.Skill.findByPk(newSkillAssignment.skillId, {
+            const skill = await db.Skill.findByPk(skillAssignment.skillId, {
                 where: { isDeleted: 0 },
             });
             if (!skill) return errorResp(409, 'Skill not found');
+            const assignment = await db.Assignment.findByPk(skillAssignment.assignmentId, {
+                where: { isDeleted: 0 },
+            });
+            if (!assignment) return errorResp(409, 'Assignment not found');
             const newSkillAssignment = await db.Skill_Assignment.create(skillAssignment);
             const topicOfSkill = await db.Topic.findByPk(skill.topicId);
             if (!topicOfSkill) return errorResp(409, 'Topic of skill not found');
@@ -20,11 +24,16 @@ module.exports = {
             for (let i = 0; i < listStudentTopic.length; ++i)
                 if (listStudentTopic[i].isUnlock)
                     listStudentAssignment.push({
-                        status: 0,
-                        isPass: false,
-                        isDeleted: false,
                         studentId: listStudentTopic[i].studentId,
-                        skillId: newSkill.id,
+                        assignmentId: assignment.id,
+                        status: 0,
+                        dateDue: new Date(
+                            new Date().getTime() +
+                                24 * 60 * 60 * parseInt(assignment.dueTime) * 1000
+                        ),
+                        redo: assignment.redo,
+                        isRedo: false,
+                        isDeleted: false,
                     });
 
             listStudentAssignment.length &&
@@ -77,6 +86,13 @@ module.exports = {
                         assignmentId: skillAssignment.assignmentId,
                         isDeleted: false,
                     },
+                }
+            );
+
+            await db.Assignment_Question.update(
+                { isDeleted: true },
+                {
+                    where: { assignmentId: id, isDeleted: false },
                 }
             );
 

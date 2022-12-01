@@ -77,7 +77,14 @@ module.exports = {
                     return 'This assignment has been deleted';
                 }
                 assignment.isDeleted = true;
-                return await assignment.save();
+                await assignment.save();
+                await db.Assignment_Question.update(
+                    { isDeleted: true },
+                    {
+                        where: { assignmentId: id, isDeleted: false },
+                    }
+                );
+                return 'Assignment deleted successfully';
             }
             return 'This assignment does not exist';
         } catch (e) {
