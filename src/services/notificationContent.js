@@ -32,7 +32,7 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    updateIsSeenNotification: async (receiverId) => {
+    updateIsSeenAllNotification: async (receiverId) => {
         try {
             await db.Notification_Content.update(
                 { isSeen: true },
