@@ -13,7 +13,7 @@ module.exports = {
             });
             if (!assignment)
                 throw {
-                    message: 'This assignment does not exist or has been deleted',
+                    message: 'Assignment not found',
                 };
             assignment.questions = await db.Assignment_Question.findAll({
                 where: { assignmentId: assignment.id, isDeleted: 0 },
@@ -56,14 +56,16 @@ module.exports = {
     },
     updateAssignment: async (id, assignmentUpdate) => {
         try {
-            const assignment = await db.Assignment.findByPk(id, {
-                where: { isDeleted: 0 },
+            const assignment = await db.Assignment.update(
+                { ...assignmentUpdate },
+                {
+                    where: { id, isDeleted: 0 },
+                }
+            );
+            return respMapper(200, {
+                message: 'Assignment updated successfully',
+                result: assignment,
             });
-
-            if (assignment) {
-                return await assignment.update({ ...assignmentUpdate });
-            }
-            return 'This question does not exist or has been deleted';
         } catch (e) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

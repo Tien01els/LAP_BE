@@ -95,6 +95,7 @@ module.exports = {
                 },
                 raw: true,
             });
+            if (!question) return errorResp(409, 'Question not found');
             return respMapper(200, question);
         } catch (error) {
             if (error.stack) console.log(error.stack);
@@ -142,17 +143,27 @@ module.exports = {
                 }
             }
             return resultQuestions;
-        } catch (e) {
-            console.log(e);
+        } catch (error) {
+            console.log(error);
             return e;
         }
     },
-    createQuestion: async (question) => {
+    createQuestion: async (question, skillIds) => {
         try {
             let questionNew = await db.Question.create(question);
+
+            const listSkillQuestion = new Array();
+            for (let i = 0; i < skillIds.length; ++i) {
+                listSkillQuestion.push({
+                    questionId: questionNew.id,
+                    skillId: skillIds[i],
+                    isDeleted: false,
+                });
+            }
+            await db.Skill_Question.bulkCreate(listSkillQuestion);
             return questionNew;
-        } catch (e) {
-            console.log(e);
+        } catch (error) {
+            console.log(error);
             return e;
         }
     },
@@ -167,43 +178,76 @@ module.exports = {
                 raw: true,
             });
             return questions;
-        } catch (e) {
-            console.log(e);
+        } catch (error) {
+            console.log(error);
             return e;
         }
     },
-    updateQuestion: async (id, questionUpdate) => {
+    updateQuestion: async (id, teacherId, question, skillIds) => {
         try {
-            const question = await db.Question.findByPk(id, {
-                where: { isDeleted: 0 },
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt'],
-                },
+            const currentQuestion = await db.Question.findByPk(id, { where: { isDeleted: 0 } });
+            if (!currentQuestion) return respMapper(409, 'Question not found');
+            if (currentQuestion.teacherId !== teacherId)
+                return errorResp(403, "You don't have permission to edit");
+
+            let questionUpdated = await db.Question.update(
+                { ...question },
+                {
+                    where: { id, isDeleted: 0 },
+                }
+            );
+
+            const listSkillQuestion = new Array();
+            const listSkillQuestionUpdate = new Array();
+            const listSkillQuestionExists = new Array();
+            const listSkillQuestionCurrent = await db.Skill_Question.findAll({
+                where: { questionId: id, isDeleted: 0 },
             });
 
-            if (question) {
-                return await question.update({ ...questionUpdate });
+            for (let i = 0; i < listSkillQuestionCurrent.length; i++) {
+                if (skillIds.includes(listSkillQuestionCurrent[i].skillId)) {
+                    listSkillQuestionExists.push(skillIds[i]);
+                    continue;
+                }
+                await db.Skill_Question.update(
+                    { isDeleted: true },
+                    { where: { id, isDeleted: false } }
+                );
             }
-            return question;
-        } catch (e) {
-            console.log(e);
-            return e;
+
+            for (let i = 0; i < skillIds.length; i++)
+                if (!listSkillQuestionExists.includes(skillIds[i]))
+                    listSkillQuestionUpdate.push(skillIds[i]);
+
+            for (let i = 0; i < listSkillQuestionUpdate.length; ++i)
+                listSkillQuestion.push({
+                    questionId: questionUpdated.id,
+                    skillId: listSkillQuestionUpdate[i],
+                    isDeleted: false,
+                });
+            await db.Skill_Question.bulkCreate(listSkillQuestion);
+            return respMapper(204, 'Question updated successfully');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
         }
     },
+
     deleteQuestion: async (id) => {
         try {
-            const question = await db.Question.findByPk(id);
-            if (question) {
-                if (question.isDeleted) {
-                    return 'This question has been deleted';
+            await db.Question.update(
+                { isDeleted: true },
+                {
+                    where: { id, isDeleted: true },
                 }
-                question.isDeleted = true;
-                return await question.save();
-            }
-            return 'This question does not exist';
-        } catch (e) {
-            console.log(e);
-            return e;
+            );
+            return respMapper(200, 'Question deleted successfully');
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
         }
     },
 };

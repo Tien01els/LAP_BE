@@ -247,11 +247,11 @@ module.exports = {
                     isDeleted: false,
                 });
 
-            const listAssignmentQuestionNew = await db.Assignment_Question.bulkCreate(
+            await db.Assignment_Question.bulkCreate(
                 listAssignmentQuestion
             );
 
-            return respMapper(200, listAssignmentQuestionNew);
+            return respMapper(200, 'Question of assignment updated successfully');
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

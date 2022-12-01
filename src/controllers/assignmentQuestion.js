@@ -49,7 +49,7 @@ module.exports = {
     },
     putQuestionOfAssignment: async (req, res) => {
         try {
-            const assignmentId = req.body.assignmentId;
+            const assignmentId = req.params.assignmentId;
             const questionIds = req.body.questionIds;
             const result = await assignmentQuestionService.updateQuestionByAssignmentId(
                 assignmentId,

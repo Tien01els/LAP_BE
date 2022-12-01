@@ -16,8 +16,7 @@ classTopicRouter.get(
     verifyToken,
     classTopicController.getTopicsOfClassForStudent
 );
-classTopicRouter.post('/', classTopicController.postClassTopic);
-classTopicRouter.delete('/:id', classTopicController.deleteClassTopic);
-
+classTopicRouter.post('/', verifyToken, classTopicController.postClassTopic);
+classTopicRouter.delete('/:id', verifyToken, classTopicController.deleteClassTopic);
 
 module.exports = classTopicRouter;

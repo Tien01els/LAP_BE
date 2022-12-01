@@ -110,7 +110,7 @@ module.exports = {
                     new Date(classAssignment.dateOpen).getTime() +
                         24 * 60 * 60 * parseInt(dueDay) * 1000
                 );
-            return respMapper(204, await classAssignment.save());
+            return respMapper(200, await classAssignment.save());
         } catch (error) {
             if (error.stack) console.log(error.stack);
             throw errorResp(400, error.message);

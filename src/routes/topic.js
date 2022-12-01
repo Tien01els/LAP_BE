@@ -12,8 +12,8 @@ topicRouter.get(
     topicController.getTopicByTeacherIdAndGradeId
 );
 topicRouter.get('/teacher', verifyToken, topicController.getTopicByTeacherId);
-topicRouter.get('/:id', topicController.getTopic);
-topicRouter.get('/', topicController.getAllTopics);
+topicRouter.get('/:id', verifyToken, topicController.getTopic);
+topicRouter.get('/', verifyToken, topicController.getAllTopics);
 
 topicRouter.put('/:id', verifyToken, topicController.putTopic);
 

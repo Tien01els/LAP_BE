@@ -5,7 +5,15 @@ const verifyToken = require('../middleware/auth');
 const skillAssignmentRouter = express.Router();
 
 skillAssignmentRouter.post('/', verifyToken, skillAssignmentController.postSkillAssignment);
-skillAssignmentRouter.get('/skill/:skillId', skillAssignmentController.getAssignmentOfSkill);
-skillAssignmentRouter.delete('/:id', skillAssignmentController.deleteAssignmentOfSkill);
+skillAssignmentRouter.get(
+    '/skill/:skillId',
+    verifyToken,
+    skillAssignmentController.getAssignmentOfSkill
+);
+skillAssignmentRouter.delete(
+    '/:id',
+    verifyToken,
+    skillAssignmentController.deleteAssignmentOfSkill
+);
 
 module.exports = skillAssignmentRouter;

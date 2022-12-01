@@ -28,7 +28,7 @@ module.exports = {
         try {
             let studentId = req.params.studentId;
             let result = await studentService.removeStudentFromClass(studentId);
-            return res.status(204).send(result.data);
+            return res.status(200).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
             return res.status(errorStatus).send(error.data);

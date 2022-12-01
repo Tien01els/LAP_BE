@@ -44,75 +44,50 @@ module.exports = {
                 teacherId: req.body.teacherId,
                 isDeleted: false,
             };
-            let questionNew = await questionService.createQuestion(question);
             const skillIds = req.body.skillIds || new Array();
-
-            const listSkillQuestion = new Array();
-            for (let i = 0; i < skillIds.length; ++i) {
-                listSkillQuestion.push({
-                    questionId: questionNew.id,
-                    skillId: skillIds[i],
-                    isDeleted: false,
-                });
-            }
-            await skillQuestionService.createSkillQuestion(listSkillQuestion);
+            let questionNew = await questionService.createQuestion(question, skillIds);
             const questionDetail = await questionService.findQuestionDetail(questionNew.id);
             return res.status(200).send(questionDetail);
         } catch (error) {
-            console.log(error.message);
             const errorStatus = error.statusCode || 500;
             return res.status(errorStatus).send(error.data);
         }
     },
 
     putQuestion: async (req, res) => {
-        const id = req.params.id;
-        const question = {
-            content: req.body.content,
-            image: req.body.image || '',
-            option: req.body.option && JSON.stringify(req.body.option),
-            level: req.body.level || '',
-            hint: req.body.hint || '',
-            score: req.body.score,
-            questionTypeId: req.body.questionTypeId,
-            teacherId: req.body.teacherId,
-        };
-        let questionUpdated = await questionService.updateQuestion(id, question);
-        const skillIds = req.body.skillIds || new Array();
-        const listSkillQuestion = new Array();
-        const listSkillQuestionUpdate = new Array();
-        const listSkillQuestionExists = new Array();
-        await skillQuestionService.findSkillByQuestion(id);
-        const listSkillQuestionCurrent = await skillQuestionService.findSkillByQuestion(id);
+        try {
+            const id = req.params.id;
+            const teacherId = req.userId;
+            const skillIds = req.body.skillIds;
 
-        for (let i = 0; i < listSkillQuestionCurrent.length; i++) {
-            if (skillIds.includes(listSkillQuestionCurrent[i].skillId)) {
-                listSkillQuestionExists.push(skillIds[i]);
-                continue;
-            }
-            await skillQuestionService.deleteSkillQuestion(listSkillQuestionCurrent[i].id);
+            const question = {
+                content: req.body.content,
+                image: req.body.image || '',
+                option: req.body.option && JSON.stringify(req.body.option),
+                level: req.body.level || '',
+                hint: req.body.hint || '',
+                score: req.body.score,
+                questionTypeId: req.body.questionTypeId,
+            };
+            const result = await questionService.updateQuestion(id, teacherId, question, skillIds);
+            if (result.statusCode !== 204) return res.status(result.statusCode).send(result.data);
+            const questionDetail = await questionService.findQuestionDetail(id);
+            return res.status(200).send(questionDetail);
+        } catch (error) {
+            console.log(error);
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
         }
-
-        for (let i = 0; i < skillIds.length; i++)
-            if (!listSkillQuestionExists.includes(skillIds[i]))
-                listSkillQuestionUpdate.push(skillIds[i]);
-
-        for (let i = 0; i < listSkillQuestionUpdate.length; ++i)
-            listSkillQuestion.push({
-                questionId: questionUpdated.id,
-                skillId: listSkillQuestionUpdate[i],
-                isDeleted: false,
-            });
-
-        await skillQuestionService.createSkillQuestion(listSkillQuestion);
-        const questionDetail = await questionService.findQuestionDetail(questionUpdated.id);
-
-        return res.json(questionDetail);
     },
 
     deleteQuestion: async (req, res) => {
-        let id = req.params.id;
-        let questionDeleted = await questionService.deleteQuestion(id);
-        return res.json(questionDeleted);
+        try {
+            const id = req.params.id;
+            const result = await questionService.deleteQuestion(id);
+            return res.status(200).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
     },
 };

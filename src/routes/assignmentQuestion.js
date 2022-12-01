@@ -4,17 +4,17 @@ const verifyToken = require('../middleware/auth');
 
 const assignmentQuestionRouter = express.Router();
 
-assignmentQuestionRouter.post('/', assignmentQuestionController.postListAssignmentQuestion);
-assignmentQuestionRouter.post('/generate', assignmentQuestionController.generateAssignmentQuestion);
+assignmentQuestionRouter.post('/',verifyToken, assignmentQuestionController.postListAssignmentQuestion);
+assignmentQuestionRouter.post('/generate', verifyToken, assignmentQuestionController.generateAssignmentQuestion);
 
 assignmentQuestionRouter.put(
-    '/',
+    '/assignment/:assignmentId',
     verifyToken,
     assignmentQuestionController.putQuestionOfAssignment
 );
 
 assignmentQuestionRouter.get(
-    '/assignment/:assignmentId',
+    '/assignment/:assignmentId', verifyToken,
     assignmentQuestionController.getQuestionOfAssignment
 );
 
