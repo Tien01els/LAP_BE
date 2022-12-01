@@ -155,6 +155,7 @@ module.exports = {
                         tableHandle,
                         idTableHandle,
                         isSeen: false,
+                        isAnswered: false,
                         isDeleted: false,
                     });
                 }
@@ -213,6 +214,7 @@ module.exports = {
                     tableHandle: tableHandle,
                     idTableHandle: idTableHandle,
                     isSeen: false,
+                    isAnswered: false,
                     isDeleted: false,
                 });
                 await db.Student_Topic.update(
