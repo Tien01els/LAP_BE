@@ -18,4 +18,32 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    updateIsSeenNotification: async (id) => {
+        try {
+            await db.Notification_Content.update(
+                { isSeen: true },
+                {
+                    where: { id, isDeleted: 0 },
+                }
+            );
+            return respMapper(200, 'Notifiaction is seen successfully');
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
+    updateIsSeenNotification: async (receiverId) => {
+        try {
+            await db.Notification_Content.update(
+                { isSeen: true },
+                {
+                    where: { receiverAccountId: receiverId, isDeleted: 0 },
+                }
+            );
+            return respMapper(200, 'All notifiaction is seen successfully');
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
 };

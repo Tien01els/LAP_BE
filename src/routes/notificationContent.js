@@ -11,4 +11,16 @@ notificationContentRouter.get(
     notificationContentController.getContentsOfReceiver
 );
 
+notificationContentRouter.put(
+    '/:id/seen-notification',
+    verifyToken,
+    notificationContentController.seenNotification
+);
+
+notificationContentRouter.put(
+    '/receiver/:receiverId/seen-all-notification',
+    verifyToken,
+    notificationContentController.seenAllNotification
+);
+
 module.exports = notificationContentRouter;
