@@ -142,7 +142,7 @@ module.exports = {
                                 model: db.Skill,
                                 as: 'skill',
                                 where: { isDeleted: 0 },
-                                right: true,
+                                // right: true,
                                 include: [
                                     {
                                         attributes: [],

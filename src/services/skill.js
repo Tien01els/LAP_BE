@@ -19,7 +19,7 @@ module.exports = {
                         model: db.Standard,
                         as: 'standard',
                         where: { isDeleted: 0 },
-                        require: false,
+                        required: false,
                     },
                 ],
                 raw: true,

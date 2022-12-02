@@ -29,7 +29,7 @@ module.exports = {
                         model: db.Grade,
                         as: 'grade',
                         where: { isDeleted: 0 },
-                        require: false,
+                        required: false,
                     },
                 ],
             });

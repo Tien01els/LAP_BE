@@ -15,17 +15,31 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
-    getAssignmentOfSkill: async (req, res) => {
+    getAllAssignmentInSkill: async (req, res) => {
         try {
             const skillId = req.params.skillId;
-            const result = await skillAssignmentService.findAssignmentBySkillId(skillId);
+            const result = await skillAssignmentService.findAllAssignmentBySkillId(skillId);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
             return res.status(errorStatus).send(error.data);
         }
     },
-    deleteAssignmentOfSkill: async (req, res) => {
+    getAllAssignmentInSkillOfStudent: async (req, res) => {
+        try {
+            const studentId = req.userId;
+            const skillId = req.params.skillId;
+            const result = await skillAssignmentService.findAllAssignmentInSkillOfStudent(
+                studentId,
+                skillId
+            );
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
+    deleteAssignmentInSkill: async (req, res) => {
         try {
             const id = req.params.id;
             const result = await skillAssignmentService.deleteAssignmentBySkillId(id);

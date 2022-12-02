@@ -18,6 +18,7 @@ const skillQuestionService = require('./skillQuestion');
 const studentService = require('./student');
 const studentAssignmentService = require('./studentAssignment');
 const studentQuestionService = require('./studentQuestion');
+const studentSkillService = require('./studentSkill');
 const studentTopicService = require('./studentTopic');
 const teacherService = require('./teacher');
 const topicService = require('./topic');
@@ -44,6 +45,7 @@ module.exports = {
     studentService,
     studentAssignmentService,
     studentQuestionService,
+    studentSkillService,
     studentTopicService,
     teacherService,
     topicService,

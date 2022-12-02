@@ -1,3 +1,4 @@
+const sequelize = require('sequelize');
 const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
 
@@ -48,7 +49,7 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    findAssignmentBySkillId: async (skillId) => {
+    findAllAssignmentBySkillId: async (skillId) => {
         try {
             let skillAssignment = await db.Skill_Assignment.findAll({
                 where: { skillId, isDeleted: 0 },
@@ -60,13 +61,80 @@ module.exports = {
                         model: db.Assignment,
                         as: 'assignment',
                         where: { isDeleted: 0 },
-                        require: false,
+                        required: false,
                     },
                 ],
             });
             return respMapper(200, skillAssignment);
         } catch (error) {
             if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
+    findAllAssignmentInSkillOfStudent: async (studentId, skillId) => {
+        try {
+            let assignmentOfSkillOfstudent = await db.Skill_Assignment.findAll({
+                where: { skillId, isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                include: [
+                    {
+                        attributes: {
+                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                        },
+                        model: db.Assignment,
+                        as: 'assignment',
+                        where: { isDeleted: 0 },
+                        required: false,
+                        include: [
+                            {
+                                attributes: {
+                                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                                },
+                                model: db.Student_Assignment,
+                                as: 'studentAssignment',
+                                where: { studentId: studentId, isDeleted: 0 },
+                                required: false,
+                            },
+                        ],
+                    },
+                ],
+            });
+            for (let i = 0; i < assignmentOfSkillOfstudent?.length; ++i) {
+                let assignment = await db.Assignment.findByPk(
+                    assignmentOfSkillOfstudent[i].assignmentId,
+                    {
+                        where: { isDeleted: 0 },
+                        attributes: [
+                            'id',
+                            [
+                                sequelize.fn('COUNT', sequelize.col('assignmentQuestion.id')),
+                                'numberQuestionOfAssignment',
+                            ],
+                        ],
+                        include: [
+                            {
+                                attributes: [],
+                                model: db.Assignment_Question,
+                                as: 'assignmentQuestion',
+                                where: { isDeleted: 0 },
+                                required: false,
+                            },
+                        ],
+                        group: 'id',
+                        raw: true,
+                    }
+                );
+                assignmentOfSkillOfstudent[i].dataValues.numberQuestionOfAssignment =
+                    assignment.numberQuestionOfAssignment;
+            }
+            return respMapper(200, assignmentOfSkillOfstudent);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

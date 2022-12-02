@@ -8,12 +8,17 @@ skillAssignmentRouter.post('/', verifyToken, skillAssignmentController.postSkill
 skillAssignmentRouter.get(
     '/skill/:skillId',
     verifyToken,
-    skillAssignmentController.getAssignmentOfSkill
+    skillAssignmentController.getAllAssignmentInSkill
+);
+skillAssignmentRouter.get(
+    '/student/skill/:skillId',
+    verifyToken,
+    skillAssignmentController.getAllAssignmentInSkillOfStudent
 );
 skillAssignmentRouter.delete(
     '/:id',
     verifyToken,
-    skillAssignmentController.deleteAssignmentOfSkill
+    skillAssignmentController.deleteAssignmentInSkill
 );
 
 module.exports = skillAssignmentRouter;

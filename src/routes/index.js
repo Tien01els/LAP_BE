@@ -15,6 +15,7 @@ const standardRouter = require('./standard');
 const studentRouter = require('./student');
 const studentAssignmentRouter = require('./studentAssignment');
 const studentQuestionRouter = require('./studentQuestion');
+const studentSkillRouter = require('./studentSkill');
 const studentTopicRouter = require('./studentTopic');
 const topicRouter = require('./topic');
 const fileRouter = require('./file');
@@ -37,6 +38,7 @@ const route = (app) => {
     app.use('/student', studentRouter);
     app.use('/student-assignment', studentAssignmentRouter);
     app.use('/student-question', studentQuestionRouter);
+    app.use('/student-skill', studentSkillRouter);
     app.use('/student-topic', studentTopicRouter);
     app.use('/topic', topicRouter);
     app.use('/file', fileRouter);
