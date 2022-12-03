@@ -37,14 +37,36 @@ module.exports = {
     },
     findAssignmentOfStudent: async (studentId, assignmentId) => {
         try {
-            let studentAssignment = await db.Student_Assignment.findAll({
+            let studentAssignment = await db.Student_Assignment.findOne({
                 where: {
                     studentId,
                     assignmentId,
                     isDeleted: 0,
                 },
+                attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
             });
             return respMapper(200, studentAssignment);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+    findDoTimeAssignmentOfStudent: async (studentId, assignmentId) => {
+        try {
+            let studentAssignment = await db.Student_Assignment.findOne({
+                where: {
+                    studentId,
+                    assignmentId,
+                    isDeleted: 0,
+                },
+                attributes: ['doTime'],
+            });
+            return respMapper(200, {
+                doTime: studentAssignment.doTime
+            });
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
@@ -174,6 +196,7 @@ module.exports = {
         try {
             const classAssignment = await db.Class_Assignment.findOne({
                 where: { classId, assignmentId, isDeleted: 0 },
+                attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
             });
             if (!classAssignment) return errorResp(409, 'This assignment of class not found');
             const listStudent = await db.Student.findAll({
@@ -194,7 +217,7 @@ module.exports = {
                         }
                     );
                 }
-            return respMapper(201, 'successfully updated due date assignment of student');
+            return respMapper(201, 'Successfully updated due date assignment of student');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
@@ -234,10 +257,42 @@ module.exports = {
                     where: {
                         studentId: studentId,
                         assignmentId: assignmentId,
+                        isDeleted: 0,
                     },
                 }
             );
             return respMapper(201, 'Student successfully submitted assignment');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+    startAssignment: async (studentId, assignmentId) => {
+        try {
+            const assignment = await db.Assignment.findByPk(assignmentId, {
+                where: { isDeleted: 0 },
+            });
+            await db.Student_Assignment.update(
+                {
+                    status: 1,
+                    dateStart: new Date(),
+                    dateEnd: new Date(
+                        new Date().getTime() + 60 * parseInt(assignment.doTime) * 1000
+                    ),
+                    doTime: assignment.doTime * 60,
+                },
+                {
+                    where: {
+                        studentId: studentId,
+                        assignmentId: assignmentId,
+                        isDeleted: 0,
+                    },
+                }
+            );
+            return respMapper(204, 'Student successfully started');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);

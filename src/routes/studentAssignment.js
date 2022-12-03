@@ -15,6 +15,22 @@ studentAssignmentRouter.get(
     verifyToken,
     studentAssignmentController.getAssignmentOfStudent
 );
+studentAssignmentRouter.get(
+    '/student/assignment/:assignmentId/do-time',
+    verifyToken,
+    studentAssignmentController.getDoTimeAssignmentOfStudent
+);
+
+studentAssignmentRouter.put(
+    '/student/assignment/:assignmentId/start',
+    verifyToken,
+    studentAssignmentController.startAssignment
+);
+studentAssignmentRouter.put(
+    '/student/assignment/:assignmentId/submit',
+    verifyToken,
+    studentAssignmentController.submitAssignment
+);
 studentAssignmentRouter.put(
     '/assignment/:assignmentId/assign-list-student',
     verifyToken,
@@ -24,11 +40,6 @@ studentAssignmentRouter.put(
     '/assignment/:assignmentId/class/:classId/date-due',
     verifyToken,
     studentAssignmentController.updateDateDueOfStudentAssignment
-);
-studentAssignmentRouter.put(
-    '/student/assignment/:assignmentId/submit',
-    verifyToken,
-    studentAssignmentController.submitAssignment
 );
 
 module.exports = studentAssignmentRouter;
