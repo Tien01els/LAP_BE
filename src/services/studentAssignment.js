@@ -62,11 +62,9 @@ module.exports = {
                     assignmentId,
                     isDeleted: 0,
                 },
-                attributes: ['doTime'],
+                attributes: ['doTime', 'dateEnd', 'dateComplete'],
             });
-            return respMapper(200, {
-                doTime: studentAssignment.doTime
-            });
+            return respMapper(200, studentAssignment);
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
@@ -230,7 +228,7 @@ module.exports = {
     submitAssignment: async (studentId, assignmentId) => {
         try {
             const resultOfStudent = await db.Student_Question.findAll({
-                where: { isCorrect: 1, isDeleted: 0 },
+                where: { studentId: studentId, isCorrect: 1, isDeleted: 0 },
                 attributes: [
                     'assignmentId',
                     [sequelize.fn('sum', sequelize.col('score')), 'totalScoreOfStudent'],
@@ -247,9 +245,11 @@ module.exports = {
                 group: ['assignmentId'],
                 raw: true,
             });
+            const totalScoreOfStudent =
+                (resultOfStudent?.length && resultOfStudent[0]?.totalScoreOfStudent) || 0;
             await db.Student_Assignment.update(
                 {
-                    score: resultOfStudent[0].totalScoreOfStudent,
+                    score: totalScoreOfStudent,
                     status: 3,
                     dateComplete: new Date(),
                 },
@@ -283,6 +283,8 @@ module.exports = {
                         new Date().getTime() + 60 * parseInt(assignment.doTime) * 1000
                     ),
                     doTime: assignment.doTime * 60,
+                    score: 0,
+                    dateComplete: null,
                 },
                 {
                     where: {
