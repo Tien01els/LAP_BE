@@ -28,10 +28,11 @@ module.exports = {
                         studentId: listStudentTopic[i].studentId,
                         assignmentId: assignment.id,
                         status: 0,
-                        dateDue: new Date(
-                            new Date().getTime() +
-                                24 * 60 * 60 * parseInt(assignment.dueTime) * 1000
-                        ),
+                        dateDue: assignment.dateDue,
+                        // dateDue: new Date(
+                        //     new Date().getTime() +
+                        //         24 * 60 * 60 * parseInt(assignment.dueTime) * 1000
+                        // ),
                         redo: assignment.redo,
                         isRedo: false,
                         isDeleted: false,

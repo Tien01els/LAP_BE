@@ -24,7 +24,7 @@ module.exports = {
         try {
             const assignment = {
                 assignmentName: req.body.assignmentName,
-                dueTime: req.body.dueTime || 0,
+                dateDue: req.body.dateDue || new Date(),
                 doTime: req.body.doTime || 0,
                 passScore: req.body.passScore || 0,
                 totalScore: req.body.totalScore || 100,
@@ -44,7 +44,7 @@ module.exports = {
         const id = req.params.id;
         const assignment = {
             assignmentName: req.body.assignmentName,
-            dueTime: req.body.dueTime,
+            dateDue: req.body.dateDue,
             doTime: req.body.doTime,
             passScore: req.body.passScore,
             totalScore: req.body.totalScore,

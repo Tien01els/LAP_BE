@@ -10,6 +10,11 @@ studentAssignmentRouter.get(
     verifyToken,
     studentAssignmentController.getDeadlineOfStudent
 );
+studentAssignmentRouter.get(
+    '/student/assignment/:assignmentId',
+    verifyToken,
+    studentAssignmentController.getAssignmentOfStudent
+);
 studentAssignmentRouter.put(
     '/assignment/:assignmentId/assign-list-student',
     verifyToken,
@@ -21,7 +26,7 @@ studentAssignmentRouter.put(
     studentAssignmentController.updateDateDueOfStudentAssignment
 );
 studentAssignmentRouter.put(
-    '/:id/submit-assignment',
+    '/student/assignment/:assignmentId/submit',
     verifyToken,
     studentAssignmentController.submitAssignment
 );

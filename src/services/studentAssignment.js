@@ -1,5 +1,6 @@
 const db = require('../models/index');
 const { Op } = require('sequelize');
+const sequelize = require('sequelize');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
@@ -25,7 +26,25 @@ module.exports = {
                     },
                 ],
             });
-            return respMapper(201, studentAssignment);
+            return respMapper(200, studentAssignment);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+    findAssignmentOfStudent: async (studentId, assignmentId) => {
+        try {
+            let studentAssignment = await db.Student_Assignment.findAll({
+                where: {
+                    studentId,
+                    assignmentId,
+                    isDeleted: 0,
+                },
+            });
+            return respMapper(200, studentAssignment);
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
@@ -185,9 +204,40 @@ module.exports = {
         }
     },
 
-    submitAssignment: async (id) => {
+    submitAssignment: async (studentId, assignmentId) => {
         try {
-            return respMapper(201, 'successfully updated due date assignment of student');
+            const resultOfStudent = await db.Student_Question.findAll({
+                where: { isCorrect: 1, isDeleted: 0 },
+                attributes: [
+                    'assignmentId',
+                    [sequelize.fn('sum', sequelize.col('score')), 'totalScoreOfStudent'],
+                ],
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Question,
+                        as: 'question',
+                        where: { isDeleted: 0 },
+                        required: false,
+                    },
+                ],
+                group: ['assignmentId'],
+                raw: true,
+            });
+            await db.Student_Assignment.update(
+                {
+                    score: resultOfStudent[0].totalScoreOfStudent,
+                    status: 3,
+                    dateComplete: new Date(),
+                },
+                {
+                    where: {
+                        studentId: studentId,
+                        assignmentId: assignmentId,
+                    },
+                }
+            );
+            return respMapper(201, 'Student successfully submitted assignment');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);

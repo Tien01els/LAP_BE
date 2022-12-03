@@ -119,16 +119,7 @@ module.exports = {
                                     studentId: studentTopic.studentId,
                                     assignmentId: listAssignmentOfSkill[i].assignmentId,
                                     status: 0,
-                                    dateDue: new Date(
-                                        new Date().getTime() +
-                                            24 *
-                                                60 *
-                                                60 *
-                                                parseInt(
-                                                    listAssignmentOfSkill[i].assignment.dueTime
-                                                ) *
-                                                1000
-                                    ),
+                                    dateDue: listAssignmentOfSkill[i].assignment.dateDue,
                                     redo: listAssignmentOfSkill[i].assignment.redo,
                                     isRedo: false,
                                     isDeleted: false,
