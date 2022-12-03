@@ -11,8 +11,8 @@ module.exports = {
             assignmentName: {
                 type: Sequelize.STRING,
             },
-            dueTime: {
-                type: Sequelize.INTEGER,
+            dateDue: {
+                type: Sequelize.DATE,
             },
             doTime: {
                 type: Sequelize.INTEGER,

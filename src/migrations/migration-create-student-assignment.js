@@ -20,10 +20,13 @@ module.exports = {
             dateStart: {
                 type: Sequelize.DATE,
             },
-            dateComplete: {
+            dateEnd: {
                 type: Sequelize.DATE,
             },
             dateComplete: {
+                type: Sequelize.DATE,
+            },
+            dateRequest: {
                 type: Sequelize.DATE,
             },
             redo: {
@@ -34,9 +37,6 @@ module.exports = {
             },
             doTime: {
                 type: Sequelize.INTEGER,
-            },
-            dateRequest: {
-                type: Sequelize.DATE,
             },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
