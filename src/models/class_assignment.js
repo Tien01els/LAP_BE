@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             dateOpen: DataTypes.DATE,
             dateDue: DataTypes.DATE,
+            doTime: DataTypes.INTEGER,
             isDeleted: DataTypes.BOOLEAN,
             classId: DataTypes.INTEGER,
             assignmentId: DataTypes.INTEGER,

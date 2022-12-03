@@ -156,7 +156,7 @@ module.exports = {
             const classAssignment = await db.Class_Assignment.findOne({
                 where: { classId, assignmentId, isDeleted: 0 },
             });
-            if (!classAssignment) return errorResp(409, 'This assignment of class does not exist');
+            if (!classAssignment) return errorResp(409, 'This assignment of class not found');
             const listStudent = await db.Student.findAll({
                 where: { classId, isDeleted: 0 },
                 attributes: ['id'],
@@ -175,6 +175,18 @@ module.exports = {
                         }
                     );
                 }
+            return respMapper(201, 'successfully updated due date assignment of student');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+
+    submitAssignment: async (id) => {
+        try {
             return respMapper(201, 'successfully updated due date assignment of student');
         } catch (error) {
             if (error.stack) {

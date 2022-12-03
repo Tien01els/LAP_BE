@@ -61,4 +61,15 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
+    submitAssignment: async (req, res) => {
+        try {
+            const id = req.params.id;
+            const studentId = req.userId;
+            const result = await studentAssignmentService.submitAssignment(id, studentId);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
 };

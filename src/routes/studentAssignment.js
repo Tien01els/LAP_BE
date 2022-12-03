@@ -20,5 +20,10 @@ studentAssignmentRouter.put(
     verifyToken,
     studentAssignmentController.updateDateDueOfStudentAssignment
 );
+studentAssignmentRouter.put(
+    '/:id/submit-assignment',
+    verifyToken,
+    studentAssignmentController.submitAssignment
+);
 
 module.exports = studentAssignmentRouter;

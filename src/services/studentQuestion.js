@@ -189,6 +189,8 @@ module.exports = {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
             });
+            if (!currentStudentQuestion) return errorResp(409, 'Question of student not found');
+
             const question = await db.Question.findByPk(currentStudentQuestion.questionId, {
                 where: {
                     isDeleted: 0,
@@ -197,6 +199,8 @@ module.exports = {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
             });
+            if (!currentStudentQuestion) return errorResp(409, 'Question not found');
+
             const option = question?.option && JSON.parse(question.option);
             let isCorrect = false;
             if (question?.questionTypeId === 1) {
@@ -236,7 +240,6 @@ module.exports = {
                         isCorrect = false;
             }
 
-            if (!currentStudentQuestion) return errorResp(400, 'Question not found');
             return respMapper(
                 200,
                 await currentStudentQuestion.update({ answer: JSON.stringify(answer), isCorrect })

@@ -23,11 +23,17 @@ module.exports = {
             dateComplete: {
                 type: Sequelize.DATE,
             },
+            dateComplete: {
+                type: Sequelize.DATE,
+            },
             redo: {
                 type: Sequelize.INTEGER,
             },
             isRedo: {
                 type: Sequelize.BOOLEAN,
+            },
+            doTime: {
+                type: Sequelize.INTEGER,
             },
             dateRequest: {
                 type: Sequelize.DATE,

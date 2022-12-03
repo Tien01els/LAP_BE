@@ -14,6 +14,9 @@ module.exports = {
             dateDue: {
                 type: Sequelize.DATE,
             },
+            doTime: {
+                type: Sequelize.INTEGER,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
                 defaultValue: false,
