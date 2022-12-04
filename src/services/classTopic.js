@@ -141,6 +141,59 @@ module.exports = {
                 });
             }
             await db.Student_Topic.bulkCreate(studentTopics);
+            if (isUnlock) {
+                const listSkillOfTopic = await db.Skill.findAll({
+                    where: { topicId: classTopic.topicId, isDeleted: 0 },
+                });
+
+                const skillOfStudent = new Array();
+                for (let i = 0; i < students.length; i++)
+                    for (let j = 0; j < listSkillOfTopic.length; ++j) {
+                        skillOfStudent.push({
+                            studentId: students[i].id,
+                            skillId: listSkillOfTopic[j].id,
+                            status: 0,
+                            isPass: false,
+                            isDeleted: false,
+                        });
+                    }
+
+                if (skillOfStudent) {
+                    await db.Student_Skill.bulkCreate(skillOfStudent);
+
+                    let listAssignmentOfSkill = new Array();
+                    for (let i = 0; i < listSkillOfTopic.length; ++i) {
+                        const assignmentOfSkill = await db.Skill_Assignment.findAll({
+                            where: { skillId: listSkillOfTopic[i].id, isDeleted: 0 },
+                            include: [
+                                {
+                                    model: db.Assignment,
+                                    as: 'assignment',
+                                    where: { isDeleted: 0 },
+                                },
+                            ],
+                        });
+                        listAssignmentOfSkill = [...listAssignmentOfSkill, ...assignmentOfSkill];
+                    }
+
+                    const assignmentOfStudent = new Array();
+
+                    for (let i = 0; i < students.length; i++)
+                        for (let j = 0; j < listAssignmentOfSkill.length; ++j) {
+                            assignmentOfStudent.push({
+                                studentId: students[i].id,
+                                assignmentId: listAssignmentOfSkill[j].assignmentId,
+                                status: 0,
+                                dateDue: listAssignmentOfSkill[j].assignment.dateDue,
+                                redo: listAssignmentOfSkill[j].assignment.redo,
+                                isRedo: false,
+                                isDeleted: false,
+                            });
+                        }
+                    assignmentOfStudent.length &&
+                        (await db.Student_Assignment.bulkCreate(assignmentOfStudent));
+                }
+            }
             return respMapper(200, classTopicNew);
         } catch (error) {
             if (error.stack) console.log(error.stack);
