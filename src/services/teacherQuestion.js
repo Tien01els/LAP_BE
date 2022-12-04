@@ -2,7 +2,7 @@ const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
-    findQuestionByAssignmentIdForStudent: async (studentId, assignmentId) => {
+    findQuestionByAssignmentIdForTeacher: async (teacherId, assignmentId) => {
         try {
             const listAssignmentQuestion = await db.Assignment_Question.findAll({
                 where: { assignmentId, isDeleted: 0 },
@@ -66,28 +66,28 @@ module.exports = {
             const listQuestion = listAssignmentQuestion.map(
                 (assignmentQuestion) => assignmentQuestion.questionId
             );
-            const listCurrentStudentQuestion = await db.Student_Question.findAll({
-                where: { studentId, assignmentId, isDeleted: 0 },
+            const listCurrentTeacherQuestion = await db.Teacher_Question.findAll({
+                where: { teacherId, assignmentId, isDeleted: 0 },
                 attributes: {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
                 raw: true,
             });
 
-            let existStudentQuestions = new Array();
-            let listExistStudentQuestion = new Array();
-            let listUpdateStudentQuestion = new Array();
+            let existTeacherQuestions = new Array();
+            let listExistTeacherQuestion = new Array();
+            let listUpdateTeacherQuestion = new Array();
 
-            for (let i = 0; i < listCurrentStudentQuestion.length; i++) {
-                if (listQuestion.includes(listCurrentStudentQuestion[i].questionId)) {
-                    listExistStudentQuestion.push(listCurrentStudentQuestion[i].questionId);
-                    existStudentQuestions.push(listCurrentStudentQuestion[i]);
-                    await db.Student_Question.update(
+            for (let i = 0; i < listCurrentTeacherQuestion.length; i++) {
+                if (listQuestion.includes(listCurrentTeacherQuestion[i].questionId)) {
+                    listExistTeacherQuestion.push(listCurrentTeacherQuestion[i].questionId);
+                    existTeacherQuestions.push(listCurrentTeacherQuestion[i]);
+                    await db.Teacher_Question.update(
                         { isDeleted: false },
                         {
                             where: {
-                                studentId,
-                                questionId: listCurrentStudentQuestion[i].questionId,
+                                teacherId,
+                                questionId: listCurrentTeacherQuestion[i].questionId,
                                 isDeleted: false,
                             },
                         }
@@ -95,46 +95,45 @@ module.exports = {
                     continue;
                 }
 
-                await db.Student_Question.update(
+                await db.Teacher_Question.update(
                     { isDeleted: true },
                     {
                         where: {
-                            studentId,
-                            questionId: listCurrentStudentQuestion[i].questionId,
+                            teacherId,
+                            questionId: listCurrentTeacherQuestion[i].questionId,
                             isDeleted: false,
                         },
                     }
                 );
             }
             for (let i = 0; i < listQuestion.length; i++)
-                if (!listExistStudentQuestion.includes(listQuestion[i]))
-                    listUpdateStudentQuestion.push(listQuestion[i]);
+                if (!listExistTeacherQuestion.includes(listQuestion[i]))
+                    listUpdateTeacherQuestion.push(listQuestion[i]);
 
-            const listStudentQuestion = new Array();
-            for (let i = 0; i < listUpdateStudentQuestion.length; ++i)
-                listStudentQuestion.push({
+            const listTeacherQuestion = new Array();
+            for (let i = 0; i < listUpdateTeacherQuestion.length; ++i)
+                listTeacherQuestion.push({
                     isCorrect: 0,
-                    redoTime: 0,
                     isDeleted: false,
-                    studentId,
+                    teacherId,
                     assignmentId,
-                    questionId: listUpdateStudentQuestion[i],
+                    questionId: listUpdateTeacherQuestion[i],
                 });
-            const studentQuestionNew = await db.Student_Question.bulkCreate(listStudentQuestion);
+            const teacherQuestionNew = await db.Teacher_Question.bulkCreate(listTeacherQuestion);
 
-            const studentQuestions = [...studentQuestionNew, ...existStudentQuestions];
+            const teacherQuestions = [...teacherQuestionNew, ...existTeacherQuestions];
             for (let i = 0; i < listAssignmentQuestion.length; ++i) {
-                const studentQuestion = studentQuestions.find(
-                    (studentQuestion) =>
-                        studentQuestion.questionId === listAssignmentQuestion[i].questionId
+                const teacherQuestion = teacherQuestions.find(
+                    (teacherQuestion) =>
+                        teacherQuestion.questionId === listAssignmentQuestion[i].questionId
                 );
-                studentQuestion.answer =
-                    studentQuestion.answer && JSON.parse(studentQuestion.answer);
+                teacherQuestion.answer =
+                    teacherQuestion.answer && JSON.parse(teacherQuestion.answer);
 
                 listAssignmentQuestion[i].answerOfRespondent = {
-                    respondentQuestionId: studentQuestion.id,
-                    answer: studentQuestion.answer || null,
-                    isCorrect: studentQuestion.isCorrect,
+                    respondentQuestionId: teacherQuestion.id,
+                    answer: teacherQuestion.answer || null,
+                    isCorrect: teacherQuestion.isCorrect,
                 };
             }
 
@@ -179,9 +178,9 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    saveAnswerOfStudent: async (id, answer) => {
+    saveAnswerOfTeacher: async (id, answer) => {
         try {
-            const currentStudentQuestion = await db.Student_Question.findByPk(id, {
+            const currentTeacherQuestion = await db.Teacher_Question.findByPk(id, {
                 where: {
                     isDeleted: 0,
                 },
@@ -189,9 +188,9 @@ module.exports = {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
             });
-            if (!currentStudentQuestion) return errorResp(409, 'Question of student not found');
+            if (!currentTeacherQuestion) return errorResp(409, 'Question of teacher not found');
 
-            const question = await db.Question.findByPk(currentStudentQuestion.questionId, {
+            const question = await db.Question.findByPk(currentTeacherQuestion.questionId, {
                 where: {
                     isDeleted: 0,
                 },
@@ -199,7 +198,7 @@ module.exports = {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
             });
-            if (!currentStudentQuestion) return errorResp(409, 'Question not found');
+            if (!currentTeacherQuestion) return errorResp(409, 'Question not found');
 
             const option = question?.option && JSON.parse(question.option);
             let isCorrect = false;
@@ -207,20 +206,20 @@ module.exports = {
                 const resultTrue = option?.multiChoice.find(
                     (optionMultiChoice, i) => optionMultiChoice?.isTrue === true
                 );
-                const answerOfStudent = answer?.multiChoice.find(
+                const answerOfTeacher = answer?.multiChoice.find(
                     (optionMultiChoice, i) => optionMultiChoice?.isTrue === true
                 );
-                if (resultTrue?.answer === answerOfStudent?.answer) isCorrect = true;
+                if (resultTrue?.answer === answerOfTeacher?.answer) isCorrect = true;
             }
 
             if (question?.questionTypeId === 2) {
                 const resultTrue = option?.trueFalse.find(
                     (optionTrueFalse) => optionTrueFalse?.isTrue === true
                 );
-                const answerOfStudent = answer?.trueFalse.find(
+                const answerOfTeacher = answer?.trueFalse.find(
                     (optionTrueFalse) => optionTrueFalse?.isTrue === true
                 );
-                if (resultTrue?.answer === answerOfStudent?.answer) isCorrect = true;
+                if (resultTrue?.answer === answerOfTeacher?.answer) isCorrect = true;
             }
 
             if (question?.questionTypeId === 3) {
@@ -239,11 +238,9 @@ module.exports = {
                     )
                         isCorrect = false;
             }
+            await currentTeacherQuestion.update({ answer: JSON.stringify(answer), isCorrect });
 
-            return respMapper(
-                200,
-                await currentStudentQuestion.update({ answer: JSON.stringify(answer), isCorrect })
-            );
+            return respMapper(200, 'Answer of teacher saved successfully');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);

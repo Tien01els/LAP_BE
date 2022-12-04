@@ -270,6 +270,7 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    
     startAssignment: async (studentId, assignmentId) => {
         try {
             const assignment = await db.Assignment.findByPk(assignmentId, {

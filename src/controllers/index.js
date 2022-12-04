@@ -18,6 +18,8 @@ const studentAssignmentController = require('./studentAssignment');
 const studentQuestionController = require('./studentQuestion');
 const studentSkillController = require('./studentSkill');
 const studentTopicController = require('./studentTopic');
+const teacherAssignmentController = require('./teacherAssignment');
+const teacherQuestionController = require('./teacherQuestion');
 const topicController = require('./topic');
 const fileController = require('./file');
 
@@ -42,6 +44,8 @@ module.exports = {
     studentQuestionController,
     studentSkillController,
     studentTopicController,
+    teacherAssignmentController,
+    teacherQuestionController,
     topicController,
     fileController,
 };

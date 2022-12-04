@@ -45,8 +45,10 @@ module.exports = {
             const student = await db.Student.findOne({
                 where: { accountId: account?.id, isDeleted: 0 },
             });
-            if (student?.classId)
+            console.log(student);
+            if (!!student?.classId) {
                 return respMapper(409, { text: 'No ok', message: 'Student had class' });
+            }
             student.classId = classId;
             await student.save();
             return respMapper(201, {
@@ -54,7 +56,10 @@ module.exports = {
                 message: 'Add student into class successfully',
             });
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

@@ -5,7 +5,7 @@ const verifyToken = require('../middleware/auth');
 const studentQuestionRouter = express.Router();
 
 studentQuestionRouter.get(
-    '/assignment/:assignmentId',
+    '/student/assignment/:assignmentId',
     verifyToken,
     studentQuestionController.getQuestionsOfAssignmentForStudent
 );
