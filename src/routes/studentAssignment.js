@@ -6,6 +6,11 @@ const studentAssignmentRouter = express.Router();
 
 studentAssignmentRouter.post('/', studentAssignmentController.postStudentAssignment);
 studentAssignmentRouter.get(
+    '/student/class/:classId',
+    verifyToken,
+    studentAssignmentController.getExamsOfStudent
+);
+studentAssignmentRouter.get(
     '/student/deadline',
     verifyToken,
     studentAssignmentController.getDeadlineOfStudent

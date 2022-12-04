@@ -4,6 +4,42 @@ const sequelize = require('sequelize');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
+    findExamsOfStudent: async (studentId, classId) => {
+        try {
+            let studentAssignment = await db.Student_Assignment.findAll({
+                where: {
+                    studentId,
+                    isDeleted: 0,
+                },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                include: [
+                    {
+                        attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
+                        model: db.Assignment,
+                        as: 'assignment',
+                        where: { isDeleted: 0 },
+                        include: [
+                            {
+                                attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
+                                model: db.Class_Assignment,
+                                as: 'classAssignment',
+                                where: { classId, isDeleted: 0 },
+                            },
+                        ],
+                    },
+                ],
+            });
+            return respMapper(200, studentAssignment);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
     findDeadlineOfStudent: async (studentId) => {
         try {
             let studentAssignment = await db.Student_Assignment.findAll({
@@ -270,7 +306,7 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    
+
     startAssignment: async (studentId, assignmentId) => {
         try {
             const assignment = await db.Assignment.findByPk(assignmentId, {
