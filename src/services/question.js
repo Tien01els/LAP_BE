@@ -201,35 +201,37 @@ module.exports = {
                 }
             );
 
-            const listSkillQuestion = new Array();
-            const listSkillQuestionUpdate = new Array();
-            const listSkillQuestionExists = new Array();
-            const listSkillQuestionCurrent = await db.Skill_Question.findAll({
-                where: { questionId: id, isDeleted: 0 },
-            });
-
-            for (let i = 0; i < listSkillQuestionCurrent.length; i++) {
-                if (skillIds.includes(listSkillQuestionCurrent[i].skillId)) {
-                    listSkillQuestionExists.push(skillIds[i]);
-                    continue;
-                }
-                await db.Skill_Question.update(
-                    { isDeleted: true },
-                    { where: { id, isDeleted: false } }
-                );
-            }
-
-            for (let i = 0; i < skillIds.length; i++)
-                if (!listSkillQuestionExists.includes(skillIds[i]))
-                    listSkillQuestionUpdate.push(skillIds[i]);
-
-            for (let i = 0; i < listSkillQuestionUpdate.length; ++i)
-                listSkillQuestion.push({
-                    questionId: questionUpdated.id,
-                    skillId: listSkillQuestionUpdate[i],
-                    isDeleted: false,
+            if (skillIds?.length > 0 && skillIds[0]) {
+                const listSkillQuestion = new Array();
+                const listSkillQuestionUpdate = new Array();
+                const listSkillQuestionExists = new Array();
+                const listSkillQuestionCurrent = await db.Skill_Question.findAll({
+                    where: { questionId: id, isDeleted: 0 },
                 });
-            await db.Skill_Question.bulkCreate(listSkillQuestion);
+
+                for (let i = 0; i < listSkillQuestionCurrent.length; i++) {
+                    if (skillIds.includes(listSkillQuestionCurrent[i].skillId)) {
+                        listSkillQuestionExists.push(skillIds[i]);
+                        continue;
+                    }
+                    await db.Skill_Question.update(
+                        { isDeleted: true },
+                        { where: { id, isDeleted: false } }
+                    );
+                }
+
+                for (let i = 0; i < skillIds.length; i++)
+                    if (!listSkillQuestionExists.includes(skillIds[i]))
+                        listSkillQuestionUpdate.push(skillIds[i]);
+
+                for (let i = 0; i < listSkillQuestionUpdate.length; ++i)
+                    listSkillQuestion.push({
+                        questionId: questionUpdated.id,
+                        skillId: listSkillQuestionUpdate[i],
+                        isDeleted: false,
+                    });
+                await db.Skill_Question.bulkCreate(listSkillQuestion);
+            }
             return respMapper(204, 'Question updated successfully');
         } catch (error) {
             if (error.stack) {
