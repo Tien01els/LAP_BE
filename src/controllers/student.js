@@ -1,6 +1,28 @@
 const { studentService } = require('../services/index');
 
 module.exports = {
+    getAchievementsOfStudent: async (req, res) => {
+        try {
+            let id = req.userId;
+            let result = await studentService.findAchievementsOfStudent(id);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
+
+    getClassOfStudent: async (req, res) => {
+        try {
+            let id = req.userId;
+            let result = await studentService.findClassOfStudent(id);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
+
     getStudentsOfClass: async (req, res) => {
         try {
             let classId = req.params.classId;

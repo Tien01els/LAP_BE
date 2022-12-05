@@ -1,7 +1,83 @@
+const sequelize = require('sequelize');
 const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
+    findAchievementsOfStudent: async (id) => {
+        try {
+            const avgScoreOfStudent = await db.Student.findByPk(id, {
+                where: { isDeleted: 0 },
+                attributes: [
+                    'id',
+                    [sequelize.fn('AVG', sequelize.col('score')), 'avgScoreOfStudent'],
+                ],
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Student_Assignment,
+                        as: 'studentAssignment',
+                        where: { isDeleted: 0 },
+                        required: false,
+                    },
+                ],
+                group: ['id'],
+                raw: true,
+            });
+            console.log(avgScoreOfStudent);
+
+            const topicsCompletedOfStudent = await db.Student.findByPk(id, {
+                where: { isDeleted: 0 },
+                attributes: [
+                    'id',
+                    [sequelize.fn('count', sequelize.col('topicId')), 'topicsCompletedOfStudent'],
+                ],
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Student_Topic,
+                        as: 'studentTopic',
+                        where: { isPass: 1, isDeleted: 0 },
+                        required: false,
+                    },
+                ],
+                group: ['id'],
+                raw: true,
+            });
+
+            console.log(topicsCompletedOfStudent);
+            const studentInformation = {
+                ...avgScoreOfStudent,
+                ...topicsCompletedOfStudent,
+            };
+            return respMapper(200, studentInformation);
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
+    findClassOfStudent: async (id) => {
+        try {
+            const classInfo = await db.Class.findOne({
+                where: { isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Student,
+                        as: 'student',
+                        where: { id, isDeleted: 0 },
+                    },
+                ],
+            });
+            return respMapper(200, classInfo);
+        } catch (error) {
+            if (error.stack) console.log(error.stack);
+            throw errorResp(400, error.message);
+        }
+    },
+
     findStudentsbyClassId: async (classId) => {
         try {
             let students = await db.Student.findAll({
