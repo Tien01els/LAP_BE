@@ -229,19 +229,19 @@ module.exports = {
                 const skillOfTopic = await db.Skill.findAll({
                     where: { topicId: classTopic.topicId, isDeleted: false },
                 });
-
                 for (let i = 0; i < students.length; ++i)
-                    for (let j = 0; j < skillOfTopic.length; ++j)
+                    for (let j = 0; j < skillOfTopic.length; ++j) {
                         await db.Student_Skill.update(
                             { isDeleted: true },
                             {
                                 where: {
                                     studentId: students[i].id,
-                                    skillId: skillOfTopic[i].id,
+                                    skillId: skillOfTopic[j].id,
                                     isDeleted: false,
                                 },
                             }
                         );
+                    }
 
                 let listAssignmentOfSkill = new Array();
                 for (let i = 0; i < skillOfTopic.length; ++i) {

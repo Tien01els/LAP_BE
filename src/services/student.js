@@ -23,8 +23,6 @@ module.exports = {
                 group: ['id'],
                 raw: true,
             });
-            console.log(avgScoreOfStudent);
-
             const topicsCompletedOfStudent = await db.Student.findByPk(id, {
                 where: { isDeleted: 0 },
                 attributes: [
@@ -43,8 +41,6 @@ module.exports = {
                 group: ['id'],
                 raw: true,
             });
-
-            console.log(topicsCompletedOfStudent);
             const studentInformation = {
                 ...avgScoreOfStudent,
                 ...topicsCompletedOfStudent,
