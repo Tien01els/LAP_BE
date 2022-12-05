@@ -46,9 +46,9 @@ module.exports = {
                 where: {
                     studentId,
                     isDeleted: 0,
-                    dateDue: {
-                        [Op.gte]: new Date(),
-                    },
+                    // dateDue: {
+                    //     [Op.gte]: new Date(),
+                    // },
                 },
                 attributes: {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
