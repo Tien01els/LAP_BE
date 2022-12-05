@@ -68,6 +68,18 @@ module.exports = {
             haveTeacherAssignment.doTime = assignment.doTime * 60;
             haveTeacherAssignment.dateComplete = null;
             await haveTeacherAssignment.save();
+            await db.Teacher_Question.update(
+                {
+                    isDeleted: true,
+                },
+                {
+                    where: { teacherId, assignmentId, isDeleted: 0 },
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                    raw: true,
+                }
+            );
             return respMapper(200, 'Continue trial assignment');
         } catch (error) {
             if (error.stack) {

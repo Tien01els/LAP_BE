@@ -331,6 +331,18 @@ module.exports = {
                     },
                 }
             );
+            await db.Student_Question.update(
+                {
+                    isDeleted: true,
+                },
+                {
+                    where: { studentId, assignmentId, isDeleted: 0 },
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                    raw: true,
+                }
+            );
             return respMapper(204, 'Student successfully started');
         } catch (error) {
             if (error.stack) {
