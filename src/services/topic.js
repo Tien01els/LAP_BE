@@ -48,8 +48,11 @@ module.exports = {
     },
     createTopic: async (topic) => {
         try {
-            await db.Topic.create(topic);
-            return respMapper(200, 'Successfully added topic');
+            const newTopic = await db.Topic.create(topic);
+            return respMapper(200, {
+                message: 'Successfully added topic',
+                topic: newTopic,
+            });
         } catch (error) {
             console.log(error);
             throw errorResp(400, error.message);

@@ -115,6 +115,31 @@ module.exports = {
             });
 
             await db.Skill.update({ isDeleted: true }, { where: { id, isDeleted: false } });
+            const skillQuestion = await db.Skill_Question.findAll({
+                where: { skillId: id, isDeleted: false },
+            });
+            for (let i = 0; i < skillQuestion.length; ++i) {
+                await db.Question.update(
+                    { isDeleted: true },
+                    { where: { id: skillQuestion.questionId, isDeleted: false } }
+                );
+                await db.Assignment_Question.update(
+                    { isDeleted: true },
+                    { where: { questionId: skillQuestion.questionId, isDeleted: false } }
+                );
+                await db.Teacher_Question.update(
+                    { isDeleted: true },
+                    { where: { questionId: skillQuestion.questionId, isDeleted: false } }
+                );
+                await db.Student_Question.update(
+                    { isDeleted: true },
+                    { where: { questionId: skillQuestion.questionId, isDeleted: false } }
+                );
+                await db.Skill_Question.update(
+                    { isDeleted: true },
+                    { where: { questionId: skillQuestion.questionId, isDeleted: false } }
+                );
+            }
             await db.Skill_Question.update(
                 { isDeleted: true },
                 { where: { skillId: id, isDeleted: false } }
