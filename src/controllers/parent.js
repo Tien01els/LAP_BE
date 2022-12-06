@@ -3,7 +3,7 @@ const { parentService } = require('../services/index');
 module.exports = {
     getStudentOfParent: async (req, res) => {
         try {
-            const parentId = req.user
+            const parentId = req.userId;
             const result = await parentService.findStudentOfParent(parentId);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
