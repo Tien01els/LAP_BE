@@ -1,6 +1,16 @@
 const { assignmentService } = require('../services/index');
 
 module.exports = {
+    getAssignmentSummary: async (req, res) => {
+        try {
+            const result = await assignmentService.findAssignmentSummary(req.params.id);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    },
+
     getAssignment: async (req, res) => {
         try {
             const result = await assignmentService.findAssignment(req.params.id);

@@ -1,7 +1,144 @@
+const sequelize = require('sequelize');
+const moment = require('moment');
 const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
+const e = require('express');
 
 module.exports = {
+    findAssignmentSummary: async (id) => {
+        try {
+            const assignment = await db.Assignment.findByPk(id, {
+                where: { isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                raw: true,
+            });
+            if (!assignment) return errorResp(409, 'Assignment not found');
+            assignment.students = await db.Student.findAll({
+                where: { isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                include: [
+                    {
+                        attributes: {
+                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                        },
+                        model: db.Student_Assignment,
+                        as: 'studentAssignment',
+                        where: { assignmentId: id, isDeleted: 0 },
+                    },
+                    {
+                        attributes: ['avatarImg'],
+                        model: db.Account,
+                        as: 'account',
+                        where: { isDeleted: 0 },
+                    },
+                ],
+                // raw: true,
+            });
+            const avgScoreOfStudent = await db.Student.findAll({
+                where: { isDeleted: 0 },
+                attributes: [
+                    'id',
+                    [sequelize.fn('AVG', sequelize.col('score')), 'avgScoreOfStudent'],
+                ],
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Student_Assignment,
+                        as: 'studentAssignment',
+                        where: { assignmentId: id, isDeleted: 0 },
+                    },
+                ],
+                group: ['id'],
+                raw: true,
+            });
+            assignment.skills = await db.Skill.findAll({
+                where: { isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Skill_Assignment,
+                        as: 'skillAssignment',
+                        where: { assignmentId: id, isDeleted: 0 },
+                    },
+                ],
+                raw: true,
+            });
+            assignment.classes = await db.Class.findAll({
+                where: { isDeleted: 0 },
+                attributes: {
+                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                },
+                include: [
+                    {
+                        attributes: {
+                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                        },
+                        model: db.Class_Assignment,
+                        as: 'classAssignment',
+                        where: { assignmentId: id, isDeleted: 0 },
+                    },
+                ],
+                raw: true,
+            });
+            const numberQuestionOfAssignment = await db.Assignment.findByPk(id, {
+                where: { isDeleted: 0 },
+                attributes: [
+                    'id',
+                    [
+                        sequelize.fn('COUNT', sequelize.col('assignmentQuestion.id')),
+                        'numberQuestionOfAssignment',
+                    ],
+                ],
+                include: [
+                    {
+                        attributes: [],
+                        model: db.Assignment_Question,
+                        as: 'assignmentQuestion',
+                        where: { isDeleted: 0 },
+                        required: false,
+                    },
+                ],
+                group: 'id',
+                raw: true,
+            });
+            assignment.studentPassed = 0;
+            assignment.studentFailed = 0;
+            assignment.studentLateSubmit = 0;
+            assignment.studentNotSubmit = 0;
+            const students = assignment?.students;
+            for (let i = 0; i < students?.length; i++) {
+                if (students[i].studentAssignment[0].dateComplete) {
+                    if (students[i].studentAssignment[0].score >= assignment.passScore)
+                        assignment.studentPassed = assignment.studentPassed + 1;
+                    else assignment.studentFailed = assignment.studentFailed + 1;
+                    if (
+                        moment(assignment.dateDue).diff(
+                            moment(students[i].studentAssignment[0].dateComplete)
+                        ) <= 0
+                    )
+                        assignment.studentLateSubmit = assignment.studentLateSubmit + 1;
+                } else assignment.studentNotSubmit = assignment.studentNotSubmit + 1;
+            }
+            assignment.avgScoreOfStudent = avgScoreOfStudent[0]?.avgScoreOfStudent;
+            assignment.numberQuestionOfAssignment =
+                numberQuestionOfAssignment?.numberQuestionOfAssignment;
+            return respMapper(200, assignment);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+
     findAssignment: async (id) => {
         try {
             const assignment = await db.Assignment.findByPk(id, {
