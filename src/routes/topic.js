@@ -4,7 +4,7 @@ const verifyToken = require('../middleware/auth');
 
 const topicRouter = express.Router();
 
-topicRouter.post('/', topicController.postTopic);
+topicRouter.post('/', verifyToken, topicController.postTopic);
 //verify Token
 topicRouter.get(
     '/teacher/grade/:gradeId',

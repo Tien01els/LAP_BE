@@ -4,12 +4,16 @@ const verifyToken = require('../middleware/auth');
 
 const studentTopicRouter = express.Router();
 
-studentTopicRouter.post('/', studentTopicController.postStudentTopic);
+studentTopicRouter.post('/', verifyToken, studentTopicController.postStudentTopic);
 studentTopicRouter.put(
     '/class/:classId',
     verifyToken,
     studentTopicController.updateTopicsOfStudent
 );
-studentTopicRouter.get('/percent-skill', verifyToken, studentTopicController.getPercentSkillsOfStudent);
+studentTopicRouter.get(
+    '/percent-skill',
+    verifyToken,
+    studentTopicController.getPercentSkillsOfStudent
+);
 
 module.exports = studentTopicRouter;

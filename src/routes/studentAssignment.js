@@ -4,7 +4,7 @@ const verifyToken = require('../middleware/auth');
 
 const studentAssignmentRouter = express.Router();
 
-studentAssignmentRouter.post('/', studentAssignmentController.postStudentAssignment);
+studentAssignmentRouter.post('/', verifyToken, studentAssignmentController.postStudentAssignment);
 studentAssignmentRouter.get(
     '/student/class/:classId',
     verifyToken,
