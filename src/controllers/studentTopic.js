@@ -23,8 +23,8 @@ module.exports = {
     updateTopicsOfStudent: async (req, res) => {
         try {
             const studentId = req.userId;
-            const topicIds = req.params.classId;
-            let result = await studentTopicService.updateTopicsOfStudent(studentId, topicIds);
+            const classId = req.params.classId;
+            let result = await studentTopicService.updateTopicsOfStudent(studentId, classId);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
