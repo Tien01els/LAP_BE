@@ -233,6 +233,7 @@ module.exports = {
                 },
                 raw: true,
             });
+            if (!account) return errorResp(400, 'Not found account');
             account && (await updateRefreshToken(account.id, null));
             return respMapper(204, 'Log out success');
         } catch (error) {
