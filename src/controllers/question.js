@@ -41,7 +41,7 @@ module.exports = {
                 hint: req.body.hint || '',
                 score: req.body.score,
                 questionTypeId: req.body.questionTypeId,
-                teacherId: req.body.teacherId,
+                teacherId: req.userId,
                 isDeleted: false,
             };
             const skillIds = req.body.skillIds || new Array();

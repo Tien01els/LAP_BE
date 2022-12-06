@@ -25,7 +25,7 @@ module.exports = {
                 topicName: req.body.topicName,
                 description: req.body.description,
                 isDeleted: false,
-                teacherId: req.body.teacherId,
+                teacherId: req.userId,
                 gradeId: req.body.gradeId == '-1' ? null : req.body.gradeId,
                 prerequisiteTopicId:
                     req.body.prerequisiteTopicId == '-1' ? null : req.body.prerequisiteTopicId,
