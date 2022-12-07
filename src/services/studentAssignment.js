@@ -1,6 +1,8 @@
 const db = require('../models/index');
 const { Op } = require('sequelize');
 const sequelize = require('sequelize');
+const moment = require('moment');
+
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
@@ -312,13 +314,18 @@ module.exports = {
             const assignment = await db.Assignment.findByPk(assignmentId, {
                 where: { isDeleted: 0 },
             });
+
+            let dateEnd = new Date(new Date().getTime() + 60 * parseInt(assignment.doTime) * 1000);
+            if (assignment.typeAssignment === 'Class') {
+                if (moment(dateEnd).diff(moment()) > moment(assignment.dateDue).diff(moment()))
+                    dateEnd = assignment.dateDue;
+            }
+
             await db.Student_Assignment.update(
                 {
                     status: 1,
                     dateStart: new Date(),
-                    dateEnd: new Date(
-                        new Date().getTime() + 60 * parseInt(assignment.doTime) * 1000
-                    ),
+                    dateEnd: dateEnd,
                     doTime: assignment.doTime * 60,
                     score: 0,
                     dateComplete: null,

@@ -121,7 +121,7 @@ module.exports = {
                     if (
                         moment(assignment.dateDue).diff(
                             moment(students[i].studentAssignment[0].dateComplete)
-                        ) <= 0
+                        ) < 0
                     )
                         assignment.studentLateSubmit = assignment.studentLateSubmit + 1;
                 } else assignment.studentNotSubmit = assignment.studentNotSubmit + 1;
