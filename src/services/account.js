@@ -208,7 +208,6 @@ module.exports = {
                 userId: user.id,
                 fullName: user.fullName,
                 dateOfBirth: user.dateOfBirth,
-                dateOfBirth: user.dateOfBirth,
                 gender: user.gender,
                 roleId: account.roleId,
                 ...userInfo,
@@ -260,9 +259,21 @@ module.exports = {
             if (account.isDeleted === 1) return errorResp(401, 'Account has deleted');
 
             const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+            let userInfo = {};
+            if (account.roleId === 3) {
+                userInfo.classId = decoded.classId;
+                userInfo.averageScore = decoded.averageScore;
+                userInfo.parentId = decoded.parentId;
+            }
             const payload = {
+                accountId: account.id,
+                roleId: account.roleId,
                 userId: decoded.userId,
-                roleId: decoded.roleId,
+                fullName: decoded.fullName,
+                dateOfBirth: decoded.dateOfBirth,
+                gender: decoded.gender,
+                ...userInfo,
             };
 
             const tokens = generateToken(payload);
@@ -272,6 +283,7 @@ module.exports = {
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
+                console.log(error.stack);
             }
             throw errorResp(400, 'The session has expired');
         }
