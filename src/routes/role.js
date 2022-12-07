@@ -1,13 +1,10 @@
 const express = require('express');
 const { roleController } = require('../controllers/index');
-const verifyToken = require('../middleware/auth');
+const { verifyToken, authRole } = require('../middleware/auth');
+const role = require('../config/roleConstant');
 
 const roleRouter = express.Router();
 
-roleRouter.get(
-    '/',
-    verifyToken,
-    roleController.getAllRoles
-);
+roleRouter.get('/', verifyToken, roleController.getAllRoles);
 
 module.exports = roleRouter;

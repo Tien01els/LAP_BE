@@ -1,6 +1,6 @@
 const express = require('express');
 const { notificationRoomController } = require('../controllers/index');
-const verifyToken = require('../middleware/auth');
+const { verifyToken } = require('../middleware/auth');
 
 const notificationRoomRouter = express.Router();
 

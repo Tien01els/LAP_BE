@@ -1,7 +1,8 @@
 const express = require('express');
 const { fileController } = require('../controllers/index');
 const uploadImage = require('../middleware/uploadImage');
-const verifyToken = require('../middleware/auth');
+const { verifyToken, authRole } = require('../middleware/auth');
+const role = require('../config/roleConstant');
 
 const fileRouter = express.Router();
 

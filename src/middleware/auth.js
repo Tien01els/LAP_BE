@@ -18,4 +18,12 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ success: false, message: "You're not authenticated" });
 };
 
-module.exports = verifyToken;
+const authRole = (role) => {
+    return (req, res, next) => {
+        if (req.roleId !== role)
+            return res.status(401).json({ success: false, message: "You're not authenticated" });
+        return next();
+    };
+};
+
+module.exports = { verifyToken, authRole };

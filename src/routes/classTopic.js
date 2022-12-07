@@ -1,6 +1,7 @@
 const express = require('express');
 const { classTopicController } = require('../controllers/index');
-const verifyToken = require('../middleware/auth');
+const { verifyToken, authRole } = require('../middleware/auth');
+const role = require('../config/roleConstant');
 
 const classTopicRouter = express.Router();
 
@@ -8,15 +9,27 @@ const classTopicRouter = express.Router();
 classTopicRouter.get(
     '/teacher/class/:classId',
     verifyToken,
+    authRole(role.ROLE_TEACHER),
     classTopicController.getTopicsOfTeacherByClass
 );
 
 classTopicRouter.get(
     '/student/class/:classId',
     verifyToken,
+    authRole(role.ROLE_STUDENT),
     classTopicController.getTopicsOfClassForStudent
 );
-classTopicRouter.post('/', verifyToken, classTopicController.postClassTopic);
-classTopicRouter.delete('/:id', verifyToken, classTopicController.deleteClassTopic);
+classTopicRouter.post(
+    '/',
+    verifyToken,
+    authRole(role.ROLE_TEACHER),
+    classTopicController.postClassTopic
+);
+classTopicRouter.delete(
+    '/:id',
+    verifyToken,
+    authRole(role.ROLE_TEACHER),
+    classTopicController.deleteClassTopic
+);
 
 module.exports = classTopicRouter;
