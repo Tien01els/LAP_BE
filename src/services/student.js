@@ -117,12 +117,92 @@ module.exports = {
             const student = await db.Student.findOne({
                 where: { accountId: account?.id, isDeleted: 0 },
             });
-            console.log(student);
             if (!!student?.classId) {
                 return respMapper(409, { text: 'No ok', message: 'Student had class' });
             }
             student.classId = classId;
             await student.save();
+
+            const topicsOfClass = await db.Class_Topic.findAll({
+                where: { classId, isDeleted: 0 },
+                attributes: ['topicId'],
+                include: [
+                    {
+                        attributes: {
+                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                        },
+                        model: db.Topic,
+                        as: 'topic',
+                        where: { isDeleted: 0 },
+                    },
+                ],
+            });
+
+            for (let i = 0; i < topicsOfClass.length; i++) {
+                let studentTopic = {
+                    status: 0,
+                    isUnlock: topicsOfClass[i].topic.isUnlock,
+                    isDeleted: false,
+                    studentId: student.id,
+                    topicId: topicsOfClass[i].topicId,
+                };
+                await db.Student_Topic.create(studentTopic);
+
+                if (topicsOfClass[i].topic.isUnlock) {
+                    const listSkillOfTopic = await db.Skill.findAll({
+                        where: { topicId: topicsOfClass[i].topicId, isDeleted: 0 },
+                    });
+
+                    const skillOfStudent = new Array();
+                    for (let i = 0; i < listSkillOfTopic.length; ++i) {
+                        skillOfStudent.push({
+                            studentId: student.id,
+                            skillId: listSkillOfTopic[i].id,
+                            status: 0,
+                            isPass: false,
+                            isDeleted: false,
+                        });
+                    }
+
+                    if (skillOfStudent) {
+                        await db.Student_Skill.bulkCreate(skillOfStudent);
+                        let listAssignmentOfSkill = new Array();
+                        for (let i = 0; i < listSkillOfTopic.length; ++i) {
+                            const assignmentOfSkill = await db.Skill_Assignment.findAll({
+                                where: { skillId: listSkillOfTopic[i].id, isDeleted: 0 },
+                                include: [
+                                    {
+                                        model: db.Assignment,
+                                        as: 'assignment',
+                                        where: { isDeleted: 0 },
+                                    },
+                                ],
+                            });
+                            listAssignmentOfSkill = [
+                                ...listAssignmentOfSkill,
+                                ...assignmentOfSkill,
+                            ];
+                        }
+
+                        const assignmentOfStudent = new Array();
+
+                        for (let i = 0; i < listAssignmentOfSkill.length; ++i) {
+                            assignmentOfStudent.push({
+                                studentId: student.id,
+                                assignmentId: listAssignmentOfSkill[i].assignmentId,
+                                status: 0,
+                                dateDue: listAssignmentOfSkill[i].assignment.dateDue,
+                                redo: listAssignmentOfSkill[i].assignment.redo,
+                                isRedo: false,
+                                isDeleted: false,
+                            });
+                        }
+                        assignmentOfStudent.length &&
+                            (await db.Student_Assignment.bulkCreate(assignmentOfStudent));
+                    }
+                }
+            }
+
             return respMapper(201, {
                 text: 'Ok',
                 message: 'Add student into class successfully',

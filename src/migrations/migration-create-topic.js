@@ -17,6 +17,9 @@ module.exports = {
             description: {
                 type: Sequelize.TEXT,
             },
+            isUnlock: {
+                type: Sequelize.BOOLEAN,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
                 defaultValue: false,

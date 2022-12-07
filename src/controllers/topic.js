@@ -24,6 +24,7 @@ module.exports = {
             const topic = {
                 topicName: req.body.topicName,
                 description: req.body.description,
+                isUnlock: req.body.isUnlock,
                 isDeleted: false,
                 teacherId: req.userId,
                 gradeId: req.body.gradeId == '-1' ? null : req.body.gradeId,
