@@ -12,11 +12,11 @@ studentTopicRouter.post(
     studentTopicController.postStudentTopic
 );
 
-studentTopicRouter.put(
-    '/class/:classId',
+studentTopicRouter.get(
+    '/student/class/:classId',
     verifyToken,
-    authRole(role.ROLE_TEACHER),
-    studentTopicController.updateTopicsOfStudent
+    authRole(role.ROLE_STUDENT),
+    studentTopicController.getTopicsOfStudent
 );
 
 studentTopicRouter.get(

@@ -20,11 +20,11 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
-    updateTopicsOfStudent: async (req, res) => {
+    getTopicsOfStudent: async (req, res) => {
         try {
             const studentId = req.userId;
             const classId = req.params.classId;
-            let result = await studentTopicService.updateTopicsOfStudent(studentId, classId);
+            let result = await studentTopicService.findTopicsOfStudent(studentId, classId);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;

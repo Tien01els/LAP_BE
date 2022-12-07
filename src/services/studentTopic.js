@@ -25,7 +25,7 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    updateTopicsOfStudent: async (studentId, classId) => {
+    findTopicsOfStudent: async (studentId, classId) => {
         try {
             // const topicsOfClass = await db.Class_Topic.findAll({
             //     where: { classId, isDeleted: false },

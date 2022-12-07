@@ -67,7 +67,7 @@ module.exports = {
         try {
             const studentId = req.params.studentId;
             const classId = req.params.classId;
-            let result = await studentTopicService.updateTopicsOfStudent(studentId, classId);
+            let result = await studentTopicService.findTopicsOfStudent(studentId, classId);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
