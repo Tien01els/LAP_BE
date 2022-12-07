@@ -219,6 +219,10 @@ module.exports = {
     removeStudentFromClass: async (studentId) => {
         try {
             await db.Student.update({ classId: null }, { where: { id: studentId } });
+            await db.Student_Topic.update({ isDeleted: true}, { where: { studentId, isDeleted: 0 } });
+            await db.Student_Skill.update({ isDeleted: true}, { where: { studentId, isDeleted: 0 } });
+            await db.Student_Assignment.update({ isDeleted: true}, { where: { studentId, isDeleted: 0 } });
+            await db.Student_Question.update({ isDeleted: true}, { where: { studentId, isDeleted: 0 } });
             return respMapper(204, 'Successfully deleted student');
         } catch (e) {
             console.error('Can not remove student from class');
