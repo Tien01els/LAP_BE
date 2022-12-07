@@ -7,7 +7,7 @@ module.exports = {
         try {
             const classInfo = await db.sequelize.query(
                 `
-                SELECT c.id, c.className, c.classCode, c.classImg, c.year, c.createdAt
+                SELECT c.id, c.className, c.classCode, c.classImg, c.year, c.gradeId, c.teacherId, c.createdAt
                 FROM classes AS c            
                 WHERE c.id = :id AND c.isDeleted = 0
                 `,

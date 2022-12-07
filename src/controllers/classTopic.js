@@ -28,13 +28,14 @@ module.exports = {
         try {
             let classId = req.body.classId;
             let topicId = req.body.topicId;
+            const isUnlock = req.body.isUnlock || 0;
             let classTopic = {
                 averageScore: 0,
                 isDeleted: false,
                 classId,
                 topicId,
+                isUnlock,
             };
-            const isUnlock = req.body.isUnlock || 0;
             let result = await classTopicService.createClassTopic(classTopic, isUnlock);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {

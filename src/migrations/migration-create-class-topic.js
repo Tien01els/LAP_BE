@@ -11,6 +11,9 @@ module.exports = {
             averageScore: {
                 type: Sequelize.REAL,
             },
+            isUnlock: {
+                type: Sequelize.BOOLEAN,
+            },
             isDeleted: {
                 type: Sequelize.BOOLEAN,
                 defaultValue: false,

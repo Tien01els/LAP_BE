@@ -148,7 +148,7 @@ module.exports = {
                 };
                 await db.Student_Topic.create(studentTopic);
 
-                if (topicsOfClass[i].topic.isUnlock) {
+                if (topicsOfClass[i].isUnlock || topicsOfClass[i].topic.isUnlock) {
                     const listSkillOfTopic = await db.Skill.findAll({
                         where: { topicId: topicsOfClass[i].topicId, isDeleted: 0 },
                     });

@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     Class_Topic.init(
         {
             averageScore: DataTypes.REAL,
+            isUnlock: DataTypes.BOOLEAN,
             isDeleted: DataTypes.BOOLEAN,
             classId: DataTypes.INTEGER,
             topicId: DataTypes.INTEGER,
