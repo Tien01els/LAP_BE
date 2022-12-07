@@ -18,7 +18,9 @@ module.exports = {
                 },
                 include: [
                     {
-                        attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
+                        attributes: {
+                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                        },
                         model: db.Assignment,
                         as: 'assignment',
                         where: { isDeleted: 0 },
@@ -33,6 +35,31 @@ module.exports = {
                     },
                 ],
             });
+            for (let i = 0; i < studentAssignment.length; ++i) {
+                let assignment = await db.Assignment.findByPk(studentAssignment[i].assignmentId, {
+                    where: { isDeleted: 0 },
+                    attributes: [
+                        'id',
+                        [
+                            sequelize.fn('COUNT', sequelize.col('assignmentQuestion.id')),
+                            'numberQuestionOfAssignment',
+                        ],
+                    ],
+                    include: [
+                        {
+                            attributes: [],
+                            model: db.Assignment_Question,
+                            as: 'assignmentQuestion',
+                            where: { isDeleted: 0 },
+                            required: false,
+                        },
+                    ],
+                    group: 'id',
+                    raw: true,
+                });
+                studentAssignment[i].dataValues.numberQuestionOfAssignment =
+                    assignment.numberQuestionOfAssignment;
+            }
             return respMapper(200, studentAssignment);
         } catch (error) {
             if (error.stack) {
@@ -64,6 +91,31 @@ module.exports = {
                     },
                 ],
             });
+            for (let i = 0; i < studentAssignment.length; ++i) {
+                let assignment = await db.Assignment.findByPk(studentAssignment[i].assignmentId, {
+                    where: { isDeleted: 0 },
+                    attributes: [
+                        'id',
+                        [
+                            sequelize.fn('COUNT', sequelize.col('assignmentQuestion.id')),
+                            'numberQuestionOfAssignment',
+                        ],
+                    ],
+                    include: [
+                        {
+                            attributes: [],
+                            model: db.Assignment_Question,
+                            as: 'assignmentQuestion',
+                            where: { isDeleted: 0 },
+                            required: false,
+                        },
+                    ],
+                    group: 'id',
+                    raw: true,
+                });
+                studentAssignment[i].dataValues.numberQuestionOfAssignment =
+                    assignment.numberQuestionOfAssignment;
+            }
             return respMapper(200, studentAssignment);
         } catch (error) {
             if (error.stack) {
