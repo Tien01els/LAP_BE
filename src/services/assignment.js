@@ -112,20 +112,21 @@ module.exports = {
             assignment.studentFailed = 0;
             assignment.studentLateSubmit = 0;
             assignment.studentNotSubmit = 0;
-            const students = assignment?.students;
-            for (let i = 0; i < students?.length; i++) {
-                if (students[i].studentAssignment[0].dateComplete) {
-                    if (students[i].studentAssignment[0].score >= assignment.passScore)
-                        assignment.studentPassed = assignment.studentPassed + 1;
-                    else assignment.studentFailed = assignment.studentFailed + 1;
-                    if (
-                        moment(assignment.dateDue).diff(
-                            moment(students[i].studentAssignment[0].dateComplete)
-                        ) < 0
-                    )
-                        assignment.studentLateSubmit = assignment.studentLateSubmit + 1;
-                } else assignment.studentNotSubmit = assignment.studentNotSubmit + 1;
-            }
+            const students = assignment.students;
+            if (students)
+                for (let i = 0; i < students.length; i++) {
+                    if (students[i].studentAssignment[0].dateComplete) {
+                        if (students[i].studentAssignment[0].score >= assignment.passScore)
+                            assignment.studentPassed = assignment.studentPassed + 1;
+                        else assignment.studentFailed = assignment.studentFailed + 1;
+                        if (
+                            moment(assignment.dateDue).diff(
+                                moment(students[i].studentAssignment[0].dateComplete)
+                            ) < 0
+                        )
+                            assignment.studentLateSubmit = assignment.studentLateSubmit + 1;
+                    } else assignment.studentNotSubmit = assignment.studentNotSubmit + 1;
+                }
             assignment.avgScoreOfStudent = avgScoreOfStudent[0]?.avgScoreOfStudent;
             assignment.numberQuestionOfAssignment =
                 numberQuestionOfAssignment?.numberQuestionOfAssignment;
