@@ -81,7 +81,68 @@ module.exports = {
                 attributes: {
                     exclude: ['isDeleted', 'createdAt', 'updatedAt'],
                 },
-                raw: true,
+                include: [
+                    {
+                        attributes: {
+                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                        },
+                        model: db.Student_Topic,
+                        as: 'studentTopic',
+                        where: { isDeleted: 0 },
+                        required: false,
+                        include: [
+                            {
+                                attributes: {
+                                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                                },
+                                model: db.Topic,
+                                as: 'topic',
+                                where: { isDeleted: 0 },
+                                required: false,
+                            },
+                        ],
+                    },
+                    {
+                        attributes: {
+                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                        },
+                        model: db.Student_Skill,
+                        as: 'studentSkill',
+                        where: { isDeleted: 0 },
+                        required: false,
+                        include: [
+                            {
+                                attributes: {
+                                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                                },
+                                model: db.Skill,
+                                as: 'skill',
+                                where: { isDeleted: 0 },
+                                required: false,
+                            },
+                        ],
+                    },
+                    {
+                        attributes: {
+                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                        },
+                        model: db.Student_Assignment,
+                        as: 'studentAssignment',
+                        where: { isDeleted: 0 },
+                        required: false,
+                        include: [
+                            {
+                                attributes: {
+                                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                                },
+                                model: db.Assignment,
+                                as: 'assignment',
+                                where: { isDeleted: 0 },
+                                required: false,
+                            },
+                        ],
+                    },
+                ],
             });
             return respMapper(200, students);
         } catch (error) {
@@ -219,10 +280,22 @@ module.exports = {
     removeStudentFromClass: async (studentId) => {
         try {
             await db.Student.update({ classId: null }, { where: { id: studentId } });
-            await db.Student_Topic.update({ isDeleted: true}, { where: { studentId, isDeleted: 0 } });
-            await db.Student_Skill.update({ isDeleted: true}, { where: { studentId, isDeleted: 0 } });
-            await db.Student_Assignment.update({ isDeleted: true}, { where: { studentId, isDeleted: 0 } });
-            await db.Student_Question.update({ isDeleted: true}, { where: { studentId, isDeleted: 0 } });
+            await db.Student_Topic.update(
+                { isDeleted: true },
+                { where: { studentId, isDeleted: 0 } }
+            );
+            await db.Student_Skill.update(
+                { isDeleted: true },
+                { where: { studentId, isDeleted: 0 } }
+            );
+            await db.Student_Assignment.update(
+                { isDeleted: true },
+                { where: { studentId, isDeleted: 0 } }
+            );
+            await db.Student_Question.update(
+                { isDeleted: true },
+                { where: { studentId, isDeleted: 0 } }
+            );
             return respMapper(204, 'Successfully deleted student');
         } catch (e) {
             console.error('Can not remove student from class');
