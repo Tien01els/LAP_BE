@@ -1,7 +1,11 @@
 const sequelize = require('sequelize');
+const fs = require('fs');
+const { promisify } = require('util');
+
 const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
 
+const unlinkAsync = promisify(fs.unlink);
 module.exports = {
     findClassInfo: async (id) => {
         try {
@@ -142,10 +146,34 @@ module.exports = {
     updateClassInfo: async (id, classInfo) => {
         try {
             const currentClassInfo = await db.Class.findOne({
-                where: { className: classInfo.className },
+                where: { className: classInfo.className, isDeleted: 0 },
             });
             if (currentClassInfo && currentClassInfo.id === id)
                 return errorResp(409, 'The name of the class is the same as another class');
+
+            const existingClass = await db.Class.findByPk(id, {
+                where: { isDeleted: 0 },
+            });
+            if (!existingClass) return errorResp(422, 'Class not found');
+            const arrUrlExistClassImg = existingClass.classImg && existingClass.classImg.split('/');
+            const arrUrlClassImg = classInfo && classInfo.classImg && classInfo.classImg.split('/');
+            if (
+                arrUrlExistClassImg &&
+                arrUrlExistClassImg.length > 0 &&
+                arrUrlClassImg &&
+                arrUrlClassImg.length > 0 &&
+                arrUrlExistClassImg[arrUrlExistClassImg.length - 1] &&
+                arrUrlClassImg[arrUrlClassImg.length - 1] &&
+                arrUrlExistClassImg[arrUrlExistClassImg.length - 1] !==
+                    arrUrlClassImg[arrUrlClassImg.length - 1]
+            )
+                try {
+                    await unlinkAsync(
+                        'src/public/image/' + arrUrlExistClassImg[arrUrlExistClassImg.length - 1]
+                    );
+                } catch (error) {
+                    console.log(error);
+                }
             await db.Class.update(classInfo, {
                 where: { id },
             });
