@@ -15,7 +15,7 @@ module.exports = {
                 return res.status(400).send('Please select an image to upload');
             } else if (err instanceof multer.MulterError) {
                 return res.status(400).send(err);
-            } else if (err && err.storageErrors?.length > 0) {
+            } else if (err && err.storageErrors && err.storageErrors.length > 0) {
                 return res.status(400).send(err);
             }
             return res.status(201).send(process.env.API_SERVER + 'file/image/' + req.file.filename);

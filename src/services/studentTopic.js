@@ -91,7 +91,7 @@ module.exports = {
             //         topicId: listUpdateTopic[i],
             //         isDeleted: false,
             //         status: 0,
-            //         isUnlock: topic?.prerequisiteTopicId ? true : null,
+            //         isUnlock: topic.prerequisiteTopicId ? true : null,
             //         isPass: false,
             //     });
             // }

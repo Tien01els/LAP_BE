@@ -336,7 +336,10 @@ module.exports = {
                 raw: true,
             });
             const totalScoreOfStudent =
-                (resultOfStudent?.length && resultOfStudent[0]?.totalScoreOfStudent) || 0;
+                (resultOfStudent.length &&
+                    resultOfStudent[0] &&
+                    resultOfStudent[0].totalScoreOfStudent) ||
+                0;
             await db.Student_Assignment.update(
                 {
                     score: totalScoreOfStudent,

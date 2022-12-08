@@ -212,9 +212,9 @@ module.exports = {
             }
 
             const student = await db.Student.findOne({
-                where: { accountId: account?.id, isDeleted: 0 },
+                where: { accountId: account.id, isDeleted: 0 },
             });
-            if (!!student?.classId) {
+            if (!!student.classId) {
                 return respMapper(409, { text: 'No ok', message: 'Student had class' });
             }
             student.classId = classId;

@@ -127,9 +127,10 @@ module.exports = {
                             assignment.studentLateSubmit = assignment.studentLateSubmit + 1;
                     } else assignment.studentNotSubmit = assignment.studentNotSubmit + 1;
                 }
-            assignment.avgScoreOfStudent = avgScoreOfStudent[0]?.avgScoreOfStudent;
+            assignment.avgScoreOfStudent =
+                avgScoreOfStudent[0] && avgScoreOfStudent[0].avgScoreOfStudent;
             assignment.numberQuestionOfAssignment =
-                numberQuestionOfAssignment?.numberQuestionOfAssignment;
+                numberQuestionOfAssignment.numberQuestionOfAssignment;
             return respMapper(200, assignment);
         } catch (error) {
             if (error.stack) {

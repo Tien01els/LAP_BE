@@ -102,7 +102,7 @@ module.exports = {
                     },
                 ],
             });
-            for (let i = 0; i < assignmentOfSkillOfstudent?.length; ++i) {
+            for (let i = 0; i < assignmentOfSkillOfstudent.length; ++i) {
                 let assignment = await db.Assignment.findByPk(
                     assignmentOfSkillOfstudent[i].assignmentId,
                     {

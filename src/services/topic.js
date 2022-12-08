@@ -101,8 +101,8 @@ module.exports = {
             if (existingTopic.teacherId !== teacherId)
                 return errorResp(403, "You don't have permission to edit");
 
-            const arrUrlExistTopicImg = existingTopic?.topicImg?.split('/');
-            const arrUrlTopicImg = topic?.topicImg?.split('/');
+            const arrUrlExistTopicImg = existingTopic.topicImg && existingTopic.topicImg.split('/');
+            const arrUrlTopicImg = topic && topic.topicImg && topic.topicImg.split('/');
             if (
                 arrUrlExistTopicImg &&
                 arrUrlExistTopicImg.length > 0 &&

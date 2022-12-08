@@ -201,7 +201,7 @@ module.exports = {
                 }
             );
 
-            if (skillIds?.length > 0 && skillIds[0]) {
+            if (skillIds.length > 0 && skillIds[0]) {
                 const listSkillQuestion = new Array();
                 const listSkillQuestionUpdate = new Array();
                 const listSkillQuestionExists = new Array();

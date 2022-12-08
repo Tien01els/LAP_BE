@@ -141,11 +141,11 @@ module.exports = {
             for (let i = 0; i < listAssignmentQuestion.length; i++) {
                 const option = JSON.parse(listAssignmentQuestion[i].option);
                 delete listAssignmentQuestion[i].option;
-                const contentQuestion = {
-                    multiChoice: option?.multiChoice.map((option) => ({ answer: option?.answer })),
-                    trueFalse: option?.trueFalse.map((option) => ({ answer: option?.answer })),
+                const contentQuestion = option && {
+                    multiChoice: option.multiChoice.map((option) => ({ answer: option.answer })),
+                    trueFalse: option.trueFalse.map((option) => ({ answer: option.answer })),
                     input: [],
-                    multiSelect: option?.multiSelect.map((option) => ({ answer: option?.answer })),
+                    multiSelect: option.multiSelect.map((option) => ({ answer: option.answer })),
                 };
                 listAssignmentQuestion[i].contentQuestion = contentQuestion;
                 result.push(listAssignmentQuestion[i]);
@@ -200,43 +200,51 @@ module.exports = {
             });
             if (!currentTeacherQuestion) return errorResp(409, 'Question not found');
 
-            const option = question?.option && JSON.parse(question.option);
+            const option = question && question.option && JSON.parse(question.option);
             let isCorrect = false;
-            if (question?.questionTypeId === 1) {
-                const resultTrue = option?.multiChoice.find(
-                    (optionMultiChoice, i) => optionMultiChoice?.isTrue === true
-                );
-                const answerOfTeacher = answer?.multiChoice.find(
-                    (optionMultiChoice, i) => optionMultiChoice?.isTrue === true
-                );
-                if (resultTrue?.answer === answerOfTeacher?.answer) isCorrect = true;
+            if (question && question.questionTypeId === 1) {
+                if (option && answer) {
+                    const resultTrue = option.multiChoice.find(
+                        (optionMultiChoice, i) => optionMultiChoice.isTrue === true
+                    );
+                    const answerOfTeacher = answer.multiChoice.find(
+                        (optionMultiChoice, i) => optionMultiChoice.isTrue === true
+                    );
+                    if (resultTrue && answerOfTeacher)
+                        if (resultTrue.answer === answerOfTeacher.answer) isCorrect = true;
+                }
             }
 
-            if (question?.questionTypeId === 2) {
-                const resultTrue = option?.trueFalse.find(
-                    (optionTrueFalse) => optionTrueFalse?.isTrue === true
-                );
-                const answerOfTeacher = answer?.trueFalse.find(
-                    (optionTrueFalse) => optionTrueFalse?.isTrue === true
-                );
-                if (resultTrue?.answer === answerOfTeacher?.answer) isCorrect = true;
+            if (question && question.questionTypeId === 2) {
+                if (option && answer) {
+                    const resultTrue = option.trueFalse.find(
+                        (optionTrueFalse) => optionTrueFalse.isTrue === true
+                    );
+                    const answerOfTeacher = answer.trueFalse.find(
+                        (optionTrueFalse) => optionTrueFalse.isTrue === true
+                    );
+                    if (resultTrue && answerOfTeacher)
+                        if (resultTrue.answer === answerOfTeacher.answer) isCorrect = true;
+                }
             }
 
-            if (question?.questionTypeId === 3) {
-                if (option?.input[0]?.answer === answer?.input[0]?.answer) isCorrect = true;
+            if (question && question.questionTypeId === 3) {
+                if (option && answer)
+                    if (option.input[0].answer === answer.input[0].answer) isCorrect = true;
             }
 
-            if (question?.questionTypeId === 4) {
+            if (question && question.questionTypeId === 4) {
                 isCorrect = true;
-                for (let i = 0; i < option?.multiSelect.length; ++i)
-                    if (
-                        !answer?.multiSelect?.find(
-                            (multiSelect) =>
-                                multiSelect?.isTrue === option?.multiSelect[i]?.isTrue &&
-                                multiSelect?.answer === option?.multiSelect[i]?.answer
+                if (option && answer)
+                    for (let i = 0; i < option.multiSelect.length; ++i)
+                        if (
+                            !answer.multiSelect.find(
+                                (multiSelect) =>
+                                    multiSelect.isTrue === option.multiSelect[i].isTrue &&
+                                    multiSelect.answer === option.multiSelect[i].answer
+                            )
                         )
-                    )
-                        isCorrect = false;
+                            isCorrect = false;
             }
             await currentTeacherQuestion.update({ answer: JSON.stringify(answer), isCorrect });
 
