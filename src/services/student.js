@@ -99,46 +99,75 @@ module.exports = {
                                 as: 'topic',
                                 where: { isDeleted: 0 },
                                 required: false,
-                            },
-                        ],
-                    },
-                    {
-                        attributes: {
-                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                        },
-                        model: db.Student_Skill,
-                        as: 'studentSkill',
-                        where: { isDeleted: 0 },
-                        required: false,
-                        include: [
-                            {
-                                attributes: {
-                                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                                },
-                                model: db.Skill,
-                                as: 'skill',
-                                where: { isDeleted: 0 },
-                                required: false,
-                            },
-                        ],
-                    },
-                    {
-                        attributes: {
-                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                        },
-                        model: db.Student_Assignment,
-                        as: 'studentAssignment',
-                        where: { isDeleted: 0 },
-                        required: false,
-                        include: [
-                            {
-                                attributes: {
-                                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                                },
-                                model: db.Assignment,
-                                as: 'assignment',
-                                where: { isDeleted: 0 },
-                                required: false,
+                                include: [
+                                    {
+                                        attributes: {
+                                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                                        },
+                                        model: db.Skill,
+                                        as: 'skill',
+                                        where: { isDeleted: 0 },
+                                        required: false,
+                                        include: [
+                                            {
+                                                attributes: {
+                                                    exclude: [
+                                                        'isDeleted',
+                                                        'createdAt',
+                                                        'updatedAt',
+                                                    ],
+                                                },
+                                                model: db.Student_Skill,
+                                                as: 'studentSkill',
+                                                where: { isDeleted: 0 },
+                                                required: false,
+                                            },
+                                            {
+                                                attributes: {
+                                                    exclude: [
+                                                        'isDeleted',
+                                                        'createdAt',
+                                                        'updatedAt',
+                                                    ],
+                                                },
+                                                model: db.Skill_Assignment,
+                                                as: 'skillAssignment',
+                                                where: { isDeleted: 0 },
+                                                required: false,
+                                                include: [
+                                                    {
+                                                        attributes: {
+                                                            exclude: [
+                                                                'isDeleted',
+                                                                'createdAt',
+                                                                'updatedAt',
+                                                            ],
+                                                        },
+                                                        model: db.Assignment,
+                                                        as: 'assignment',
+                                                        where: { isDeleted: 0 },
+                                                        required: false,
+                                                        include: [
+                                                            {
+                                                                attributes: {
+                                                                    exclude: [
+                                                                        'isDeleted',
+                                                                        'createdAt',
+                                                                        'updatedAt',
+                                                                    ],
+                                                                },
+                                                                model: db.Student_Assignment,
+                                                                as: 'studentAssignment',
+                                                                where: { isDeleted: 0 },
+                                                                required: false,
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
                             },
                         ],
                     },
