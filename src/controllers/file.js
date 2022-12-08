@@ -18,7 +18,9 @@ module.exports = {
             } else if (err && err.storageErrors && err.storageErrors.length > 0) {
                 return res.status(400).send(err);
             }
-            return res.status(201).send(process.env.API_SERVER + 'file/image/' + req.file.filename);
+            return res
+                .status(201)
+                .send(process.env.API_SERVER + 'api/file/image/' + req.file.filename);
         });
     },
     getImage: async (req, res) => {
