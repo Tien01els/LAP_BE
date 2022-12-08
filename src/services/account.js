@@ -285,7 +285,7 @@ module.exports = {
                 console.log(error.message);
                 console.log(error.stack);
             }
-            throw errorResp(400, 'The session has expired');
+            throw errorResp(401, 'The session has expired');
         }
     },
 
