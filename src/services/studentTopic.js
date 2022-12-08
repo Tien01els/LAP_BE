@@ -8,7 +8,10 @@ module.exports = {
             let studentTopicNew = await db.Student_Topic.create(studentTopic);
             return respMapper(200, studentTopicNew);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -21,7 +24,10 @@ module.exports = {
             await studentTopic.save();
             return respMapper(204, 'Successfully deleted topic of student');
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -114,7 +120,10 @@ module.exports = {
             );
             return respMapper(200, result);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -202,7 +211,10 @@ module.exports = {
             return respMapper(200, result);
         } catch (error) {
             console.log(error.message);
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

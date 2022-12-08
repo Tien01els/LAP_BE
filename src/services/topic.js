@@ -27,7 +27,10 @@ module.exports = {
 
             return respMapper(200, topic);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -42,7 +45,10 @@ module.exports = {
             });
             return respMapper(200, topics);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -88,7 +94,10 @@ module.exports = {
             });
             return respMapper(200, topics);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -124,7 +133,10 @@ module.exports = {
             await existingTopic.update({ ...topic });
             return respMapper(200, 'Successfully updated topic');
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

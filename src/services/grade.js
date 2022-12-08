@@ -13,7 +13,10 @@ module.exports = {
             });
             return respMapper(200, grades);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -35,7 +38,10 @@ module.exports = {
             });
             return respMapper(200, grades);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

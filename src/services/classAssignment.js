@@ -95,7 +95,10 @@ module.exports = {
                 result: classAssignmentNew,
             });
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -112,7 +115,10 @@ module.exports = {
                 );
             return respMapper(200, await classAssignment.save());
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -145,7 +151,10 @@ module.exports = {
             await classAssignment.update({ isDeleted: true });
             return respMapper(204, 'Assignment of class deleted successfully');
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

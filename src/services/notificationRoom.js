@@ -18,7 +18,10 @@ module.exports = {
             }
             return respMapper(200, rooms);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -43,7 +46,10 @@ module.exports = {
             let res = await db.Notification_Room.bulkCreate(newRoom);
             return respMapper(200, res);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -70,7 +76,10 @@ module.exports = {
             );
             return respMapper(204);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

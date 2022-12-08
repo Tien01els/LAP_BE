@@ -46,7 +46,10 @@ module.exports = {
                 result: newSkillAssignment,
             });
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -68,7 +71,10 @@ module.exports = {
             });
             return respMapper(200, skillAssignment);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -169,7 +175,10 @@ module.exports = {
             await skillAssignment.update({ isDeleted: true });
             return respMapper(204, 'Assignment of skill deleted successfully');
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

@@ -163,7 +163,10 @@ module.exports = {
             });
             return respMapper(200, assignment);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -178,7 +181,10 @@ module.exports = {
             });
             return assignments;
         } catch (e) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -189,7 +195,10 @@ module.exports = {
                 result: await db.Assignment.create(assignment),
             });
         } catch (e) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -206,7 +215,10 @@ module.exports = {
                 result: assignment,
             });
         } catch (e) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -229,7 +241,10 @@ module.exports = {
             }
             return 'This assignment does not exist';
         } catch (e) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

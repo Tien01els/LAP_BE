@@ -26,7 +26,10 @@ module.exports = {
             });
             return respMapper(200, skills);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -64,7 +67,10 @@ module.exports = {
             });
             return respMapper(200, skill);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -79,7 +85,10 @@ module.exports = {
             });
             return respMapper(200, skills);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -104,7 +113,10 @@ module.exports = {
             await db.Student_Skill.bulkCreate(listSkillOfStudent);
             return respMapper(201, 'Successfully created skill');
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -174,7 +186,10 @@ module.exports = {
                 );
             return respMapper(200, 'Deleted skill successfully');
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

@@ -102,7 +102,10 @@ module.exports = {
             if (!question) return errorResp(409, 'Question not found');
             return respMapper(200, question);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -252,7 +255,10 @@ module.exports = {
             );
             return respMapper(200, 'Question deleted successfully');
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },

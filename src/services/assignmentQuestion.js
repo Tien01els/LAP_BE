@@ -175,7 +175,10 @@ module.exports = {
 
             return respMapper(200, finalResult);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -193,7 +196,10 @@ module.exports = {
             );
             return respMapper(200, listAssignmentQuestionNew);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -247,13 +253,14 @@ module.exports = {
                     isDeleted: false,
                 });
 
-            await db.Assignment_Question.bulkCreate(
-                listAssignmentQuestion
-            );
+            await db.Assignment_Question.bulkCreate(listAssignmentQuestion);
 
             return respMapper(200, 'Question of assignment updated successfully');
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
@@ -348,7 +355,10 @@ module.exports = {
 
             return respMapper(200, resultQuestions);
         } catch (error) {
-            if (error.stack) console.log(error.stack);
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
             throw errorResp(400, error.message);
         }
     },
