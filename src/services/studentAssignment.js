@@ -318,7 +318,7 @@ module.exports = {
     submitAssignment: async (studentId, assignmentId) => {
         try {
             const resultOfStudent = await db.Student_Question.findAll({
-                where: { studentId: studentId, isCorrect: 1, isDeleted: 0 },
+                where: { studentId, assignmentId, isCorrect: 1, isDeleted: 0 },
                 attributes: [
                     'assignmentId',
                     [sequelize.fn('sum', sequelize.col('score')), 'totalScoreOfStudent'],
