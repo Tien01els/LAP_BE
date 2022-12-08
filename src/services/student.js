@@ -161,6 +161,13 @@ module.exports = {
                                                                 where: { isDeleted: 0 },
                                                                 required: false,
                                                             },
+                                                            {
+                                                                attributes: ['questionId'],
+                                                                model: db.Assignment_Question,
+                                                                as: 'assignmentQuestion',
+                                                                where: { isDeleted: 0 },
+                                                                required: false,
+                                                            },
                                                         ],
                                                     },
                                                 ],
