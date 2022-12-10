@@ -54,4 +54,14 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
+    getRoadMap: async (req, res) => {
+        try {
+            let classId = req.params.classId;
+            let result = await classTopicService.findRoadMap(classId);
+            return res.status(200).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            return res.status(errorStatus).send(error.data);
+        }
+    }
 };

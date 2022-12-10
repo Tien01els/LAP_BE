@@ -282,4 +282,31 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    findRoadMap: async (classId) => {
+        try {
+            let topics = await db.sequelize.query(
+                `
+                SELECT c.id, t.topicName, t.topicImg, pt.topicName AS prerequisiteTopicName, COUNT(s.id) AS numberSkills, t.description, t.id AS topicId 
+                FROM class_topics AS c JOIN topics AS t
+                ON c.classId = :classId AND t.id = c.topicId 
+                AND c.isDeleted = 0 AND t.isDeleted = 0
+                LEFT JOIN topics as pt ON pt.id = t.prerequisiteTopicId AND pt.isDeleted = 0 
+                LEFT JOIN skills AS s ON s.topicId = t.id AND s.isDeleted = 0 
+                GROUP BY c.topicId
+                ORDER BY pt.id
+                `,
+                {
+                    replacements: { classId },
+                    type: sequelize.QueryTypes.SELECT,
+                }
+            );
+            return respMapper(200, topics);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
 };
