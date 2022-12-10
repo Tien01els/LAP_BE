@@ -70,6 +70,7 @@ module.exports = {
                     },
                 ],
             });
+            if (!classInfo) return errorResp(422, 'Class not found');
             return respMapper(200, classInfo);
         } catch (error) {
             if (error.stack) {

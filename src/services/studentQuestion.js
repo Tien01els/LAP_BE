@@ -248,10 +248,8 @@ module.exports = {
                             isCorrect = false;
             }
 
-            return respMapper(
-                200,
-                await currentStudentQuestion.update({ answer: JSON.stringify(answer), isCorrect })
-            );
+            await currentStudentQuestion.update({ answer: JSON.stringify(answer), isCorrect });
+            return respMapper(200, 'Answer for question of student saved successfully');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
