@@ -19,11 +19,7 @@ classTopicRouter.get(
     authRole(role.ROLE_STUDENT),
     classTopicController.getTopicsOfClassForStudent
 );
-classTopicRouter.get(
-    '/class/:classId/roadmap',
-    verifyToken,
-    classTopicController.getRoadMap
-);
+
 classTopicRouter.post(
     '/',
     verifyToken,

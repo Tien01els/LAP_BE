@@ -20,7 +20,6 @@ studentAssignmentRouter.get(
 studentAssignmentRouter.get(
     '/student/deadline',
     verifyToken,
-    authRole(role.ROLE_STUDENT),
     studentAssignmentController.getDeadlineOfStudent
 );
 studentAssignmentRouter.get(
@@ -39,7 +38,6 @@ studentAssignmentRouter.get(
 studentAssignmentRouter.put(
     '/student/assignment/:assignmentId/start',
     verifyToken,
-    authRole(role.ROLE_STUDENT),
     studentAssignmentController.startAssignment
 );
 studentAssignmentRouter.put(

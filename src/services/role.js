@@ -30,4 +30,16 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    deleteRole: async (id) => {
+        try {
+            await db.Role.update({ isDeleted: true }, { where: { id, isDeleted: false } });
+            return respMapper(201, 'Role deleted successfully');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
 };

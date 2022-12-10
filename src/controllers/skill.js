@@ -3,12 +3,11 @@ const { skillService } = require('../services/index');
 module.exports = {
     getSkillOfTopic: async (req, res) => {
         try {
-            const result = await skillService.findSkillByTopic(
-                req.params.topicId
-            );
+            const result = await skillService.findSkillByTopic(req.params.topicId);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
+            console.log(error);
             return res.status(errorStatus).send(error.data);
         }
     },
@@ -18,6 +17,7 @@ module.exports = {
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
+            console.log(error);
             return res.status(errorStatus).send(error.data);
         }
     },
@@ -27,6 +27,7 @@ module.exports = {
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
+            console.log(error);
             return res.status(errorStatus).send(error.data);
         }
     },
@@ -43,6 +44,7 @@ module.exports = {
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
+            console.log(error);
             return res.status(errorStatus).send(error.data);
         }
     },
@@ -52,6 +54,7 @@ module.exports = {
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
+            console.log(error);
             return res.status(errorStatus).send(error.data);
         }
     },

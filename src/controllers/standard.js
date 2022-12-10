@@ -7,6 +7,7 @@ module.exports = {
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
+            console.log(error);
             return res.status(errorStatus).send(error.data);
         }
     },

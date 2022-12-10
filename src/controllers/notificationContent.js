@@ -3,10 +3,13 @@ const { notificationContentService } = require('../services/index');
 module.exports = {
     getContentsOfReceiver: async (req, res) => {
         try {
-            let result = await notificationContentService.findAllContentOfReceiver(req.params.receiverId);
+            let result = await notificationContentService.findAllContentOfReceiver(
+                req.params.receiverId
+            );
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
+            console.log(error);
             return res.status(errorStatus).send(error.data);
         }
     },
@@ -16,15 +19,19 @@ module.exports = {
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
+            console.log(error);
             return res.status(errorStatus).send(error.data);
         }
     },
     seenAllNotification: async (req, res) => {
         try {
-            let result = await notificationContentService.updateIsSeenAllNotification(req.params.receiverId);
+            let result = await notificationContentService.updateIsSeenAllNotification(
+                req.params.receiverId
+            );
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
+            console.log(error);
             return res.status(errorStatus).send(error.data);
         }
     },

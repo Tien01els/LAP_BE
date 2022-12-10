@@ -13,6 +13,9 @@ gradeRouter.get(
     gradeController.getGradeOfTeacher
 );
 
+gradeRouter.get('/:id/road-map', verifyToken, gradeController.getRoadMap);
+
 gradeRouter.get('/', verifyToken, gradeController.getAllGrades);
+gradeRouter.get('/class/:classId', verifyToken, gradeController.getGradeOfClass);
 
 module.exports = gradeRouter;

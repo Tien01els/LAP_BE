@@ -22,7 +22,6 @@ studentTopicRouter.get(
 studentTopicRouter.get(
     '/percent-skill',
     verifyToken,
-    authRole(role.ROLE_STUDENT),
     studentTopicController.getPercentSkillsOfStudent
 );
 
