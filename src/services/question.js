@@ -203,8 +203,7 @@ module.exports = {
                     where: { id, isDeleted: 0 },
                 }
             );
-
-            if (skillIds.length > 0 && skillIds[0]) {
+            if (skillIds && skillIds.length > 0 && skillIds[0]) {
                 const listSkillQuestion = new Array();
                 const listSkillQuestionUpdate = new Array();
                 const listSkillQuestionExists = new Array();
