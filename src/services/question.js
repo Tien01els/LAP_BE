@@ -208,7 +208,7 @@ module.exports = {
                 const listSkillQuestionUpdate = new Array();
                 const listSkillQuestionExists = new Array();
                 const listSkillQuestionCurrent = await db.Skill_Question.findAll({
-                    where: { questionId: id, isDeleted: 0 },
+                    where: { questionId: currentQuestion.id, isDeleted: 0 },
                 });
 
                 for (let i = 0; i < listSkillQuestionCurrent.length; i++) {
@@ -218,7 +218,13 @@ module.exports = {
                     }
                     await db.Skill_Question.update(
                         { isDeleted: true },
-                        { where: { id, isDeleted: false } }
+                        {
+                            where: {
+                                skillId: listSkillQuestionCurrent[i].skillId,
+                                questionId: currentQuestion.id,
+                                isDeleted: false,
+                            },
+                        }
                     );
                 }
 
@@ -228,7 +234,7 @@ module.exports = {
 
                 for (let i = 0; i < listSkillQuestionUpdate.length; ++i)
                     listSkillQuestion.push({
-                        questionId: questionUpdated.id,
+                        questionId: currentQuestion.id,
                         skillId: listSkillQuestionUpdate[i],
                         isDeleted: false,
                     });

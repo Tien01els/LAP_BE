@@ -125,6 +125,51 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    findAverageScoreOfAllClass: async (teacherId) => {
+        try {
+            let sumAverageScore = await db.Class.findAll({
+                where: { teacherId, isDeleted: 0 },
+                attributes: [
+                    'id',
+                    'className',
+                    [
+                        sequelize.fn('sum', sequelize.col('averageScore')),
+                        'sumAverageScoreOfStudent',
+                    ],
+                ],
+                include: [
+                    {
+                        attributes: ['id'],
+                        model: db.Student,
+                        as: 'student',
+                        where: { isDeleted: 0 },
+                        required: false,
+                    },
+                ],
+                group: ['id'],
+            });
+            const result = new Array();
+            for (let i = 0; i < sumAverageScore.length; ++i) {
+                result.push({
+                    classId: sumAverageScore[i].id,
+                    className: sumAverageScore[i].className,
+                    averageScore:
+                        sumAverageScore[i].dataValues.sumAverageScoreOfStudent &&
+                        sumAverageScore[i].student.length
+                            ? sumAverageScore[i].dataValues.sumAverageScoreOfStudent /
+                              sumAverageScore[i].student.length
+                            : 0,
+                });
+            }
+            return respMapper(200, result);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
 
     createClassInfo: async (classInfo) => {
         try {

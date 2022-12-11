@@ -18,6 +18,7 @@ classRouter.get(
     authRole(role.ROLE_TEACHER),
     classController.getClassesOfTeacher
 );
+classRouter.get('/teacher/average-score', verifyToken, classController.getAverageScoreOfAllClass);
 classRouter.get('/:id', verifyToken, classController.getClassInfo);
 
 classRouter.post('/', verifyToken, authRole(role.ROLE_TEACHER), classController.postClassInfo);
