@@ -10,6 +10,7 @@ const notificationContentService = require('./notificationContent');
 const notificationRoomService = require('./notificationRoom');
 const parentService = require('./parent');
 const questionService = require('./question');
+const questionTypeService = require('./questionType');
 const roleService = require('./role');
 const skillService = require('./skill');
 const skillAssignmentService = require('./skillAssignment');
@@ -39,6 +40,7 @@ module.exports = {
     notificationRoomService,
     parentService,
     questionService,
+    questionTypeService,
     roleService,
     skillService,
     skillAssignmentService,

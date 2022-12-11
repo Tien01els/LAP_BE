@@ -1,9 +1,9 @@
-const { standardService } = require('../services/index');
+const { questionTypeService } = require('../services/index');
 
 module.exports = {
-    getAllStandards: async (req, res) => {
+    getAllQuestionTypes: async (req, res) => {
         try {
-            const result = await standardService.findAllStandards();
+            let result = await questionTypeService.findAllQuestionTypes();
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
@@ -11,14 +11,13 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
-    postStandard: async (req, res) => {
+    postQuestionType: async (req, res) => {
         try {
-            const standard = {
-                standardName: req.body.standardName,
-                standardCode: req.body.standardCode,
+            const questionType = {
+                typeName: req.body.typeName,
                 isDeleted: false,
             };
-            const result = await standardService.createStandard(standard);
+            let result = await questionTypeService.createQuestionType(questionType);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;
@@ -26,10 +25,10 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
-    deleteStandard: async (req, res) => {
+    deleteQuestionType: async (req, res) => {
         try {
             const id = req.params.id;
-            let result = await standardService.deleteStandard(id);
+            let result = await questionTypeService.deleteQuestionType(id);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {
             const errorStatus = error.statusCode || 500;

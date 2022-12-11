@@ -2,16 +2,14 @@ const db = require('../models/index');
 const { respMapper, errorResp } = require('../helper/helper');
 
 module.exports = {
-    findAllStandards: async () => {
+    findAllQuestionTypes: async () => {
         try {
-            let standards = await db.Standard.findAll({
+            let questionTypes = await db.Questiontype.findAll({
                 where: { isDeleted: 0 },
-                attributes: {
-                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
-                },
+                attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
                 raw: true,
             });
-            return respMapper(200, standards);
+            return respMapper(200, questionTypes);
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
@@ -20,10 +18,10 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    createStandard: async (standard) => {
+    createQuestionType: async (questionType) => {
         try {
-            await db.Standard.create(standard);
-            return respMapper(201, 'Standard created successfully');
+            await db.Questiontype.create(questionType);
+            return respMapper(201, 'QuestionType created successfully');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
@@ -32,10 +30,10 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
-    deleteStandard: async (id) => {
+    deleteQuestionType: async (id) => {
         try {
-            await db.Standard.update({ isDeleted: true }, { where: { id, isDeleted: false } });
-            return respMapper(201, 'Standard deleted successfully');
+            await db.Questiontype.update({ isDeleted: true }, { where: { id, isDeleted: false } });
+            return respMapper(201, 'QuestionType deleted successfully');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);

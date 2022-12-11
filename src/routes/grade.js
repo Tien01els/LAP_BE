@@ -12,10 +12,11 @@ gradeRouter.get(
     authRole(role.ROLE_TEACHER),
     gradeController.getGradeOfTeacher
 );
-
 gradeRouter.get('/:id/road-map', verifyToken, gradeController.getRoadMap);
-
 gradeRouter.get('/', verifyToken, gradeController.getAllGrades);
 gradeRouter.get('/class/:classId', verifyToken, gradeController.getGradeOfClass);
+
+gradeRouter.post('/', verifyToken, authRole(role.ROLE_ADMIN), gradeController.postGrade);
+gradeRouter.delete('/:id', verifyToken, authRole(role.ROLE_ADMIN), gradeController.deleteGrade);
 
 module.exports = gradeRouter;

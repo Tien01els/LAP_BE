@@ -9,6 +9,7 @@ const notificationContentRouter = require('./notificationContent');
 const notificationRoomRouter = require('./notificationRoom');
 const parentRouter = require('./parent');
 const questionRouter = require('./question');
+const questionTypeRouter = require('./questionType');
 const roleRouter = require('./role');
 const skillRouter = require('./skill');
 const skillAssignmentRouter = require('./skillAssignment');
@@ -35,6 +36,7 @@ const route = (app) => {
     app.use('/api/notification-room', notificationRoomRouter);
     app.use('/api/parent', parentRouter);
     app.use('/api/question', questionRouter);
+    app.use('/api/question-type', questionTypeRouter);
     app.use('/api/role', roleRouter);
     app.use('/api/skill', skillRouter);
     app.use('/api/skill-assignment', skillAssignmentRouter);

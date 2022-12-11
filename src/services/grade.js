@@ -97,4 +97,28 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    createGrade: async (grade) => {
+        try {
+            await db.Grade.create(grade);
+            return respMapper(201, 'Grade created successfully');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+    deleteGrade: async (id) => {
+        try {
+            await db.Grade.update({ isDeleted: true }, { where: { id, isDeleted: false } });
+            return respMapper(201, 'Grade deleted successfully');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
 };

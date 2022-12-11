@@ -7,6 +7,6 @@ const roleRouter = express.Router();
 
 roleRouter.get('/', verifyToken, authRole(role.ROLE_ADMIN), roleController.getAllRoles);
 roleRouter.post('/', roleController.postRole);
-roleRouter.delete('/:id', roleController.deleteRole);
+roleRouter.delete('/:id', authRole(role.ROLE_ADMIN), roleController.deleteRole);
 
 module.exports = roleRouter;
