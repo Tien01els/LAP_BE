@@ -27,12 +27,9 @@ module.exports = {
                 attributes: [
                     'id',
                     'gradeName',
-                    [
-                        sequelize.fn('COUNT', sequelize.col('class.id')),
-                        'numberClassOfGrade',
-                    ],
+                    [sequelize.fn('COUNT', sequelize.col('class.id')), 'numberClassOfGrade'],
                 ],
-                where: { teacherId, isDeleted: 0 },
+                where: { isDeleted: 0 },
                 include: [
                     {
                         attributes: [],
