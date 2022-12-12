@@ -23,19 +23,26 @@ module.exports = {
     },
     findGradeByTeacher: async (teacherId) => {
         try {
-            let grades = await db.Class.findAll({
-                attributes: ['grade.id', 'grade.gradeName'],
+            let grades = await db.Grade.findAll({
+                attributes: [
+                    'id',
+                    'gradeName',
+                    [
+                        sequelize.fn('COUNT', sequelize.col('class.id')),
+                        'numberClassOfGrade',
+                    ],
+                ],
                 where: { teacherId, isDeleted: 0 },
-                raw: true,
                 include: [
                     {
                         attributes: [],
-                        model: db.Grade,
-                        as: 'grade',
-                        where: { isDeleted: 0 },
+                        model: db.Class,
+                        as: 'class',
+                        where: { teacherId, isDeleted: 0 },
                         required: false,
                     },
                 ],
+                raw: true,
             });
             return respMapper(200, grades);
         } catch (error) {

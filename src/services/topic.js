@@ -140,4 +140,99 @@ module.exports = {
             throw errorResp(400, error.message);
         }
     },
+    deleteTopic: async (id) => {
+        try {
+            let topic = await db.Topic.findByPk(id);
+            if (!topic) return errorResp(422, 'Not found topic');
+            topic.isDeleted = true;
+            const topicDeleted = await topic.save();
+            if (
+                (typeof topicDeleted === 'object' || typeof topicDeleted === 'function') &&
+                topicDeleted !== null
+            ) {
+                await db.Class_Topic.update(
+                    { isDeleted: true },
+                    {
+                        where: {
+                            topicId: topic.id,
+                            isDeleted: false,
+                        },
+                    }
+                );
+                const students = await db.Student_Topic.findAll({
+                    where: {
+                        topicId: topic.id,
+                        isDeleted: false,
+                    },
+                });
+                await db.Student_Topic.update(
+                    { isDeleted: true },
+                    {
+                        where: {
+                            topicId: topic.id,
+                            isDeleted: false,
+                        },
+                    }
+                );
+
+                const skillOfTopic = await db.Skill.findAll({
+                    where: { topicId: topic.id, isDeleted: false },
+                });
+                for (let i = 0; i < students.length; ++i)
+                    for (let j = 0; j < skillOfTopic.length; ++j) {
+                        await db.Student_Skill.update(
+                            { isDeleted: true },
+                            {
+                                where: {
+                                    studentId: students[i].studentId,
+                                    skillId: skillOfTopic[j].id,
+                                    isDeleted: false,
+                                },
+                            }
+                        );
+                    }
+
+                let listAssignmentOfSkill = new Array();
+                for (let i = 0; i < skillOfTopic.length; ++i) {
+                    const assignmentOfSkill = await db.Skill_Assignment.findAll({
+                        where: { skillId: skillOfTopic[i].id, isDeleted: 0 },
+                    });
+                    listAssignmentOfSkill = [...listAssignmentOfSkill, ...assignmentOfSkill];
+                }
+
+                for (let i = 0; i < students.length; ++i)
+                    for (let j = 0; j < listAssignmentOfSkill.length; ++j) {
+                        await db.Student_Assignment.update(
+                            { isDeleted: true },
+                            {
+                                where: {
+                                    studentId: students[i].studentId,
+                                    assignmentId: listAssignmentOfSkill[j].assignmentId,
+                                    isDeleted: false,
+                                },
+                            }
+                        );
+                    }
+                // await db.Skill.update(
+                //     { isDeleted: true },
+                //     { where: { topicId: topic.id, isDeleted: false } }
+                // );
+                // for (let i = 0; i < skillOfTopic.length; ++i) {
+                //     await db.Skill_Assignment.update(
+                //         { isDeleted: true },
+                //         {
+                //             where: { skillId: skillOfTopic[i].id, isDeleted: 0 },
+                //         }
+                //     );
+                // }
+            }
+            return respMapper(204, 'Successfully deleted topic of class');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
 };

@@ -15,7 +15,7 @@ parentRouter.get(
     '/student/:studentId/class/:classId/topic',
     verifyToken,
     authRole(role.ROLE_PARENT),
-    parentController.getTopicsOfStudnet
+    parentController.getTopicsOfStudent
 );
 parentRouter.get(
     '/student/:studentId/class/:classId',

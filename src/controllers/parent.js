@@ -68,7 +68,7 @@ module.exports = {
             return res.status(errorStatus).send(error.data);
         }
     },
-    getTopicsOfStudnet: async (req, res) => {
+    getTopicsOfStudent: async (req, res) => {
         try {
             const studentId = req.params.studentId;
             const classId = req.params.classId;

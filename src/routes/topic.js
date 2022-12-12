@@ -24,4 +24,6 @@ topicRouter.get('/', verifyToken, topicController.getAllTopics);
 
 topicRouter.put('/:id', verifyToken, authRole(role.ROLE_TEACHER), topicController.putTopic);
 
+topicRouter.delete('/:id', verifyToken, authRole(role.ROLE_TEACHER), topicController.deleteTopic);
+
 module.exports = topicRouter;
