@@ -190,13 +190,13 @@ module.exports = {
                 },
                 raw: true,
             });
-            if (!account) return errorResp(401, 'Account not found');
-            if (account.isActive === 0) return errorResp(401, 'Account is not active');
+            if (!account) return errorResp(400, 'Account not found');
+            if (account.isActive === 0) return errorResp(400, 'Account is not active');
 
             const validPassword = await bcrypt.compare(password, account.password);
             if (!validPassword) return errorResp(400, 'Wrong password');
             let user = await getUserByAccount(account);
-            if (!user) return errorResp(404, 'User not found');
+            if (!user) return errorResp(400, 'User not found');
             let userInfo = {};
             if (account.roleId === 3) {
                 userInfo.classId = user.classId;
