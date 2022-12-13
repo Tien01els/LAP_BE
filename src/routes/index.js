@@ -24,6 +24,8 @@ const teacherQuestionRouter = require('./teacherQuestion');
 const topicRouter = require('./topic');
 const fileRouter = require('./file');
 
+const clientRouter = require('./client');
+
 const route = (app) => {
     app.use('/api/assignment', assignmentRouter);
     app.use('/api/assignment-question', assignmentQuestionRouter);
@@ -50,5 +52,7 @@ const route = (app) => {
     app.use('/api/teacher-question', teacherQuestionRouter);
     app.use('/api/topic', topicRouter);
     app.use('/api/file', fileRouter);
+
+    app.use(`/*`, clientRouter);
 };
 module.exports = route;
