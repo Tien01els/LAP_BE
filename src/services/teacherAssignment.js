@@ -59,7 +59,7 @@ module.exports = {
                     isDeleted: false,
                 };
                 await db.Teacher_Assignment.create(teacherAssignment);
-                return respMapper(201, 'Assignment of teacher created successfully');
+                return respMapper(201, 'Trial assignment started');
             }
             haveTeacherAssignment.dateStart = new Date();
             haveTeacherAssignment.dateEnd = new Date(
@@ -80,7 +80,7 @@ module.exports = {
                     raw: true,
                 }
             );
-            return respMapper(200, 'Continue trial assignment');
+            return respMapper(200, 'Trial assignment started');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);

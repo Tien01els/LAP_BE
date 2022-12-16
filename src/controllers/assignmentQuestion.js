@@ -15,7 +15,6 @@ module.exports = {
                 gradeId: req.body.gradeId,
                 currentQuestions: req.body.currentQuestions || [],
             };
-console.log(conditions)
             const result = await assignmentQuestionService.generateAssignmentQuestion(conditions);
             return res.status(result.statusCode).send(result.data);
         } catch (error) {

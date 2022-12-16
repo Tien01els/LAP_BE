@@ -270,7 +270,7 @@ module.exports = {
             }
             listStudentAssignment.length &&
                 (await db.Student_Assignment.bulkCreate(listStudentAssignment));
-            return respMapper(201, 'successfully assign assignment to student');
+            return respMapper(201, 'Successfully assign assignment to student');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);

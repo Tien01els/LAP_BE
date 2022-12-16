@@ -6,11 +6,19 @@ const role = require('../config/roleConstant');
 const studentQuestionRouter = express.Router();
 
 studentQuestionRouter.get(
+    '/teacher/student/:studentId/assignment/:assignmentId',
+    verifyToken,
+    studentQuestionController.getResultStudentForTeacher
+);
+
+studentQuestionRouter.get(
     '/student/assignment/:assignmentId',
     verifyToken,
     authRole(role.ROLE_STUDENT),
     studentQuestionController.getQuestionsOfAssignmentForStudent
 );
+
+
 
 studentQuestionRouter.put(
     '/:id',

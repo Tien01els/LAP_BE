@@ -170,9 +170,13 @@ module.exports = {
                     };
                     result = await db.Parent.create(parent);
                 }
-                if (result) return respMapper(200, { success: true, message: 'Register success' });
+                if (result)
+                    return respMapper(200, {
+                        success: true,
+                        message: 'Account created successfully',
+                    });
             }
-            return errorResp(500, 'Register failed');
+            return errorResp(500, 'Account created fail');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
