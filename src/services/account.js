@@ -132,7 +132,6 @@ module.exports = {
                 (typeof accountNew === 'object' || typeof accountNew === 'function')
             ) {
                 let result;
-                console.log(accountNew);
                 if (accountNew.roleId === 1) {
                     const admin = {
                         fullName: account.fullName || 'admin',
@@ -309,6 +308,129 @@ module.exports = {
                 ],
             });
             return respMapper(200, allAccount);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+    findProfile: async (userId, roleId) => {
+        try {
+            let result;
+            if (roleId === 1) {
+                result = await db.Admin.findByPk(userId, {
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                    include: [
+                        {
+                            attributes: ['email', 'avatarImg'],
+                            model: db.Account,
+                            as: 'account',
+                            where: { isDeleted: 0 },
+                        },
+                    ],
+                });
+            }
+            if (roleId === 2) {
+                result = await db.Teacher.findByPk(userId, {
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                    include: [
+                        {
+                            attributes: ['email', 'avatarImg'],
+                            model: db.Account,
+                            as: 'account',
+                            where: { isDeleted: 0 },
+                        },
+                    ],
+                });
+            }
+            if (roleId === 3) {
+                result = await await db.Student.findByPk(userId, {
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                    include: [
+                        {
+                            attributes: ['email', 'avatarImg'],
+                            model: db.Account,
+                            as: 'account',
+                            where: { isDeleted: 0 },
+                        },
+                    ],
+                });
+            }
+            if (roleId === 4) {
+                result = await db.Parent.findByPk(userId, {
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                    include: [
+                        {
+                            attributes: ['email', 'avatarImg'],
+                            model: db.Account,
+                            as: 'account',
+                            where: { isDeleted: 0 },
+                        },
+                    ],
+                });
+            }
+            return respMapper(200, result);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+
+    updateProfile: async (userId, roleId, profile) => {
+        try {
+            let result;
+            if (roleId === 1) {
+                result = await db.Admin.findByPk(userId, {
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                });
+            }
+            if (roleId === 2) {
+                result = await db.Teacher.findByPk(userId, {
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                });
+            }
+            if (roleId === 3) {
+                result = await await db.Student.findByPk(userId, {
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                });
+            }
+            if (roleId === 4) {
+                result = await db.Parent.findByPk(userId, {
+                    attributes: {
+                        exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                    },
+                });
+            }
+
+            result.fullName = profile.fullName;
+            result.dateOfBirth = profile.dateOfBirth;
+            result.gender = profile.gender;
+            await result.save();
+
+            await db.Account.update(
+                { avatarImg: profile.avatarImg },
+                { where: { id: result.accountId, isDeleted: false } }
+            );
+            return respMapper(200, result);
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);

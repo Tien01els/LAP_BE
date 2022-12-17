@@ -99,6 +99,38 @@ module.exports = {
         }
     },
 
+    getProfile: async (req, res) => {
+        try {
+            const userId = req.userId;
+            const roleId = req.roleId;
+            const result = await accountService.findProfile(userId, roleId);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            console.log(error);
+            return res.status(errorStatus).send(error.data);
+        }
+    },
+
+    editProfile: async (req, res) => {
+        try {
+            const userId = req.userId;
+            const roleId = req.roleId;
+            const profile = {
+                avatarImg: req.body.avatarImg,
+                fullName: req.body.fullName,
+                dateOfBirth: req.body.dateOfBirth,
+                gender: req.body.gender,
+            };
+            const result = await accountService.updateProfile(userId, roleId, profile);
+            return res.status(result.statusCode).send(result.data);
+        } catch (error) {
+            const errorStatus = error.statusCode || 500;
+            console.log(error);
+            return res.status(errorStatus).send(error.data);
+        }
+    },
+
     changeActiveAccount: async (req, res) => {
         try {
             const result = await accountService.changeActiveAccount(req.params.id);
@@ -127,5 +159,5 @@ module.exports = {
             console.log(error);
             return res.status(errorStatus).send(error.data);
         }
-    }
+    },
 };
