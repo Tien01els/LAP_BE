@@ -354,6 +354,97 @@ module.exports = {
                     },
                 }
             );
+
+            const currentAssignment = await db.Assignment.findByPk(assignmentId, {
+                where: { isDeleted: 0 },
+            });
+
+            let listAssignment = new Array();
+            let typeAssignment;
+
+            if (currentAssignment.typeAssignment === 'Skill') {
+                const currentSkill = await db.Skill_Assignment.findOne({
+                    where: {
+                        assignmentId: currentAssignment.id,
+                        isDeleted: 0,
+                    },
+                    include: [
+                        {
+                            attributes: {
+                                exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                            },
+                            model: db.Skill,
+                            as: 'skill',
+                            where: { isDeleted: 0 },
+                        },
+                    ],
+                });
+
+                const skillAssignment =
+                    currentSkill &&
+                    (await db.Skill_Assignment.findAll({
+                        where: {
+                            skillId: currentSkill.skill.id,
+                            isDeleted: 0,
+                        },
+                        include: [
+                            {
+                                attributes: {
+                                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                                },
+                                model: db.Assignment,
+                                as: 'assignment',
+                                where: {
+                                    isDeleted: 0,
+                                },
+                            },
+                        ],
+                    }));
+
+                listAssignment = skillAssignment || new Array();
+                typeAssignment = currentSkill.skill;
+            }
+
+            const allAssignmentsOfStudent = await db.Student_Assignment.findAll({
+                where: {
+                    studentId: studentId,
+                    isDeleted: 0,
+                },
+            });
+
+            // console.log(listAssignment.length);
+            // console.log(allAssignmentsOfStudent.length);
+            // console.log(typeAssignment);
+            const countPassAssignment = allAssignmentsOfStudent.reduce(
+                (accumulator, assignmentOfStudent) => {
+                    const skillAssignment = listAssignment.find(
+                        (csAssignment) =>
+                            csAssignment.assignment.id === assignmentOfStudent.assignmentId
+                    );
+                    if (
+                        skillAssignment &&
+                        skillAssignment.assignment.passScore <= assignmentOfStudent.score
+                    )
+                        return ++accumulator;
+                    return accumulator;
+                },
+                0
+            );
+            if (countPassAssignment === listAssignment.length) {
+                await db.Student_Skill.update(
+                    {
+                        isPass: true,
+                    },
+                    {
+                        where: {
+                            studentId: studentId,
+                            skillId: typeAssignment.id,
+                            isDeleted: 0,
+                        },
+                    }
+                );
+            }
+
             return respMapper(201, 'Student successfully submitted assignment');
         } catch (error) {
             if (error.stack) {
