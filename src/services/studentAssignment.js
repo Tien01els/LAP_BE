@@ -359,9 +359,6 @@ module.exports = {
                 where: { isDeleted: 0 },
             });
 
-            let listAssignment = new Array();
-            let typeAssignment;
-
             if (currentAssignment.typeAssignment === 'Skill') {
                 const currentSkill = await db.Skill_Assignment.findOne({
                     where: {
@@ -401,48 +398,94 @@ module.exports = {
                         ],
                     }));
 
-                listAssignment = skillAssignment || new Array();
-                typeAssignment = currentSkill.skill;
-            }
-
-            const allAssignmentsOfStudent = await db.Student_Assignment.findAll({
-                where: {
-                    studentId: studentId,
-                    isDeleted: 0,
-                },
-            });
-
-            // console.log(listAssignment.length);
-            // console.log(allAssignmentsOfStudent.length);
-            // console.log(typeAssignment);
-            const countPassAssignment = allAssignmentsOfStudent.reduce(
-                (accumulator, assignmentOfStudent) => {
-                    const skillAssignment = listAssignment.find(
-                        (csAssignment) =>
-                            csAssignment.assignment.id === assignmentOfStudent.assignmentId
-                    );
-                    if (
-                        skillAssignment &&
-                        skillAssignment.assignment.passScore <= assignmentOfStudent.score
-                    )
-                        return ++accumulator;
-                    return accumulator;
-                },
-                0
-            );
-            if (countPassAssignment === listAssignment.length) {
-                await db.Student_Skill.update(
-                    {
-                        isPass: true,
+                const listAssignment = skillAssignment || new Array();
+                const typeAssignment = currentSkill.skill;
+                const allAssignmentsOfStudent = await db.Student_Assignment.findAll({
+                    where: {
+                        studentId: studentId,
+                        isDeleted: 0,
                     },
-                    {
+                });
+
+                const countPassAssignment = allAssignmentsOfStudent.reduce(
+                    (accumulator, assignmentOfStudent) => {
+                        const skillAssignment = listAssignment.find(
+                            (csAssignment) =>
+                                csAssignment.assignment.id === assignmentOfStudent.assignmentId
+                        );
+                        if (
+                            skillAssignment &&
+                            skillAssignment.assignment.passScore <= assignmentOfStudent.score
+                        )
+                            return ++accumulator;
+                        return accumulator;
+                    },
+                    0
+                );
+                if (countPassAssignment === listAssignment.length) {
+                    await db.Student_Skill.update(
+                        {
+                            isPass: true,
+                        },
+                        {
+                            where: {
+                                studentId: studentId,
+                                skillId: typeAssignment.id,
+                                isDeleted: 0,
+                            },
+                        }
+                    );
+                    const topic = await db.Topic.findByPk(typeAssignment.topicId, {
                         where: {
-                            studentId: studentId,
-                            skillId: typeAssignment.id,
                             isDeleted: 0,
                         },
+                        include: [
+                            {
+                                attributes: {
+                                    exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                                },
+                                model: db.Skill,
+                                as: 'skill',
+                                where: {
+                                    isDeleted: 0,
+                                },
+                                include: [
+                                    {
+                                        attributes: {
+                                            exclude: ['isDeleted', 'createdAt', 'updatedAt'],
+                                        },
+                                        model: db.Student_Skill,
+                                        as: 'studentSkill',
+                                        where: {
+                                            studentId: studentId,
+                                            isDeleted: 0,
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
+                    });
+
+                    if (topic) {
+                        const countPassSkill = topic.skill.reduce((accumulator, skill) => {
+                            return skill.studentSkill[0].isPass ? ++accumulator : accumulator;
+                        }, 0);
+                        if (countPassSkill === topic.skill.length) {
+                            await db.Student_Topic.update(
+                                {
+                                    isPass: true,
+                                },
+                                {
+                                    where: {
+                                        studentId: studentId,
+                                        topicId: topic.id,
+                                        isDeleted: 0,
+                                    },
+                                }
+                            );
+                        }
                     }
-                );
+                }
             }
 
             return respMapper(201, 'Student successfully submitted assignment');

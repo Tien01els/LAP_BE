@@ -132,6 +132,7 @@ module.exports = {
                 (typeof accountNew === 'object' || typeof accountNew === 'function')
             ) {
                 let result;
+                console.log(accountNew);
                 if (accountNew.roleId === 1) {
                     const admin = {
                         fullName: account.fullName || 'admin',
@@ -295,8 +296,46 @@ module.exports = {
 
     findAllAccount: async () => {
         try {
-            const allAccount = await db.Account.findAll();
+            const allAccount = await db.Account.findAll({
+                attributes: { exclude: ['isDeleted', 'createdAt', 'updatedAt'] },
+                where: { isDeleted: 0 },
+                include: [
+                    {
+                        attributes: ['role'],
+                        model: db.Role,
+                        as: 'role',
+                        where: { isDeleted: 0 },
+                    },
+                ],
+            });
             return respMapper(200, allAccount);
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+
+    changeActiveAccount: async (id) => {
+        try {
+            const account = await db.Account.findByPk(id);
+            account.isActive = !account.isActive;
+            console.log(id);
+            return respMapper(200, 'Account change active successfully');
+        } catch (error) {
+            if (error.stack) {
+                console.log(error.message);
+                console.log(error.stack);
+            }
+            throw errorResp(400, error.message);
+        }
+    },
+    deleteAccount: async (id) => {
+        try {
+            await db.Account.update({ isDeleted: true }, { where: { id: id, isDeleted: 0 } });
+            return respMapper(200, 'Account deleted successfully');
         } catch (error) {
             if (error.stack) {
                 console.log(error.message);
