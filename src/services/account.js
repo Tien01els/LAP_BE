@@ -330,6 +330,14 @@ module.exports = {
                             model: db.Account,
                             as: 'account',
                             where: { isDeleted: 0 },
+                            include: [
+                                {
+                                    attributes: ['role'],
+                                    model: db.Role,
+                                    as: 'role',
+                                    where: { isDeleted: 0 },
+                                },
+                            ],
                         },
                     ],
                 });
@@ -345,6 +353,14 @@ module.exports = {
                             model: db.Account,
                             as: 'account',
                             where: { isDeleted: 0 },
+                            include: [
+                                {
+                                    attributes: ['role'],
+                                    model: db.Role,
+                                    as: 'role',
+                                    where: { isDeleted: 0 },
+                                },
+                            ],
                         },
                     ],
                 });
@@ -360,6 +376,14 @@ module.exports = {
                             model: db.Account,
                             as: 'account',
                             where: { isDeleted: 0 },
+                            include: [
+                                {
+                                    attributes: ['role'],
+                                    model: db.Role,
+                                    as: 'role',
+                                    where: { isDeleted: 0 },
+                                },
+                            ],
                         },
                     ],
                 });
@@ -375,6 +399,14 @@ module.exports = {
                             model: db.Account,
                             as: 'account',
                             where: { isDeleted: 0 },
+                            include: [
+                                {
+                                    attributes: ['role'],
+                                    model: db.Role,
+                                    as: 'role',
+                                    where: { isDeleted: 0 },
+                                },
+                            ],
                         },
                     ],
                 });
