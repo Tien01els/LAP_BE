@@ -444,7 +444,7 @@ module.exports = {
         try {
             const account = await db.Account.findByPk(id);
             account.isActive = !account.isActive;
-            console.log(id);
+            await account.save();
             return respMapper(200, 'Account change active successfully');
         } catch (error) {
             if (error.stack) {

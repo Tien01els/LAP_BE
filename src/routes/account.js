@@ -12,8 +12,8 @@ accountRouter.post('/login', accountController.login);
 accountRouter.post('/create-account', accountController.createAccount);
 accountRouter.post('/refresh-token', accountController.requestRefreshToken);
 
-accountRouter.put('/:id/change-active', accountController.changeActiveAccount);
-accountRouter.put('/profile', accountController.editProfile);
+accountRouter.put('/:id/change-active', verifyToken, accountController.changeActiveAccount);
+accountRouter.put('/profile', verifyToken, accountController.editProfile);
 
 accountRouter.delete('/logout', verifyToken, accountController.logout);
 accountRouter.delete('/:id', verifyToken, accountController.deleteAccount);
