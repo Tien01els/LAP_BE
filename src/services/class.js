@@ -12,7 +12,7 @@ module.exports = {
             const classInfo = await db.sequelize.query(
                 `
                 SELECT c.id, c.className, c.classCode, c.classImg, c.year, c.gradeId, c.teacherId, c.createdAt
-                FROM classes AS c            
+                FROM Classes AS c            
                 WHERE c.id = :id AND c.isDeleted = 0
                 `,
                 {
@@ -24,7 +24,7 @@ module.exports = {
             const numberStudents = await db.sequelize.query(
                 `
                     SELECT COUNT(s.id) AS numberStudents
-                    FROM students as s
+                    FROM Students as s
                     WHERE s.classId = :id AND s.isDeleted = 0
                     `,
                 {
@@ -41,7 +41,7 @@ module.exports = {
             const numberTopics = await db.sequelize.query(
                 `
                     SELECT COUNT(topicId) AS numberTopics
-                    FROM class_topics
+                    FROM Class_Topics
                     WHERE classId = :id AND isDeleted = 0
                 `,
                 {
@@ -58,7 +58,7 @@ module.exports = {
             const numberAssignments = await db.sequelize.query(
                 `
                     SELECT COUNT(ca.assignmentId) AS numberAssignments
-                    FROM class_assignments as ca
+                    FROM Class_Assignments as ca
                     WHERE ca.classId = :id AND ca.isDeleted = 0
                     `,
                 {

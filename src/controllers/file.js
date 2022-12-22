@@ -29,7 +29,8 @@ module.exports = {
         // Extracting the path of file
         var action = request.pathname;
         // Path Refinements
-        var filePath = path.join(appRoot.path, '\\src\\public\\', action).split('%20').join(' ');
+        // var filePath = path.join(appRoot.path, '\\src\\public\\', action).split('%20').join(' ');
+        var filePath = path.join(__dirname, '../public', action).split('%20').join(' ');
         // console.log(filePath);
         // Checking if the path exists
         fs.exists(filePath, function (exists) {

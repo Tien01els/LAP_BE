@@ -114,15 +114,15 @@ module.exports = {
             const question = await db.sequelize.query(
                 `
                     SELECT q.id, q.content, q.image, q.option, q.level, q.hint, q.score, q.questionTypeId, sq.skillId, s.skillName, s.topicId, t.topicName, t.gradeId, g.gradeName
-                    FROM grades AS g 
-                    JOIN topics AS t ON ${gradeId && 'g.id = :gradeId AND'} ${
+                    FROM Grades AS g 
+                    JOIN Topics AS t ON ${gradeId && 'g.id = :gradeId AND'} ${
                     topicId && 't.id = :topicId AND'
                 } g.id = t.gradeId AND g.isDeleted = 0 AND t.isDeleted = 0
-                    JOIN skills AS s ON t.id = s.topicId AND ${
+                    JOIN Skills AS s ON t.id = s.topicId AND ${
                         skillId && 's.id = :skillId AND'
                     } s.isDeleted = 0 
-                    JOIN skill_questions AS sq ON sq.skillId = s.id AND sq.isDeleted = 0 
-                    JOIN questions AS q ON q.id = sq.questionId AND ${
+                    JOIN Skill_Questions AS sq ON sq.skillId = s.id AND sq.isDeleted = 0 
+                    JOIN Questions AS q ON q.id = sq.questionId AND ${
                         level && 'level = :level AND'
                     } q.isDeleted = 0 
                     `,
