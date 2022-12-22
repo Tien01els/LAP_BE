@@ -355,6 +355,34 @@ module.exports = {
                 }
             );
 
+            const resultAllAssignmentsOfStudent = await db.Student_Assignment.findAll({
+                where: { studentId, isDeleted: 0 },
+                attributes: [
+                    'assignmentId',
+                    [sequelize.fn('AVG', sequelize.col('score')), 'avgScoreOfStudent'],
+                ],
+                group: ['studentId'],
+                raw: true,
+            });
+
+            const avgAssignmentScoreOfStudent =
+                (resultAllAssignmentsOfStudent.length &&
+                    resultAllAssignmentsOfStudent[0] &&
+                    resultAllAssignmentsOfStudent[0].avgScoreOfStudent) ||
+                0;
+
+            await db.Student.update(
+                {
+                    averageScore: avgAssignmentScoreOfStudent,
+                },
+                {
+                    where: {
+                        id: studentId,
+                        isDeleted: 0,
+                    },
+                }
+            );
+
             const currentAssignment = await db.Assignment.findByPk(assignmentId, {
                 where: { isDeleted: 0 },
             });

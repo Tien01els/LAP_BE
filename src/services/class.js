@@ -133,7 +133,7 @@ module.exports = {
                     'id',
                     'className',
                     [
-                        sequelize.fn('sum', sequelize.col('averageScore')),
+                        sequelize.fn('AVG', sequelize.col('averageScore')),
                         'sumAverageScoreOfStudent',
                     ],
                 ],
