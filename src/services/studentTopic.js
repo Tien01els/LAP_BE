@@ -157,7 +157,7 @@ module.exports = {
                                         attributes: [],
                                         model: db.Student_Skill,
                                         as: 'studentSkill',
-                                        where: { isPass: 1, isDeleted: 0 },
+                                        where: { studentId, isPass: 1, isDeleted: 0 },
                                         required: false,
                                     },
                                 ],

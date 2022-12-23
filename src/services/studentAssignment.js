@@ -356,7 +356,13 @@ module.exports = {
             );
 
             const resultAllAssignmentsOfStudent = await db.Student_Assignment.findAll({
-                where: { studentId, isDeleted: 0 },
+                where: {
+                    studentId,
+                    isDeleted: 0,
+                    dateComplete: {
+                        [Op.not]: null, // Like: dateComplete IS NOT NULL
+                    },
+                },
                 attributes: [
                     'assignmentId',
                     [sequelize.fn('AVG', sequelize.col('score')), 'avgScoreOfStudent'],
